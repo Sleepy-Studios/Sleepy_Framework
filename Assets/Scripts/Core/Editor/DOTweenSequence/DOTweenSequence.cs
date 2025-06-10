@@ -700,7 +700,7 @@ public class DOTweenSequence : MonoBehaviour
                 }
                 case DOTweenType.DOAnchorPosZ:
                 {
-                    (targetCom as RectTransform).SetAnchoredPosition3DZ(resetValue.x);
+                    (targetCom as RectTransform).SetAnchoredPosition3Dz(resetValue.x);
                     break;
                 }
                 case DOTweenType.DOAnchorPos3D:
@@ -1236,7 +1236,7 @@ public class DOTweenSequence : MonoBehaviour
                         (targetValue, startValue) = (startValue, targetValue);
                     }
 
-                    rectTransform.SetAnchoredPosition3DZ(startValue);
+                    rectTransform.SetAnchoredPosition3Dz(startValue);
                     if (SpeedBased)
                         duration = Mathf.Abs(targetValue - startValue) / this.DurationOrSpeed;
                     result = rectTransform.DOAnchorPos3DZ(targetValue, duration, Snapping);

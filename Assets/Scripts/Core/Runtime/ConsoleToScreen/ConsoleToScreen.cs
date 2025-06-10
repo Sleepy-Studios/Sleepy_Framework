@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Core
 {
@@ -14,7 +15,8 @@ namespace Core
         /// 日志分行列表
         private readonly List<string> logLines = new();
         /// 字体大小
-        public int fontSize = 15;
+        [FormerlySerializedAs("fontSize")]
+        public int FontSize = 15;
 
         /// <summary>
         /// 启用脚本时绑定日志回调
@@ -87,7 +89,7 @@ namespace Core
             // 定义 GUI 样式
             var guiStyle = new GUIStyle
             {
-                fontSize = fontSize,
+                fontSize = FontSize,
                 normal = { textColor = Color.black }
             };
             // 绘制日志内容
