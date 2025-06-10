@@ -23,9 +23,9 @@ MonoBehaviour:
   HotUpdateTargetPath: Assets/GameRes/Codes/HotUpdate
   hotUpdateFiles:
   - HotUpdate.dll
-  SshHost: 20.2.148.139
+  SshHost: 13.75.121.163
   SshPort: 22
   SshUser: root
   KeyFilePath: Assets/Scripts/Editor/key
-  ServerBasePath: /www/wwwroot/20.2.148.139_9000/Test
-  LocalBundlePath: Bundles\StandaloneWindows64\DefaultPackage\Simulate
+  ServerBasePath: /www/wwwroot/20.2.148.139_9000/Sleepy_Framework
+  LocalBundlePath: Bundles\StandaloneWindows64\DefaultPackage\2025-06-10-902
