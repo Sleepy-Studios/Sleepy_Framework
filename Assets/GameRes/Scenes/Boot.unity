@@ -1000,7 +1000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c6554151ac9a1458bb2cf47cf7488e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayMode: 1
+  PlayMode: 2
   LOGLevel: 0
   MaxLogCount: 1000
   ShowStackTrace: 1
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   ProgressSlider: {fileID: 2051662455}
   SpeedText: {fileID: 2051662453}
   ProgressText: {fileID: 2051662454}
-  BaseServerURL: http://20.2.148.139:9000/Sleepy_Framework
+  BaseServerURL: http://13.75.121.163:9000/Sleepy_Framework
   HotUpdateConfig: {fileID: 0}
 --- !u!4 &667864838
 Transform:

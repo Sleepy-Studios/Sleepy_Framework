@@ -16,9 +16,11 @@ MonoBehaviour:
   AotTargetPath: Assets/GameRes/Codes/Aot
   aotFiles:
   - Core.dll
-  - mscorlib.dll
-  - YooAsset.dll
+  - DOTween.dll
+  - System.Core.dll
   - UnityEngine.CoreModule.dll
+  - YooAsset.dll
+  - mscorlib.dll
   HotUpdateSourcePath: HybridCLRData\HotUpdateDlls\StandaloneWindows64
   HotUpdateTargetPath: Assets/GameRes/Codes/HotUpdate
   hotUpdateFiles:
@@ -27,5 +29,5 @@ MonoBehaviour:
   SshPort: 22
   SshUser: root
   KeyFilePath: Assets/Scripts/Editor/key
-  ServerBasePath: /www/wwwroot/20.2.148.139_9000/Sleepy_Framework
-  LocalBundlePath: Bundles\StandaloneWindows64\DefaultPackage\2025-06-10-902
+  ServerBasePath: /www/wwwroot/13.75.121.163/Sleepy_Framework
+  LocalBundlePath: Bundles/StandaloneWindows64/DefaultPackage/2025-06-10-1051
