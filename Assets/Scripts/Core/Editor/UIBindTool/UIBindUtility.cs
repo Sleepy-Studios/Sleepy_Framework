@@ -740,6 +740,7 @@ namespace Core.Editor.UIBindTool
         [UnityEditor.Callbacks.DidReloadScripts]
         static void AllScriptsReloaded()
         {
+            
             if (UIBindUtility.isCompileAndAdd)
             {
                 UIBindUtility.ExecuteAfterCompilation(UIBindUtility.AddView);

@@ -59,6 +59,10 @@ namespace Core.Editor.UIBindTool
             {
                 isBindingMode = true;
             }
+            else
+            {
+                UIBindUtility.isCompileAndAdd = false;
+            }
         }
         
         /// <summary>

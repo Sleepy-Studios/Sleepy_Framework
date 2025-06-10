@@ -28,39 +28,143 @@ MonoBehaviour:
       GroupDesc: "\u56FE\u96C6Altas+RawImage"
       AssetTags: 
       ActiveRuleName: EnableGroup
-      Collectors: []
+      Collectors:
+      - CollectPath: Assets/GameRes/Atlas
+        CollectorGUID: 5fb0eefeaac359c49bcf5667528703c9
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/GameRes/Textures
+        CollectorGUID: 710ef81a776153446815210af5e8b079
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: Audios
       GroupDesc: "\u97F3\u9891(Audios)"
       AssetTags: 
       ActiveRuleName: EnableGroup
-      Collectors: []
+      Collectors:
+      - CollectPath: Assets/GameRes/Audios
+        CollectorGUID: b075cfed6b02f9b408d6d14b8b9095ef
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: Codes
       GroupDesc: "\u70ED\u66F4\u7A0B\u5E8F\u96C6"
       AssetTags: 
       ActiveRuleName: EnableGroup
-      Collectors: []
+      Collectors:
+      - CollectPath: Assets/GameRes/Codes
+        CollectorGUID: 1f666fd06070fec4bac22a25ebfe89db
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: Others
       GroupDesc: "\u52A8\u753B+ \u7279\u6548+Others"
       AssetTags: 
       ActiveRuleName: EnableGroup
-      Collectors: []
+      Collectors:
+      - CollectPath: Assets/GameRes/Animations
+        CollectorGUID: 997fe23c0e2aa7146bf11a68a122b8c8
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/GameRes/Config
+        CollectorGUID: a56bd85211ff0034a8423782b0ea45c0
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/GameRes/Input
+        CollectorGUID: 9eca955b01d0d9e49be419159657a02e
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/GameRes/Other
+        CollectorGUID: f6245f5fadd413747846256eb2074972
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: Res
       GroupDesc: Models+Materials
       AssetTags: 
       ActiveRuleName: EnableGroup
-      Collectors: []
-    - GroupName: Prefabs
-      GroupDesc: "\u9884\u5236\u4F53"
-      AssetTags: 
-      ActiveRuleName: EnableGroup
-      Collectors: []
-    - GroupName: Shader
-      GroupDesc: 
-      AssetTags: 
-      ActiveRuleName: EnableGroup
-      Collectors: []
+      Collectors:
+      - CollectPath: Assets/GameRes/Models
+        CollectorGUID: cdf32e428ced1154a907cdeae2d3a6d3
+        CollectorType: 0
+        AddressRuleName: AddressDisable
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/GameRes/Materials
+        CollectorGUID: 108f7abecadd0ea409b5eca4dae1d96b
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: Scenes
       GroupDesc: "\u573A\u666F"
       AssetTags: 
       ActiveRuleName: EnableGroup
-      Collectors: []
+      Collectors:
+      - CollectPath: Assets/GameRes/Scenes
+        CollectorGUID: 9c53962885c2c4f449125a979d6ad240
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+    - GroupName: Prefabs
+      GroupDesc: "\u9884\u5236\u4F53"
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/GameRes/Prefabs
+        CollectorGUID: 1532cc4d14046624b9bdd40485ff9813
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+    - GroupName: Shader
+      GroupDesc: 
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/GameRes/Shader
+        CollectorGUID: a09f21750afe6ad4db5b6fc8058b1103
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 

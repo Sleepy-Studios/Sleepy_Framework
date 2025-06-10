@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1600406810251608083}
   - component: {fileID: 151244166622426966}
   - component: {fileID: 1234138274830416215}
+  - component: {fileID: 8723869515408524270}
+  - component: {fileID: 2983323299384661038}
   m_Layer: 5
   m_Name: TestMain
   m_TagString: Untagged
@@ -102,6 +104,36 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8723869515408524270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2340652908150844650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b623d445e56d4833940b376a4a59d0aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ComponentDatas:
+  - Key: CanvasRenderer_image
+    Type: UnityEngine.CanvasRenderer
+    Value: {fileID: 2888431216680654417}
+  SelectedOfGameObject:
+  - Image
+--- !u!114 &2983323299384661038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2340652908150844650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42914a261191c80488497a6ff6f9713d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3041356635576391720
 GameObject:
   m_ObjectHideFlags: 0
