@@ -1,6 +1,7 @@
 ﻿using HotUpdate.Base;
 using System;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using YooAsset;
 using UnityEngine.Events;
@@ -581,7 +582,7 @@ namespace HotUpdate.GameUtils
             AudioClip clip = await LoadSoundClip(soundPath);
             if (clip == null)
             {
-                Debug.LogError($"Failed to load sound: {soundPath}");
+                Log.Error($"Failed to load sound: {soundPath}");
                 ObjectPoolManager.Instance.ReturnPooledObject(tempObj);
                 callback?.Invoke();
                 return;
@@ -608,7 +609,7 @@ namespace HotUpdate.GameUtils
             AudioClip clip = await LoadSoundClip(soundPath);
             if (clip == null)
             {
-                Debug.LogError($"Failed to load sound: {soundPath}");
+                Log.Error($"Failed to load sound: {soundPath}");
                 callback?.Invoke();
                 return;
             }
@@ -760,7 +761,7 @@ namespace HotUpdate.GameUtils
                 return clip;
             }
 
-            Debug.LogError($"Failed to load music: {musicPath}, error: {handle.LastError}");
+            Log.Error($"Failed to load music: {musicPath}, error: {handle.LastError}");
             return null;
         }
 
@@ -801,7 +802,7 @@ namespace HotUpdate.GameUtils
                 return clip;
             }
 
-            Debug.LogError($"Failed to load sound: {soundPath}, error: {handle.LastError}");
+            Log.Error($"Failed to load sound: {soundPath}, error: {handle.LastError}");
             return null;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core;
 using Cysharp.Threading.Tasks;
 using HotUpdate.Base;
 using UnityEngine;
@@ -51,7 +52,7 @@ namespace HotUpdate.GameUtils
             }
             else
             {
-                Debug.LogError($"无法从路径异步加载预制体: {prefabPath}");
+                Log.Error($"无法从路径异步加载预制体: {prefabPath}");
                 return null;
             }
         }
@@ -126,14 +127,14 @@ namespace HotUpdate.GameUtils
                             created++;
                         }
 
-                        Debug.Log($"对象池 {prefab.name} 批次初始化完成，批次数量{batchSize}");
+                        Log.Info($"对象池 {prefab.name} 批次初始化完成，批次数量{batchSize}");
                         await UniTask.Yield(); // 等待下一帧
                     }
                 }
             }
 
             // 验证最终创建数量
-            Debug.Log($"对象池 {prefab.name} 初始化完成，目标数量: {initialSize}，实际数量: {pool[prefab].Count}");
+            Log.Info($"对象池 {prefab.name} 初始化完成，目标数量: {initialSize}，实际数量: {pool[prefab].Count}");
         }
 
         /// <summary>
@@ -156,7 +157,7 @@ namespace HotUpdate.GameUtils
         {
             if (!pool.ContainsKey(prefab))
             {
-                Debug.LogWarning($"未初始化 {prefab.name} 的对象池，正在创建新池。");
+                Log.Warning($"未初始化 {prefab.name} 的对象池，正在创建新池。");
                 await InitializePool(prefab, 1);
             }
 
@@ -187,7 +188,7 @@ namespace HotUpdate.GameUtils
             // 检查对象是否已在池中
             if (IsInPool(obj))
             {
-                Debug.LogWarning($"对象 {obj.name} 已经在池中，不需要重复归还");
+                Log.Warning($"对象 {obj.name} 已经在池中，不需要重复归还");
                 return;
             }
 
@@ -196,7 +197,7 @@ namespace HotUpdate.GameUtils
                 // 检查对象池是否已达到容量上限
                 if (pool[prefab].Count >= MaxPoolSize)
                 {
-                    Debug.Log($"对象池 {prefab.name} 已达到上限 {MaxPoolSize}，销毁对象");
+                    Log.Info($"对象池 {prefab.name} 已达到上限 {MaxPoolSize}，销毁对象");
                     objectPrefabMap.Remove(obj);
                     Destroy(obj);
                     return;
@@ -211,7 +212,7 @@ namespace HotUpdate.GameUtils
             }
             else
             {
-                Debug.LogWarning($"对象 {obj.name} 不是由对象池创建的，正在销毁。");
+                Log.Warning($"对象 {obj.name} 不是由对象池创建的，正在销毁。");
                 Destroy(obj);
             }
         }
@@ -254,7 +255,7 @@ namespace HotUpdate.GameUtils
         {
             if (!pool.TryGetValue(prefab, out var objectQueue))
             {
-                Debug.LogWarning($"对象池中不存在预制体 {prefab.name}，无需清除");
+                Log.Warning($"对象池中不存在预制体 {prefab.name}，无需清除");
                 return;
             }
 
@@ -280,7 +281,7 @@ namespace HotUpdate.GameUtils
                     }
                 }
 
-                //Debug.Log($"对象池 {prefab.name} 批次销毁完成，批次数量 {batchCount}");
+                //Log.Info($"对象池 {prefab.name} 批次销毁完成，批次数量 {batchCount}");
                 await UniTask.Yield(); // 等待下一帧
             }
 
@@ -339,7 +340,7 @@ namespace HotUpdate.GameUtils
             pooledObjects.Clear();
             prefabCache.Clear();
 
-            Debug.Log("已清除所有对象池");
+            Log.Info("已清除所有对象池");
         }
 
         /// <summary>

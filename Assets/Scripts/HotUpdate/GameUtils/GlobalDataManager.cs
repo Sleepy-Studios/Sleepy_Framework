@@ -1,4 +1,5 @@
-﻿using HotUpdate.Base;
+﻿using Core;
+using HotUpdate.Base;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -54,7 +55,7 @@ namespace HotUpdate.GameUtils
             MainCamera = Camera.main;
             if (MainCamera == null)
             {
-                Debug.LogWarning("未找到主摄像机");
+                Log.Warning("未找到主摄像机");
             }
         }
 
@@ -66,7 +67,7 @@ namespace HotUpdate.GameUtils
             Player = GameObject.FindGameObjectWithTag("Player");
             if (Player == null)
             {
-                Debug.LogWarning("未找到标签为Player的玩家对象");
+                Log.Warning("未找到标签为Player的玩家对象");
             }
         }
 
@@ -78,7 +79,7 @@ namespace HotUpdate.GameUtils
             RangedEnemyTartGameObject = GameObject.FindGameObjectWithTag("RangedEnemyTarget");
             if (RangedEnemyTartGameObject == null)
             {
-                Debug.LogWarning("未找到标签为RangedEnemyTarget的玩家对象");
+                Log.Warning("未找到标签为RangedEnemyTarget的玩家对象");
             }
         }
 
@@ -91,7 +92,7 @@ namespace HotUpdate.GameUtils
             if (playerObject != null)
             {
                 Player = playerObject;
-                Debug.Log("已手动设置玩家引用");
+                Log.Info("已手动设置玩家引用");
             }
         }
 
@@ -129,7 +130,7 @@ namespace HotUpdate.GameUtils
         public void OnSceneChanged()
         {
             RefreshReferences();
-            Debug.Log($"场景切换为：{CurrentSceneName}，已刷新全局引用");
+            Log.Info($"场景切换为：{CurrentSceneName}，已刷新全局引用");
         }
 
         private void OnDestroy()
