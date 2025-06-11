@@ -148,7 +148,7 @@ namespace Core.Editor.UIBindTool
                 IsMixedModeEnabled[goID] = selectedComps.Count > 1;
 
             // 动态布局参数
-            float padding = 0f; // 选择按钮紧贴最右
+            //float padding = 0f; // 选择按钮紧贴最右
             float iconWidth = 20f;
             float toggleWidth = 20f;
             float minButtonWidth = 60f;

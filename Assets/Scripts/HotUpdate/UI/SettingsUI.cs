@@ -511,7 +511,7 @@ namespace HotUpdate.UI
         {
             // 点击音效
             AudioManager.Instance.PlaySound(AudioSoundEnum.Button_Back);
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
 
         private void BindToggleToHandler(Toggle toggle, System.Action<bool> handler)

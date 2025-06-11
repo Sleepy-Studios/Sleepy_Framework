@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditorInternal;
@@ -19,7 +18,6 @@ namespace Core.Editor.RectTransformEditorWindow
         private bool floatIncludeChildren;
         private bool textIncludeChildren = true;
         private bool beautifyPrefabRoot;
-        private const string DefaultTextPath = "DefaultText/DefaultText.txt";
         #endregion
         
         #region Unity 生命周期方法
