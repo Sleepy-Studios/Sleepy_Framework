@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_Common
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 4
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 18f9e24fcd416f1499da4f863c84add3, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 3922ca928c650534d8c7d3780e6b73e2: 21300000
+    - 35a38fc25c9c2c544a10beed5b0598ae: 21300000
+    - 03d072d3b77bb064fa121306ada67d7f: 21300000
+    - 251e1bf4736d83341b333362967e1ef5: 21300000
+    - 3e198cc8c95fe08478ce297f6a5c7eb7: 21300000
+    - 92a38aa9a179b9b4e96aa084a0c0a9cb: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 3922ca928c650534d8c7d3780e6b73e2, type: 3}
+  - {fileID: 21300000, guid: 35a38fc25c9c2c544a10beed5b0598ae, type: 3}
+  - {fileID: 21300000, guid: 03d072d3b77bb064fa121306ada67d7f, type: 3}
+  - {fileID: 21300000, guid: 251e1bf4736d83341b333362967e1ef5, type: 3}
+  - {fileID: 21300000, guid: 3e198cc8c95fe08478ce297f6a5c7eb7, type: 3}
+  - {fileID: 21300000, guid: 92a38aa9a179b9b4e96aa084a0c0a9cb, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Common_bg_08
+  - common_button_medium
+  - ui_desk_1
+  - Sound_icon
+  - Music_icon
+  - circle
+  m_RenderDataMap: {}
+  m_Tag: Atlas_Common
+  m_IsVariant: 0

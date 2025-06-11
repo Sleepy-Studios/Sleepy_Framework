@@ -29,8 +29,8 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/GameRes/Atlas
-        CollectorGUID: 5fb0eefeaac359c49bcf5667528703c9
+      - CollectPath: Assets/GameRes/SpriteAtlas
+        CollectorGUID: 21a888f623496fc428a18c11b59406ec
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
