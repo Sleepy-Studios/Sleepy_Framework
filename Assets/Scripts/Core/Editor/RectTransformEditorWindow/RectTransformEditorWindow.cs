@@ -1,8 +1,7 @@
-﻿// using指令
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace Core.Editor.RectTransformEditorWindow
     public class RectTransformEditorWindow : UnityEditor.Editor
     {
         #region 字段定义区域
-        private UnityEditor.Editor mTarget;
+        // private UnityEditor.Editor mTarget; // 移除
         private RectTransform targetTransform;
         private Transform realRoot;
         private bool floatIncludeChildren;
@@ -26,7 +25,7 @@ namespace Core.Editor.RectTransformEditorWindow
         #region Unity 生命周期方法
         private void Awake()
         {
-            mTarget = UnityEditor.Editor.CreateEditor(target, Assembly.GetAssembly(typeof(UnityEditor.Editor)).GetType("UnityEditor.RectTransformEditor", true));
+            // mTarget = UnityEditor.Editor.CreateEditor(target, Assembly.GetAssembly(typeof(UnityEditor.Editor)).GetType("UnityEditor.RectTransformEditor", true)); // 移除
             targetTransform = target as RectTransform;
             beautifyPrefabRoot = false;
             if (targetTransform.root != null)
@@ -54,7 +53,8 @@ namespace Core.Editor.RectTransformEditorWindow
         #region Inspector面板绘制
         public override void OnInspectorGUI()
         {
-            mTarget.OnInspectorGUI();
+            // mTarget.OnInspectorGUI(); // 移除
+            base.OnInspectorGUI(); // 或 DrawDefaultInspector();
             GUI.color = Color.green;
             if (!beautifyPrefabRoot) return;
 

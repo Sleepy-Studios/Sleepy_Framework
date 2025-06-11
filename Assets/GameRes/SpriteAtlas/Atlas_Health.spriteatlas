@@ -42,7 +42,7 @@ SpriteAtlas:
   m_PackedSprites:
   - {fileID: 21300000, guid: 0f139addf7be47c4192fb087bfc88768, type: 3}
   m_PackedSpriteNamesToIndex:
-  - hp_back
+  - Back
   m_RenderDataMap: {}
   m_Tag: Atlas_Health
   m_IsVariant: 0
