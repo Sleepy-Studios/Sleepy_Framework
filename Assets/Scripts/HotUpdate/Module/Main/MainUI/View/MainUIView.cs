@@ -5,7 +5,7 @@ using YooAsset;
 
 namespace HotUpdate
 {
-    public partial class MainView : MonoBehaviour
+    public partial class MainUIView : MonoBehaviour
     {
         private void Awake()
         {
@@ -15,18 +15,18 @@ namespace HotUpdate
 
         private void QuitGame()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             EditorApplication.isPlaying = false;
-            #else
+#else
             Application.Quit();
-            #endif
+#endif
             
         }
 
         private void OpenSettingView()
         {
-           var handle =  YooAssets.LoadAssetSync<GameObject>("SettingsUI") ;
-           Instantiate(handle.AssetObject as GameObject) ;
+            var handle =  YooAssets.LoadAssetSync<GameObject>("SettingsUI") ;
+            Instantiate(handle.AssetObject as GameObject) ;
         }
         
     }

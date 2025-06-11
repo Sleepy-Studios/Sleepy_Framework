@@ -10,7 +10,7 @@ using Core;
 namespace HotUpdate
 {
     [SourceAttribute("Assets/GameRes/Prefabs/UI/Main/MainUI")]
-    public partial class MainView
+    public partial class MainUIView
     {
         ComponentItemKey _componentItemKey;
 

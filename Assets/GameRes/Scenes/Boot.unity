@@ -1000,7 +1000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c6554151ac9a1458bb2cf47cf7488e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayMode: 2
+  PlayMode: 0
   LOGLevel: 0
   MaxLogCount: 1000
   ShowStackTrace: 1

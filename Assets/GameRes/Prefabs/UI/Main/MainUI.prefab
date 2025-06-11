@@ -236,7 +236,7 @@ RectTransform:
   m_GameObject: {fileID: 1519819199732026115}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5400373834908452269}
@@ -357,7 +357,7 @@ RectTransform:
   m_GameObject: {fileID: 2321435897059609319}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8283552844936202599}
@@ -463,7 +463,7 @@ GameObject:
   - component: {fileID: 6712641792776140481}
   - component: {fileID: 4952742441334687223}
   - component: {fileID: 8218233870958974645}
-  - component: {fileID: 3592592783505787864}
+  - component: {fileID: 2903495362651806404}
   m_Layer: 5
   m_Name: MainUI
   m_TagString: Untagged
@@ -481,7 +481,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2620497144551707648}
   - {fileID: 6794710078432210820}
@@ -515,7 +515,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &6712641792776140481
 MonoBehaviour:
@@ -579,7 +579,7 @@ MonoBehaviour:
   SelectedOfGameObject:
   - SettingBtn
   - QuitBtn
---- !u!114 &3592592783505787864
+--- !u!114 &2903495362651806404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -588,7 +588,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3419264132961346371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7832b38d691094b949f8358a10d9ba, type: 3}
+  m_Script: {fileID: 11500000, guid: d39c80f6aa82f7b4c913f722393d300d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3601167111629437669
