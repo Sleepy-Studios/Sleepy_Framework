@@ -132,6 +132,7 @@
     <type fullname="UnityEngine.EventSystems.PointerEventData" preserve="all" />
     <type fullname="UnityEngine.EventSystems.PointerEventData/InputButton" preserve="all" />
     <type fullname="UnityEngine.EventSystems.RaycastResult" preserve="all" />
+    <type fullname="UnityEngine.EventSystems.UIBehaviour" preserve="all" />
     <type fullname="UnityEngine.UI.Button" preserve="all" />
     <type fullname="UnityEngine.UI.Button/ButtonClickedEvent" preserve="all" />
     <type fullname="UnityEngine.UI.CanvasUpdate" preserve="all" />
@@ -200,6 +201,7 @@
     <type fullname="System.Int32" preserve="all" />
     <type fullname="System.Int64" preserve="all" />
     <type fullname="System.NotSupportedException" preserve="all" />
+    <type fullname="System.Nullable`1" preserve="all" />
     <type fullname="System.Object" preserve="all" />
     <type fullname="System.OperationCanceledException" preserve="all" />
     <type fullname="System.Reflection.MemberInfo" preserve="all" />

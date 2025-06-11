@@ -252,6 +252,7 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// System.Func<object,object>
 	// System.Func<object>
 	// System.IComparable<object>
+	// System.Nullable<byte>
 	// System.Predicate<int>
 	// System.Predicate<object>
 	// System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter<System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,object>>>>>>>
@@ -402,6 +403,7 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 		// object DG.Tweening.TweenSettingsExtensions.SetEase<object>(object,DG.Tweening.Ease)
 		// object DG.Tweening.TweenSettingsExtensions.SetTarget<object>(object,object)
 		// object UnityEngine.Component.GetComponent<object>()
+		// object UnityEngine.Component.GetComponentInParent<object>()
 		// object UnityEngine.GameObject.AddComponent<object>()
 		// object UnityEngine.GameObject.GetComponent<object>()
 		// object UnityEngine.Object.Instantiate<object>(object)
