@@ -47,11 +47,7 @@
   <assembly fullname="Unity.TextMeshPro">
     <type fullname="TMPro.TMP_Dropdown" preserve="all" />
     <type fullname="TMPro.TMP_Dropdown/DropdownEvent" preserve="all" />
-    <type fullname="TMPro.TMP_LinkInfo" preserve="all" />
     <type fullname="TMPro.TMP_Text" preserve="all" />
-    <type fullname="TMPro.TMP_TextInfo" preserve="all" />
-    <type fullname="TMPro.TMP_TextUtilities" preserve="all" />
-    <type fullname="TMPro.TMPro_EventManager" preserve="all" />
     <type fullname="TMPro.TextMeshProUGUI" preserve="all" />
   </assembly>
   <assembly fullname="UnityEngine.AnimationModule">
@@ -68,7 +64,6 @@
     <type fullname="UnityEngine.Behaviour" preserve="all" />
     <type fullname="UnityEngine.Camera" preserve="all" />
     <type fullname="UnityEngine.Color" preserve="all" />
-    <type fullname="UnityEngine.Color32" preserve="all" />
     <type fullname="UnityEngine.ColorUtility" preserve="all" />
     <type fullname="UnityEngine.Component" preserve="all" />
     <type fullname="UnityEngine.Coroutine" preserve="all" />
@@ -78,31 +73,21 @@
     <type fullname="UnityEngine.Events.UnityEvent" preserve="all" />
     <type fullname="UnityEngine.Events.UnityEventBase" preserve="all" />
     <type fullname="UnityEngine.Events.UnityEvent`1" preserve="all" />
-    <type fullname="UnityEngine.ExecuteInEditMode" preserve="all" />
     <type fullname="UnityEngine.FullScreenMode" preserve="all" />
     <type fullname="UnityEngine.GameObject" preserve="all" />
-    <type fullname="UnityEngine.Material" preserve="all" />
     <type fullname="UnityEngine.Mathf" preserve="all" />
     <type fullname="UnityEngine.MonoBehaviour" preserve="all" />
     <type fullname="UnityEngine.Object" preserve="all" />
     <type fullname="UnityEngine.PlayerPrefs" preserve="all" />
     <type fullname="UnityEngine.QualitySettings" preserve="all" />
-    <type fullname="UnityEngine.Quaternion" preserve="all" />
-    <type fullname="UnityEngine.RangeAttribute" preserve="all" />
-    <type fullname="UnityEngine.Rect" preserve="all" />
-    <type fullname="UnityEngine.RectOffset" preserve="all" />
     <type fullname="UnityEngine.RectTransform" preserve="all" />
-    <type fullname="UnityEngine.RectTransform/Axis" preserve="all" />
     <type fullname="UnityEngine.RefreshRate" preserve="all" />
-    <type fullname="UnityEngine.RequireComponent" preserve="all" />
     <type fullname="UnityEngine.Resolution" preserve="all" />
     <type fullname="UnityEngine.SceneManagement.LoadSceneMode" preserve="all" />
     <type fullname="UnityEngine.SceneManagement.LocalPhysicsMode" preserve="all" />
     <type fullname="UnityEngine.SceneManagement.Scene" preserve="all" />
     <type fullname="UnityEngine.SceneManagement.SceneManager" preserve="all" />
     <type fullname="UnityEngine.Screen" preserve="all" />
-    <type fullname="UnityEngine.SerializeField" preserve="all" />
-    <type fullname="UnityEngine.Shader" preserve="all" />
     <type fullname="UnityEngine.Sprite" preserve="all" />
     <type fullname="UnityEngine.Texture" preserve="all" />
     <type fullname="UnityEngine.Texture2D" preserve="all" />
@@ -112,30 +97,16 @@
     <type fullname="UnityEngine.Vector3" preserve="all" />
     <type fullname="UnityEngine.WaitForEndOfFrame" preserve="all" />
   </assembly>
-  <assembly fullname="UnityEngine.InputLegacyModule">
-    <type fullname="UnityEngine.Input" preserve="all" />
-  </assembly>
   <assembly fullname="UnityEngine.UI">
     <type fullname="UnityEngine.EventSystems.BaseEventData" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.EventSystem" preserve="all" />
     <type fullname="UnityEngine.EventSystems.EventTrigger" preserve="all" />
     <type fullname="UnityEngine.EventSystems.EventTrigger/Entry" preserve="all" />
     <type fullname="UnityEngine.EventSystems.EventTrigger/TriggerEvent" preserve="all" />
     <type fullname="UnityEngine.EventSystems.EventTriggerType" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.IBeginDragHandler" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.IDragHandler" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.IEndDragHandler" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.IEventSystemHandler" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.IPointerClickHandler" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.IPointerDownHandler" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.IPointerUpHandler" preserve="all" />
     <type fullname="UnityEngine.EventSystems.PointerEventData" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.PointerEventData/InputButton" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.RaycastResult" preserve="all" />
     <type fullname="UnityEngine.EventSystems.UIBehaviour" preserve="all" />
     <type fullname="UnityEngine.UI.Button" preserve="all" />
     <type fullname="UnityEngine.UI.Button/ButtonClickedEvent" preserve="all" />
-    <type fullname="UnityEngine.UI.CanvasUpdate" preserve="all" />
     <type fullname="UnityEngine.UI.ContentSizeFitter" preserve="all" />
     <type fullname="UnityEngine.UI.ContentSizeFitter/FitMode" preserve="all" />
     <type fullname="UnityEngine.UI.Graphic" preserve="all" />
@@ -146,9 +117,6 @@
     <type fullname="UnityEngine.UI.Image/Type" preserve="all" />
     <type fullname="UnityEngine.UI.RawImage" preserve="all" />
     <type fullname="UnityEngine.UI.ScrollRect" preserve="all" />
-    <type fullname="UnityEngine.UI.ScrollRect/ScrollbarVisibility" preserve="all" />
-    <type fullname="UnityEngine.UI.Scrollbar" preserve="all" />
-    <type fullname="UnityEngine.UI.Scrollbar/ScrollEvent" preserve="all" />
     <type fullname="UnityEngine.UI.Slider" preserve="all" />
     <type fullname="UnityEngine.UI.Slider/SliderEvent" preserve="all" />
     <type fullname="UnityEngine.UI.Text" preserve="all" />
@@ -193,9 +161,6 @@
     <type fullname="System.Double" preserve="all" />
     <type fullname="System.Enum" preserve="all" />
     <type fullname="System.Exception" preserve="all" />
-    <type fullname="System.Func`2" preserve="all" />
-    <type fullname="System.Func`3" preserve="all" />
-    <type fullname="System.Func`5" preserve="all" />
     <type fullname="System.IComparable`1" preserve="all" />
     <type fullname="System.IDisposable" preserve="all" />
     <type fullname="System.Int32" preserve="all" />
@@ -222,7 +187,6 @@
     <type fullname="System.Threading.Monitor" preserve="all" />
     <type fullname="System.TimeSpan" preserve="all" />
     <type fullname="System.Type" preserve="all" />
-    <type fullname="System.ValueTuple`2" preserve="all" />
     <type fullname="System.ValueType" preserve="all" />
   </assembly>
 </linker>

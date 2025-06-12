@@ -7,6 +7,8 @@ public class HotUpdateConfig : ScriptableObject
     // AOT 配置
     [Header("AOT 源路径")]
     public string AotSourcePath;
+    [Header("AOT 优化路径")]
+    public string AotStrippedSourcePath;
     [Header("AOT 目标路径")]
     public string AotTargetPath = "Assets/GameRes/Codes/Aot";
     [Header("AOT 文件列表（带.dll后缀）")]

@@ -69,6 +69,12 @@ namespace ScriptEditor
 
         private bool cancelUploadRequested = false; // 新增：取消上传请求标志
 
+        // 新增字段
+        private bool optimizeAOTDll = false;
+        private float stripAOTProgress = 0f;
+        private string stripAOTProgressMessage = "";
+        private bool isStrippingAOT = false;
+
         #endregion
 
         #region 窗口初始化
@@ -136,6 +142,9 @@ namespace ScriptEditor
             var platformFolder = isPcPlatform ? "StandaloneWindows64" : "Android";
             configData.AotSourcePath = $"HybridCLRData\\AssembliesPostIl2CppStrip\\{platformFolder}";
             configData.AotSourcePath = EditorGUILayout.TextField("AOT源路径", configData.AotSourcePath);
+            // 动态设置AotStrippedSourcePath
+            configData.AotStrippedSourcePath = $"HybridCLRData/StrippedAOTAssembly2/{platformFolder}";
+            configData.AotStrippedSourcePath = EditorGUILayout.TextField("AOT优化路径", configData.AotStrippedSourcePath);
             configData.AotTargetPath = EditorGUILayout.TextField("AOT目标路径", configData.AotTargetPath);
             DrawFileList("AOT文件列表（*.dll）", configData.aotFiles);
 
@@ -157,44 +166,47 @@ namespace ScriptEditor
         {
             GUILayout.Space(20);
             GUILayout.Label("编译与打包", EditorStyles.boldLabel);
-            // 第一行：并排按钮
+            // 四个按钮并排，每个20%，间隔5%
             GUILayout.BeginHorizontal();
             {
-                // 获取当前可用宽度
                 float totalWidth = EditorGUIUtility.currentViewWidth;
-                // 计算各部分宽度（单位：像素）
-                float margin = totalWidth * 0.05f; // 两侧边距各5%
-                float buttonWidth = totalWidth * 0.25f; // 按钮宽度25%
-                float spacing = totalWidth * 0.05f; // 按钮间距5%
-                // 左侧边距
-                GUILayout.Space(margin);
-                // HybridCLR 编译按钮
-                if (GUILayout.Button("生成并编译所有DLL", GUILayout.Height(30), GUILayout.Width(buttonWidth)))
+                float margin = totalWidth * 0.0f; // 不需要边距
+                float buttonWidth = totalWidth * 0.20f;
+                float spacing = totalWidth * 0.04f;
+                // 编译所有DLL
+                GUILayout.Space(spacing);
+                if (GUILayout.Button("编译所有DLL", GUILayout.Height(30), GUILayout.Width(buttonWidth)))
                 {
                     EditorCoroutineUtility.StartCoroutineOwnerless(ExecuteHybridClrBuild());
                 }
-
                 GUILayout.Space(spacing);
+                // 仅编译热更新DLL
                 if (GUILayout.Button("仅编译热更新DLL", GUILayout.Height(30), GUILayout.Width(buttonWidth)))
                 {
                     EditorCoroutineUtility.StartCoroutineOwnerless(ExecuteHybridClrHot());
                 }
-
                 GUILayout.Space(spacing);
-                // DLL替换按钮
+                // 优化AOT大小
+                if (GUILayout.Button("优化AOT大小", GUILayout.Height(30), GUILayout.Width(buttonWidth)))
+                {
+                    StripAOTAssembliesMetadata();
+                }
+                GUILayout.Space(spacing);
+                // DLL替换
                 if (GUILayout.Button("DLL替换", GUILayout.Height(30), GUILayout.Width(buttonWidth)))
                 {
                     if (!isReplacing)
                         EditorCoroutineUtility.StartCoroutineOwnerless(ExecuteReplaceCoroutine());
                 }
-
-                // 右侧边距
-                GUILayout.Space(margin);
+                GUILayout.Space(spacing);
             }
             GUILayout.EndHorizontal();
 
-            // 添加单选框
-            onlyCompileHotUpdateDll = EditorGUILayout.Toggle("仅编译热更新DLL", onlyCompileHotUpdateDll);
+            // 仅编译热更新DLL后面加“是否优化AOT大小”单选框
+            GUILayout.BeginHorizontal();
+            onlyCompileHotUpdateDll = EditorGUILayout.ToggleLeft("仅编译热更新DLL", onlyCompileHotUpdateDll, GUILayout.Width(180));
+            optimizeAOTDll = EditorGUILayout.ToggleLeft("是否优化AOT大小", optimizeAOTDll, GUILayout.Width(180));
+            GUILayout.EndHorizontal();
 
             // 第二行：组合按钮
             GUILayout.Space(10);
@@ -206,12 +218,16 @@ namespace ScriptEditor
                 {
                     if (!isReplacing)
                     {
-                        EditorCoroutineUtility.StartCoroutineOwnerless(onlyCompileHotUpdateDll
-                            ? ExecuteHybridClrHotAndReplace()
-                            : ExecuteFullProcess());
+                        if (onlyCompileHotUpdateDll)
+                        {
+                            EditorCoroutineUtility.StartCoroutineOwnerless(ExecuteHybridClrHotAndReplace(optimizeAOTDll));
+                        }
+                        else
+                        {
+                            EditorCoroutineUtility.StartCoroutineOwnerless(ExecuteFullProcess(optimizeAOTDll));
+                        }
                     }
                 }
-
                 GUILayout.FlexibleSpace();
             }
             GUILayout.EndHorizontal();
@@ -225,7 +241,6 @@ namespace ScriptEditor
                 {
                     AssetBundleBuilderWindow.OpenWindow();
                 }
-
                 GUILayout.FlexibleSpace();
             }
             GUILayout.EndHorizontal();
@@ -456,7 +471,14 @@ namespace ScriptEditor
                 Rect replaceRect = GUILayoutUtility.GetRect(18, 18, "TextField");
                 EditorGUI.ProgressBar(replaceRect, replaceProgress, $"{Mathf.RoundToInt(replaceProgress * 100)}%");
             }
-
+            // AOT剥离进度
+            if (isStrippingAOT)
+            {
+                GUILayout.Space(10);
+                EditorGUILayout.LabelField("AOT剥离进度：" + stripAOTProgressMessage, EditorStyles.boldLabel);
+                Rect stripRect = GUILayoutUtility.GetRect(18, 18, "TextField");
+                EditorGUI.ProgressBar(stripRect, stripAOTProgress, $"{Mathf.RoundToInt(stripAOTProgress * 100)}%");
+            }
             // 上传进度
             if (isUploading)
             {
@@ -465,8 +487,7 @@ namespace ScriptEditor
                 Rect uploadRect = GUILayoutUtility.GetRect(18, 18, "TextField");
                 EditorGUI.ProgressBar(uploadRect, uploadProgress, $"{Mathf.RoundToInt(uploadProgress * 100)}%");
             }
-
-            if (isReplacing || isUploading)
+            if (isReplacing || isUploading || isStrippingAOT)
                 Repaint();
         }
 
@@ -474,16 +495,33 @@ namespace ScriptEditor
 
         #region 核心功能实现
 
-        private IEnumerator ExecuteFullProcess()
+        private IEnumerator ExecuteFullProcess(bool optimizeAOT)
         {
             yield return ExecuteHybridClrBuild();
-            yield return ExecuteReplaceCoroutine();
+            if (optimizeAOT)
+            {
+                // 剥离AOT并等待完成后再替换
+                yield return StripAOTAssembliesCoroutine();
+                yield return ExecuteReplaceCoroutine(true);
+            }
+            else
+            {
+                yield return ExecuteReplaceCoroutine(false);
+            }
         }
 
-        private IEnumerator ExecuteHybridClrHotAndReplace()
+        private IEnumerator ExecuteHybridClrHotAndReplace(bool optimizeAOT)
         {
             yield return ExecuteHybridClrHot();
-            yield return ExecuteReplaceCoroutine();
+            if (optimizeAOT)
+            {
+                yield return StripAOTAssembliesCoroutine();
+                yield return ExecuteReplaceCoroutine(true);
+            }
+            else
+            {
+                yield return ExecuteReplaceCoroutine(false);
+            }
         }
 
         private static IEnumerator ExecuteHybridClrBuild()
@@ -498,12 +536,16 @@ namespace ScriptEditor
             yield return null;
         }
 
-        private IEnumerator ExecuteReplaceCoroutine()
+        // 修改替换流程，支持是否用剥离路径
+        private IEnumerator ExecuteReplaceCoroutine(bool useStrippedAOT = false)
         {
             isReplacing = true;
             replaceProgress = 0f;
-
-            yield return ProcessFilesCoroutine(configData.AotSourcePath, configData.AotTargetPath,
+            // AOT路径选择
+            string aotSourcePath = useStrippedAOT
+                ? configData.AotStrippedSourcePath
+                : configData.AotSourcePath;
+            yield return ProcessFilesCoroutine(aotSourcePath, configData.AotTargetPath,
                 configData.aotFiles, "AOT");
             yield return ProcessFilesCoroutine(configData.HotUpdateSourcePath, configData.HotUpdateTargetPath,
                 configData.hotUpdateFiles, "HotUpdate");
@@ -849,6 +891,45 @@ namespace ScriptEditor
             }
         }
 
+        /// <summary>
+        /// 剥离AOT DLL非泛型元数据，优化补充元数据dll大小
+        /// </summary>
+        private void StripAOTAssembliesMetadata()
+        {
+            if (isStrippingAOT) return;
+            EditorCoroutineUtility.StartCoroutineOwnerless(StripAOTAssembliesCoroutine());
+        }
+
+        private IEnumerator StripAOTAssembliesCoroutine()
+        {
+            isStrippingAOT = true;
+            stripAOTProgress = 0f;
+            stripAOTProgressMessage = "开始剥离AOT元数据...";
+            string srcDir = $"HybridCLRData/AssembliesPostIl2CppStrip/{(isPcPlatform ? "StandaloneWindows64" : "Android")}";
+            string dstDir = $"HybridCLRData/StrippedAOTAssembly2/{(isPcPlatform ? "StandaloneWindows64" : "Android")}";
+            Directory.CreateDirectory(dstDir);
+            var dlls = Directory.GetFiles(srcDir, "*.dll");
+            int total = dlls.Length;
+            int count = 0;
+            foreach (var src in dlls)
+            {
+                string dllName = Path.GetFileName(src);
+                string dstFile = Path.Combine(dstDir, dllName);
+                stripAOTProgressMessage = $"剥离 {dllName} ({count + 1}/{total})";
+                HybridCLR.Editor.AOT.AOTAssemblyMetadataStripper.Strip(src, dstFile);
+                count++;
+                stripAOTProgress = (float)count / total;
+                Repaint();
+                yield return null;
+            }
+            stripAOTProgress = 1f;
+            stripAOTProgressMessage = $"AOT元数据剥离完成，共处理{count}个DLL";
+            ShowNotification(new GUIContent(stripAOTProgressMessage));
+            Debug.Log($"AOT元数据剥离完成，共处理{count}个DLL，输出目录: {dstDir}");
+            isStrippingAOT = false;
+            Repaint();
+        }
         #endregion
     }
 }
+
