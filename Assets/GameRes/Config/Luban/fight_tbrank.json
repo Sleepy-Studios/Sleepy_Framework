@@ -1,0 +1,20 @@
+[
+  {
+    "rank_id": 1001,
+    "rank_name": "青铜",
+    "desc": "1",
+    "count": 10
+  },
+  {
+    "rank_id": 1002,
+    "rank_name": "黄金",
+    "desc": "2",
+    "count": 100
+  },
+  {
+    "rank_id": 1003,
+    "rank_name": "钻石",
+    "desc": "3",
+    "count": 1111
+  }
+]
