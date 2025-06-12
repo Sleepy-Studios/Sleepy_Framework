@@ -1,4 +1,4 @@
-﻿namespace HotUpdate.SuperScrollView.Scripts.Common
+﻿namespace Core.Runtime.SuperScrollView.Common
 {
     public enum SnapStatus
     {

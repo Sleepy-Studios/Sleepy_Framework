@@ -1,7 +1,7 @@
-﻿using HotUpdate.SuperScrollView.Scripts.Common;
+﻿using Core.Runtime.SuperScrollView.Common;
 using UnityEngine;
 
-namespace HotUpdate.SuperScrollView.Scripts.StaggeredGridView
+namespace Core.Runtime.SuperScrollView.StaggeredGridView
 {
     public class LoopStaggeredGridViewItem : MonoBehaviour
     {

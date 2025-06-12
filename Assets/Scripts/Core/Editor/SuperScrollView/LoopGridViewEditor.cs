@@ -1,5 +1,5 @@
-﻿using HotUpdate.SuperScrollView.Scripts.Common;
-using HotUpdate.SuperScrollView.Scripts.GridView;
+﻿using Core.Runtime.SuperScrollView.Common;
+using Core.Runtime.SuperScrollView.GridView;
 using UnityEditor;
 using UnityEngine;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HotUpdate.SuperScrollView.Scripts.Common
+namespace Core.Runtime.SuperScrollView.Common
 {
     public class ItemSizeGroup
     {

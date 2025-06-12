@@ -1,5 +1,5 @@
-﻿using HotUpdate.SuperScrollView.Scripts.Common;
-using HotUpdate.SuperScrollView.Scripts.ListView;
+﻿using Core.Runtime.SuperScrollView.Common;
+using Core.Runtime.SuperScrollView.ListView;
 using UnityEditor;
 using UnityEngine;
 

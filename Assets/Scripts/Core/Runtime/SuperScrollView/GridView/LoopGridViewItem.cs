@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HotUpdate.SuperScrollView.Scripts.GridView
+namespace Core.Runtime.SuperScrollView.GridView
 {
     public class LoopGridViewItem : MonoBehaviour
     {

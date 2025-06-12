@@ -1,7 +1,7 @@
-﻿using HotUpdate.SuperScrollView.Scripts.Common;
+﻿using Core.Runtime.SuperScrollView.Common;
 using UnityEngine;
 
-namespace HotUpdate.SuperScrollView.Scripts.ListView
+namespace Core.Runtime.SuperScrollView.ListView
 {
     public class LoopListViewItem2 : MonoBehaviour
     {

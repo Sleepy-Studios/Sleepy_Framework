@@ -1,4 +1,4 @@
-﻿using HotUpdate.SuperScrollView.Scripts.StaggeredGridView;
+﻿using Core.Runtime.SuperScrollView.StaggeredGridView;
 using UnityEditor;
 using UnityEngine;
 

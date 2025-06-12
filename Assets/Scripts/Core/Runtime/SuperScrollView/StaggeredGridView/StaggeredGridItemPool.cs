@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace HotUpdate.SuperScrollView.Scripts.StaggeredGridView
+namespace Core.Runtime.SuperScrollView.StaggeredGridView
 {
     public class StaggeredGridItemPool
     {

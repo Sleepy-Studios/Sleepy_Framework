@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using HotUpdate.SuperScrollView.Scripts.Common;
+using Core.Runtime.SuperScrollView.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace HotUpdate.SuperScrollView.Scripts.StaggeredGridView
+namespace Core.Runtime.SuperScrollView.StaggeredGridView
 {
     [System.Serializable]
     public class StaggeredGridItemPrefabConfData

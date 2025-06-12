@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace HotUpdate.SuperScrollView.Scripts.ListView
+namespace Core.Runtime.SuperScrollView.ListView
 {
     public class ItemPool
     {
