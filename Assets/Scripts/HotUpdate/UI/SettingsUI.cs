@@ -3,6 +3,10 @@ using HotUpdate.GameUtils;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+#if UNITY_EDITOR
+using Core.Editor.GameViewResolutionWindow;
+using UnityEditor;
+#endif
 
 namespace HotUpdate.UI
 {
@@ -399,6 +403,10 @@ namespace HotUpdate.UI
                     break;
             }
 
+#if UNITY_EDITOR
+            // 编辑器下同步设置Game视图分辨率
+            GameViewResolutionWindow.SetGameViewResolutionStatic(resolution.width, resolution.height);
+#endif
             // 设置分辨率和窗口模式
             Screen.SetResolution(resolution.width, resolution.height, screenMode);
 

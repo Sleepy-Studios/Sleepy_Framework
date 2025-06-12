@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEditor;
@@ -12,7 +13,7 @@ namespace Core.Editor.RectTransformEditorWindow
     public class RectTransformEditorWindow : UnityEditor.Editor
     {
         #region 字段定义区域
-        // private UnityEditor.Editor mTarget; // 移除
+        private UnityEditor.Editor mTarget; // 新增
         private RectTransform targetTransform;
         private Transform realRoot;
         private bool floatIncludeChildren;
@@ -21,12 +22,25 @@ namespace Core.Editor.RectTransformEditorWindow
         #endregion
         
         #region Unity 生命周期方法
-        private void Awake()
+        private void OnEnable()
         {
-            // mTarget = UnityEditor.Editor.CreateEditor(target, Assembly.GetAssembly(typeof(UnityEditor.Editor)).GetType("UnityEditor.RectTransformEditor", true)); // 移除
+            // 反射创建RectTransformEditor
+            var rectType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.RectTransformEditor");
+            if (rectType != null)
+            {
+                try
+                {
+                    mTarget = CreateEditor(target, rectType);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning($"RectTransformEditor反射创建失败: {e.Message}");
+                    mTarget = null;
+                }
+            }
             targetTransform = target as RectTransform;
             beautifyPrefabRoot = false;
-            if (targetTransform.root != null)
+            if (targetTransform != null && targetTransform.root != null)
             {
                 if (!targetTransform.root.name.Contains("Canvas ("))
                 {
@@ -46,13 +60,24 @@ namespace Core.Editor.RectTransformEditorWindow
                 }
             }
         }
+
+        private void OnDisable()
+        {
+            if (mTarget != null)
+            {
+                DestroyImmediate(mTarget);
+                mTarget = null;
+            }
+        }
         #endregion
         
         #region Inspector面板绘制
         public override void OnInspectorGUI()
         {
-            // mTarget.OnInspectorGUI(); // 移除
-            base.OnInspectorGUI(); // 或 DrawDefaultInspector();
+            if (mTarget != null)
+            {
+                mTarget.OnInspectorGUI();
+            }
             GUI.color = Color.green;
             if (!beautifyPrefabRoot) return;
 

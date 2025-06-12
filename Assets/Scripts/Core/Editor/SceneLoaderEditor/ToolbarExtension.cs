@@ -1,10 +1,10 @@
 using System;
-using UnityEngine;
 using System.Reflection;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityEditor
+namespace Core.Editor.SceneLoaderEditor
 {
     /// <summary>
     /// Unity编辑器工具栏扩展工具
@@ -13,8 +13,8 @@ namespace UnityEditor
     public static class ToolbarExtension
     {
         // 通过反射获取Unity编辑器工具栏类型
-        static Type mToolbarType = typeof(Editor).Assembly.GetType("UnityEditor.Toolbar");
-        static Type mGUIViewType = typeof(Editor).Assembly.GetType("UnityEditor.GUIView");
+        static Type mToolbarType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
+        static Type mGUIViewType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.GUIView");
 
         // 当前工具栏实例
         static ScriptableObject mCurrentToolbar;

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Toolbars;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityEditor
+namespace Core.Editor.SceneLoaderEditor
 {
     /// <summary>
     /// 场景加载器工具栏按钮，用于在Unity编辑器工具栏上显示场景加载按钮

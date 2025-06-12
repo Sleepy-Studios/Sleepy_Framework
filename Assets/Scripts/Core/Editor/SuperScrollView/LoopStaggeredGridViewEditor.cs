@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace UnityEditor.SuperScrollView
+namespace Core.Editor.SuperScrollView
 {
     [CustomEditor(typeof(LoopStaggeredGridView))]
     public class LoopStaggeredGridViewEditor : UnityEditor.Editor

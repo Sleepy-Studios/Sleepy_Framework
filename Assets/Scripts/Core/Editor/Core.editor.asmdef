@@ -1,7 +1,11 @@
 {
     "name": "Core.editor",
     "rootNamespace": "",
-    "references": ["GUID:fbad2acc3a918bc46b409c82b7c097dd"],
+    "references": [
+        "GUID:fbad2acc3a918bc46b409c82b7c097dd",
+        "GUID:6546d7765b4165b40850b3667f981c26",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
     "includePlatforms": [
         "Editor"
     ],

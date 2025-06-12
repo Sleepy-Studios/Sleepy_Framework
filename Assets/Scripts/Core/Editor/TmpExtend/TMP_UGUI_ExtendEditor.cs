@@ -1,10 +1,9 @@
-﻿using HotUpdate.Base;
-using TMPro;
+﻿using TMPro;
 using TMPro.EditorUtilities;
 using UnityEditor;
 using UnityEngine;
 
-namespace ScriptEditor
+namespace Core.Editor.TmpExtend
 {
     [CustomEditor(typeof(TMP_UGUI_Extend))]
     public class TMP_UGUI_ExtendEditor : UnityEditor.Editor

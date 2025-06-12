@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace HotUpdate.Base
+namespace Core
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(TextMeshProUGUI))]
@@ -86,7 +86,7 @@ namespace HotUpdate.Base
                     TMP_LinkInfo linkInfo = tmpText.textInfo.linkInfo[linkIndex];
                     Action<string> callBack = null;
                     if (HyperLinkClickActions.Count <= 0)
-                        callBack = new Action<string>(Application.OpenURL);
+                        callBack = Application.OpenURL;
                     else if (linkIndex >= HyperLinkClickActions.Count) callBack = HyperLinkClickActions[0];
                     else callBack = HyperLinkClickActions[linkIndex];
                     callBack?.Invoke(linkInfo.GetLinkID());
@@ -123,14 +123,14 @@ namespace HotUpdate.Base
             if (material != null)
             {
                 int underlayColorID = Shader.PropertyToID("_UnderlayColor");
-                int underlayOffsetXID = Shader.PropertyToID("_UnderlayOffsetX");
-                int underlayOffsetYID = Shader.PropertyToID("_UnderlayOffsetY");
+                int underlayOffsetXid = Shader.PropertyToID("_UnderlayOffsetX");
+                int underlayOffsetYid = Shader.PropertyToID("_UnderlayOffsetY");
                 int underlayDilateID = Shader.PropertyToID("_UnderlayDilate");
                 int underlaySoftnessID = Shader.PropertyToID("_UnderlaySoftness");
 
                 material.SetColor(underlayColorID, ShadowColor);
-                material.SetFloat(underlayOffsetXID, ShadowOffsetX);
-                material.SetFloat(underlayOffsetYID, ShadowOffsetY);
+                material.SetFloat(underlayOffsetXid, ShadowOffsetX);
+                material.SetFloat(underlayOffsetYid, ShadowOffsetY);
                 material.SetFloat(underlayDilateID, ShadowDilate);
                 material.SetFloat(underlaySoftnessID, ShadowSoftness);
 
