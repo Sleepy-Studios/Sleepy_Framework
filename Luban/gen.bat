@@ -8,7 +8,7 @@ dotnet %LUBAN_DLL% ^
     -d json ^
     --conf %CONF_ROOT%\luban.conf ^
     -x outputCodeDir=..\Assets\Scripts\HotUpdate\Luban^
-    -x outputDataDir=..\Assets\GameRes\Config/Luban
+    -x outputDataDir=..\Assets\GameRes/Luban
 
 
 pause
