@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 6662277454884810893}
   - component: {fileID: 5585329000131189901}
   m_Layer: 5
-  m_Name: LoadText
+  m_Name: ProcessTmp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -376,8 +376,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0%
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
-  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
+  m_sharedMaterial: {fileID: 2140474, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
   m_fontSharedMaterials:
   - {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontMaterial: {fileID: 0}
@@ -647,7 +647,7 @@ GameObject:
   - component: {fileID: 5213091575852473301}
   - component: {fileID: 7320784536616878594}
   m_Layer: 5
-  m_Name: LoadDesText
+  m_Name: SpeedTmp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -702,8 +702,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8D44\u6E90\u52A0\u8F7D\u4E2D"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 81b53426f31c7a44da7ec817714976f8, type: 2}
-  m_sharedMaterial: {fileID: 2979193228837331801, guid: 81b53426f31c7a44da7ec817714976f8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e681d3713da2ad14aaca3b501fff10df, type: 2}
+  m_sharedMaterial: {fileID: 6204358236969110093, guid: e681d3713da2ad14aaca3b501fff10df, type: 2}
   m_fontSharedMaterials:
   - {fileID: 2979193228837331801, guid: 81b53426f31c7a44da7ec817714976f8, type: 2}
   m_fontMaterial: {fileID: 0}

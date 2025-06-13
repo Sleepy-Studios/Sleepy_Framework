@@ -256,8 +256,8 @@ MonoBehaviour:
   ShowStackTrace: 1
   IsCleanLogCache: 1
   ProgressSlider: {fileID: 4139951673948491213}
-  SpeedText: {fileID: 1896097647499672401}
-  ProgressText: {fileID: 4502628493878505541}
+  SpeedText: {fileID: 4502628493878505541}
+  ProgressText: {fileID: 1896097647499672401}
   BaseServerURL: http://13.75.121.163:9000/Sleepy_Framework
   HotUpdateConfig: {fileID: 0}
 --- !u!4 &667864838
@@ -537,14 +537,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 201236186}
     m_Modifications:
-    - target: {fileID: 519909475921906536, guid: 3df564d6d6be21949b4072746425c564, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2894313355586750462, guid: 3df564d6d6be21949b4072746425c564, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6552216022315204206, guid: 3df564d6d6be21949b4072746425c564, type: 3}
       propertyPath: m_Name
       value: LoadUI
