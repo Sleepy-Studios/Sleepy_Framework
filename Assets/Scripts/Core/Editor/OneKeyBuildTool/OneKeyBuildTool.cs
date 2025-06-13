@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Aot.Runtime;
 using HybridCLR.Editor.Commands;
 using Renci.SshNet;
 using UnityEditor;

@@ -1,5 +1,4 @@
-﻿using Core;
-using Core.Runtime.Log;
+﻿using Aot.Runtime.Log;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

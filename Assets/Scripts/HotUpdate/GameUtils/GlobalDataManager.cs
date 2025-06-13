@@ -1,5 +1,4 @@
-﻿using Core;
-using Core.Runtime.Log;
+﻿using Aot.Runtime.Log;
 using HotUpdate.Base;
 using UnityEngine;
 using UnityEngine.SceneManagement;

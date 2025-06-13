@@ -1,17 +1,17 @@
 {
-    "name": "Core.Runtime",
+    "name": "Aot.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:417e037e285613d46bb91c0d92aee31f",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:d8074bd54f02a974ea24679d937b0091"
+        "GUID:13ba8ce62aa80c74598530029cb2d649",
+        "GUID:e34a5702dd353724aa315fb8011f08c3",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false

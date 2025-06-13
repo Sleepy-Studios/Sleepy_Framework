@@ -1,6 +1,5 @@
 ﻿using System.Collections;
-using Core;
-using Core.Runtime.Log;
+using Aot.Runtime.Log;
 using HotUpdate.Base;
 using TMPro;
 using UnityEngine;

@@ -1,8 +1,7 @@
 ﻿using HotUpdate.Base;
 using System;
 using System.Collections.Generic;
-using Core;
-using Core.Runtime.Log;
+using Aot.Runtime.Log;
 using UnityEngine;
 using YooAsset;
 using UnityEngine.Events;

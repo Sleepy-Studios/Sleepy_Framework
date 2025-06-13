@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using Core;
-using Core.Runtime.Log;
+using Aot.Runtime.Log;
 using Cysharp.Threading.Tasks;
 using HotUpdate.Base;
 using UnityEngine;

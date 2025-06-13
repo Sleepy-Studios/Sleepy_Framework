@@ -16,7 +16,6 @@ MonoBehaviour:
   AotStrippedSourcePath: HybridCLRData/StrippedAOTAssembly2/StandaloneWindows64
   AotTargetPath: Assets/GameRes/Codes/Aot
   aotFiles:
-  - Core.dll
   - DOTween.dll
   - System.Core.dll
   - UnityEngine.CoreModule.dll
@@ -26,10 +25,11 @@ MonoBehaviour:
   HotUpdateSourcePath: HybridCLRData\HotUpdateDlls\StandaloneWindows64
   HotUpdateTargetPath: Assets/GameRes/Codes/HotUpdate
   hotUpdateFiles:
+  - Core.Runtime.dll
   - HotUpdate.dll
   SshHost: 13.75.121.163
   SshPort: 22
   SshUser: root
-  KeyFilePath: Assets/Scripts/Editor/key
+  KeyFilePath: Assets/Scripts/Aot/Editor/key
   ServerBasePath: /www/wwwroot/13.75.121.163/Sleepy_Framework
   LocalBundlePath: Bundles\StandaloneWindows64\DefaultPackage\2025-06-12-1068
