@@ -6,10 +6,11 @@
 
 using UnityEngine;
 using Core;
+using Core.Runtime.UIBindTool;
 
 namespace HotUpdate
 {
-    [SourceAttribute("Assets/GameRes/Prefabs/TestMain")]
+    [Source("Assets/GameRes/Prefabs/TestMain")]
     public partial class TestMainView
     {
         ComponentItemKey _componentItemKey;

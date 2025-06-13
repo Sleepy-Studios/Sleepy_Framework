@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Core
+namespace Core.Runtime.ConsoleToScreen
 {
     public class ConsoleToScreen : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Core
+namespace Core.Runtime.Extension
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(TextMeshProUGUI))]

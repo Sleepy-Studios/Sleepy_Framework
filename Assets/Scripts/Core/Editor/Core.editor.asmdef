@@ -1,5 +1,5 @@
 {
-    "name": "Core.editor",
+    "name": "Core.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:fbad2acc3a918bc46b409c82b7c097dd",

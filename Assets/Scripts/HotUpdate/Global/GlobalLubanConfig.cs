@@ -11,13 +11,7 @@ namespace HotUpdate
         private Dictionary<string, string> fileDict;
         
         public new static GlobalLubanConfig Instance => LazyMonoSingleton<GlobalLubanConfig>.Instance;
-        public static cfg.Tables Tables
-        {
-            get
-            {
-                return Instance.tables;
-            }
-        }
+        public static cfg.Tables Tables => Instance.tables;
 
         protected override void Awake()
         {

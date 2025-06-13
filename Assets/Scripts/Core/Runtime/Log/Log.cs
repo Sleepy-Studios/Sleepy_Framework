@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-namespace Core
+namespace Core.Runtime.Log
 {
     public enum LogLevel
     {

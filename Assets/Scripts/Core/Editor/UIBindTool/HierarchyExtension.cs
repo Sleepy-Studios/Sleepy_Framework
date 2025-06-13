@@ -6,6 +6,7 @@ using UnityEditor.SceneManagement;
 using System.Text;
 using UnityEngine.UI;
 using System.IO;
+using Core.Runtime.UIBindTool;
 
 namespace Core.Editor.UIBindTool
 {

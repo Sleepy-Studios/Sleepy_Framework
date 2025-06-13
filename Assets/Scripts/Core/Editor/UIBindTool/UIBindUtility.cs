@@ -8,6 +8,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEditor.Compilation; // 添加编译相关命名空间
 using System.Threading.Tasks;
+using Core.Runtime.UIBindTool;
 
 namespace Core.Editor.UIBindTool
 {

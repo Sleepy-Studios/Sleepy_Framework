@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Core;
+using Core.Runtime.Log;
 using TMPro;
 using UnityEngine;
 using UnityEngine.U2D;
