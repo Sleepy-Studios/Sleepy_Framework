@@ -11,4 +11,4 @@ dotnet %LUBAN_DLL% ^
     -x outputDataDir=..\Assets\GameRes/Luban
 
 
-pause
+rem pause

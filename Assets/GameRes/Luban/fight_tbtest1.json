@@ -3,18 +3,96 @@
     "id": 1,
     "name": "测试1",
     "desc": "描述1",
-    "count": 10
+    "count": 10,
+    "award": {
+      "itemId": 1001,
+      "num": 2
+    },
+    "award2": {
+      "itemId": 2001,
+      "num": 2
+    },
+    "awardlist1": [
+      {
+        "itemId": 101,
+        "num": 1
+      },
+      {
+        "itemId": 102,
+        "num": 2
+      }
+    ]
   },
   {
     "id": 2,
     "name": "测试2",
     "desc": "描述2",
-    "count": 100
+    "count": 100,
+    "award": {
+      "itemId": 1002,
+      "num": 3
+    },
+    "award2": {
+      "itemId": 2002,
+      "num": 3
+    },
+    "awardlist1": [
+      {
+        "itemId": 101,
+        "num": 1
+      },
+      {
+        "itemId": 102,
+        "num": 2
+      },
+      {
+        "itemId": 101,
+        "num": 1
+      },
+      {
+        "itemId": 102,
+        "num": 2
+      }
+    ]
   },
   {
     "id": 3,
     "name": "测试3",
     "desc": "描述3",
-    "count": 1111
+    "count": 1111,
+    "award": {
+      "itemId": 1003,
+      "num": 4
+    },
+    "award2": {
+      "itemId": 2003,
+      "num": 4
+    },
+    "awardlist1": [
+      {
+        "itemId": 101,
+        "num": 1
+      },
+      {
+        "itemId": 102,
+        "num": 2
+      },
+      {
+        "itemId": 101,
+        "num": 1
+      },
+      {
+        "itemId": 102,
+        "num": 2
+      },
+      {
+        "itemId": 101,
+        "num": 1
+      },
+      {
+        "itemId": 102,
+        "num": 2
+      }
+    ]
   }
 ]

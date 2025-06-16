@@ -10,7 +10,6 @@ dotnet "$LUBAN_DLL" \
     -t all \
     -c cs-simple-json \
     -d json \
-    -x outputCodeDir=../Assets/Scripts/HotUpdate/Luban \
-    -x outputDataDir=../Assets/GameRes/Config/Luban \
     --conf "$CONF_ROOT/luban.conf" \
-    -x outputDataDir=output
+    -x outputCodeDir=../Assets/Scripts/HotUpdate/Luban \
+    -x outputDataDir=../Assets/GameRes/Luban

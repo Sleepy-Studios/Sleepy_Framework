@@ -24,7 +24,9 @@ namespace HotUpdate.TestLoadConfig
             Debug.Log("===通过遍历访问所有物品===");
             foreach (var item in tables.TbTest1.DataList)
             {
-                Debug.Log($"物品: ID={item.Id}, 名称={item.Name}, 描述={item.Desc}, 数量={item.Count}");
+                Debug.Log($"物品: ID={item.Id}, 名称={item.Name}, 描述={item.Desc}, 数量={item.Count}," +
+                          $"奖励id={item.Award.ItemId},奖励数量={item.Award.Num},奖励2id={item.Award2.ItemId},奖励数量={item.Award2.Num}" +
+                          $"奖励列表={item.Awardlist1.Count}");
             }
 
             // 通过 ID 直接访问特定物品

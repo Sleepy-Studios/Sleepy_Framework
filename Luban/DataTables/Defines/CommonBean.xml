@@ -14,4 +14,15 @@
         <var name="z" type="float"/>
         <var name="w" type="float"/>
     </bean>
+    <!-- MAP -->
+	<bean name = "cKeyValue" comment = "KV">
+		<var name="cKey" type="string" comment="key"/>
+		<var name="cValue" type="string" comment="value"/>
+	</bean>
+	<!-- 奖励 -->
+	<bean name="Award" comment="奖励">
+		<var name="itemId" type="int" comment="奖励ID" />
+		<var name="num" type="int" comment="奖励数量" />
+	</bean>
+
 </module>

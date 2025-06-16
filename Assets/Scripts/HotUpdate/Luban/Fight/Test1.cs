@@ -21,6 +21,9 @@ public sealed partial class Test1 : Luban.BeanBase
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["count"].IsNumber) { throw new SerializationException(); }  Count = _buf["count"]; }
+        { if(!_buf["award"].IsObject) { throw new SerializationException(); }  Award = global::cfg.Award.DeserializeAward(_buf["award"]);  }
+        { if(!_buf["award2"].IsObject) { throw new SerializationException(); }  Award2 = global::cfg.Award2.DeserializeAward2(_buf["award2"]);  }
+        { var __json0 = _buf["awardlist1"]; if(!__json0.IsArray) { throw new SerializationException(); } Awardlist1 = new System.Collections.Generic.List<Award>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { Award __v0;  { if(!__e0.IsObject) { throw new SerializationException(); }  __v0 = global::cfg.Award.DeserializeAward(__e0);  }  Awardlist1.Add(__v0); }   }
     }
 
     public static Test1 DeserializeTest1(JSONNode _buf)
@@ -44,12 +47,21 @@ public sealed partial class Test1 : Luban.BeanBase
     /// 个数
     /// </summary>
     public readonly int Count;
+    /// <summary>
+    /// 奖励ID
+    /// </summary>
+    public readonly Award Award;
+    public readonly Award2 Award2;
+    public readonly System.Collections.Generic.List<Award> Awardlist1;
    
     public const int __ID__ = 256659009;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        Award?.ResolveRef(tables);
+        Award2?.ResolveRef(tables);
+        foreach (var _e in Awardlist1) { _e?.ResolveRef(tables); }
     }
 
     public override string ToString()
@@ -59,6 +71,9 @@ public sealed partial class Test1 : Luban.BeanBase
         + "name:" + Name + ","
         + "desc:" + Desc + ","
         + "count:" + Count + ","
+        + "award:" + Award + ","
+        + "award2:" + Award2 + ","
+        + "awardlist1:" + Luban.StringUtil.CollectionToString(Awardlist1) + ","
         + "}";
     }
 }
