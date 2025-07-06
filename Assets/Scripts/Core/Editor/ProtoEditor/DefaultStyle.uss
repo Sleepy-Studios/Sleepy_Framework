@@ -1,0 +1,112 @@
+#mainContainer {
+    flex-direction: row;
+    flex: 1 0 0;
+}
+
+#leftColumnContainer {
+    min-width: 300px;
+    max-width: 500px;
+    flex-basis: auto;
+}
+
+#leftColumnContainer #groupContainer {
+    flex: 1 0 auto;
+    flex-direction: column;
+    margin: 0;
+}
+
+#leftColumnContainer #packageName {
+    -unity-text-align: middle-center
+}
+
+#rightColumnContainer {
+    border-left-width: 1px;
+    border-color: rgba(0.137, 0.137, 0.137, 1.000);
+    min-width: 300px;
+    flex-basis: auto;
+}
+
+#dragline {
+    width: 8px;
+    background-color: rgba(0, 0, 0, 0);
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: -4px;
+    cursor: resize-horizontal;
+}
+
+.property-container {
+    flex-direction: row;
+    border-left-width: 2px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-color: green;
+    border-bottom-width: 2px;
+}
+
+.property-name {
+    -unity-text-align: middle-center;
+    color: green;
+}
+
+.property-value {
+    -unity-text-align: middle-center;
+    border-left-width: 2px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+}
+
+
+.list-container {
+    margin: 4px 2px 4px 2px;
+}
+
+.list-container > .title-content{
+    width: 100%;
+}
+
+.list-container > .title-content > Button {
+    width: 100%;
+    -unity-text-align: middle-left;
+    background-color: rgba(1, 1, 1, 0);
+    border-color: rgba(1, 1, 1, 0);
+    padding-left: 16px;
+}
+
+.list-container > .title-content > Toggle {
+    position: absolute;
+    height: 100%;
+}
+
+.list-container > .list-content{
+    background-color: rgba(65, 65, 65, 1);
+    padding: 4px;
+    border-width: 1px;
+    border-color: rgba(36, 36, 36, 1);
+    margin: 0 8px 0 12px;
+}
+
+.tool-container {
+    height: 20;
+}
+
+.tool-container > .tool-locator {
+    flex-direction: row;
+    position:absolute;
+    right: 24;    
+    justify-content: center;
+    top: -1;
+    width: 56;
+    background-color: rgba(65, 65, 65, 1);
+    border-top-width: 0;
+    border-width: 0 1px 1px 1px;
+    border-color: rgba(36, 36, 36, 1);
+}
+
+.tool-locator > .tool-add {
+    -unity-background-scale-mode: scale-to-fit;
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+}

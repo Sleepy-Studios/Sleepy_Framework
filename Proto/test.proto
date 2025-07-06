@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "net.galasports.fish.protocol";
+option java_outer_classname = "BaseProtos";
+
+//测试
+message Test {
+  sint32 test = 1; //测试数字1
+  sint64 test2 = 2; //测试数字2
+}

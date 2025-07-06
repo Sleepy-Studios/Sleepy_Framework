@@ -1,0 +1,266 @@
+syntax = "proto3";
+
+option java_package = "net.galasports.fish.protocol";
+option java_outer_classname = "BaseProtos";
+
+/** BasePbMapper 提供了转换方法 */
+
+//异常统一回包
+message ExceptionRes {
+  sint32 ret = 1; //响应码
+  sint64 extra = 2; //附带信息
+}
+
+// 仅响应码返回
+message BaseRes {
+  sint32 ret = 1; // 响应码
+}
+
+// 分页请求
+message PageReq {
+  sint32 page = 1;     // 第几页
+  sint32 pageSize = 2; // 每页数量
+}
+
+// 整形请求
+message IntReq {
+  sint32 req = 1;
+}
+// 整形返回
+message IntRes {
+  sint32 ret = 1; // 响应码
+  sint32 res = 2;
+}
+
+// 整形列表请求包
+message IntListReq {
+  repeated sint32 params = 1;
+}
+
+// 整形列表返回
+message IntListRes {
+  sint32 ret = 1; // 响应码
+  repeated sint32 res = 2;
+}
+
+// 整形对请求
+message TwoIntReq {
+  sint32 param1 = 1;
+  sint32 param2 = 2;
+}
+
+//list-int
+message ListIntPB {
+  repeated sint32 val = 1;
+}
+
+//map
+message KIVIPB {
+  sint32      key               = 1;//key
+  sint32      value             = 2;//value
+}
+
+// 长整形请求
+message LongReq {
+  sint64 req = 1;
+}
+// 长整形返回
+message LongRes {
+  sint32 ret = 1; // 响应码
+  sint64 res = 2;
+}
+// 长整形列表返回
+message LongListRes {
+  sint32 ret = 1; // 响应码
+  repeated sint64 res = 2;
+}
+
+// 字符串请求
+message StrReq {
+  string req = 1;
+}
+// 字符串返回
+message StrRes {
+  sint32 ret = 1; // 响应码
+  string res = 2;
+}
+
+// 字符串请求
+message StrListReq {
+  repeated string req = 1;
+}
+
+// 字符串对
+message TwoStringPB {
+  string str1 = 1;
+  string str2 = 2;
+}
+
+// 字符串列表返回
+message StrListRes {
+  sint32 ret = 1; // 响应码
+  repeated string res = 2;
+}
+
+// 整形 + 字符串 请求
+message TupleReq {
+  sint32 num = 1;
+  string str = 2;
+}
+// 整形 + 字符串 返回
+message TupleRes {
+  sint32 ret = 1; // 响应码
+  sint32 num = 2;
+  string str = 3;
+}
+
+//通用奖励pb
+message ItemAwardPB {
+  sint32 item_id        = 1;//道具id
+  sint64 num            = 2;//道具数量
+  sint32 extra          = 3;//额外信息
+  sint32 extra2         = 4;//额外信息2
+  bool is_new           = 5;//是否是新道具 1:是,0:否
+}
+
+//玩家背包信息
+message PlayerItemPB {
+  string playerId = 1;//玩家id
+  sint32 itemId = 2;//道具id
+  sint64 num    = 3;//道具数量
+  sint32 status = 4;//状态 1-new
+}
+
+//玩家渔具信息
+message PlayerFishingTackleInfoPB {
+  string              player_id                                                       = 1;//玩家id
+  sint32              tackle_id                                                       = 2;//渔具id
+  sint32              level                                                           = 3;//等级
+  map<sint32,sint32>  grow_info                                                       = 4;//属性养成数值{属性:数值}
+  repeated int32      skill_info                                                      = 5;//技能信息{技能id}
+  sint32              strength                                                        = 7;//实力
+}
+
+message TackleOverflowInfoPB {
+  sint32              item_id   = 1;//溢出渔具Id
+  sint32              num       = 2;//溢出数量
+  sint32              gold_num  = 3;//转化金币数量
+}
+
+// 直接开宝箱获得的奖励
+message BoxAwardPB {
+  sint32                                 box_id             = 1;//宝箱Id
+  repeated ItemAwardPB                   award              = 2;//奖励信息
+  repeated TackleOverflowInfoPB          overflow_tackles   = 3;//溢出渔具信息
+  repeated PlayerFishingTackleInfoPB     tackle_infos       = 4;//新增的渔具信息
+}
+
+message AwardRes {
+  sint32                                  ret               = 1;//响应码
+  repeated ItemAwardPB                    award             = 2;//奖励信息
+  PlayerStrengthPB                        player_strength   = 3;//玩家实力
+  repeated PlayerFishingTackleInfoPB      tackle_infos      = 4;//新增的渔具信息
+  repeated TackleOverflowInfoPB           overflow_tackles  = 5;//溢出渔具信息
+  repeated BoxAwardPB                     box_awards        = 6;//宝箱奖励信息
+  repeated BoxAwardPB                     gift_pack_awards  = 7;//普通礼包奖励信息
+  repeated BoxAwardPB                     fish_awards       = 8;//水生生物奖励信息
+}
+
+// 玩家外显信息（头像、头像框等）
+message PlayerExtraPB {
+  string             player_id         = 1;//玩家id
+  sint32             head_portrait     = 2;//头像
+  sint32             head_frame        = 3;//头像框
+  map<sint32,sint32> honors            = 4;//荣誉
+  sint32             show_fish_id      = 5;//展示鱼Id
+  sint32             show_fish_area    = 6;//展示鱼所在地区
+  HeadFacePB         head_ai_face      = 7;//ai生成头像数据
+  sint32             sex               = 8;//性别 1-男,2-女
+  sint32             clothes           = 9;//衣服 1-夏季,2-冬季
+  sint64             upload_time       = 10;//上传时间
+}
+
+//游戏配置 GameConfig
+message GameConfigPB {
+  string  config_key        		     = 1;//配置key
+  sint32  config_value        		   = 2;//数值
+  string  config_str                 = 3;//字符串数值
+}
+
+message PlayerStrengthPB {
+  string player_id             = 1;//玩家id
+  sint32 strength              = 2;//实力
+  sint32 stage                 = 3;//实力段位
+  sint32 overall               = 4;//总评
+  sint32 overall_stage         = 5;//总评段位
+}
+
+
+// 玩家任务信息
+message PlayerMissionPB {
+  string    player_id                                                         = 1;//玩家id
+  sint32    mission_type                                                      = 2;//任务类型
+  sint32    mission_id                                                        = 3;//任务Id
+  sint32    status                                                            = 4;//状态,1未完成,2未领取,3已领取,4已失效
+  sint32    progress                                                          = 5;//任务进度
+  sint32    finish                                                            = 6;//完成数值
+  sint64    start_time                                                        = 7;//开始时间
+  sint64    end_time                                                          = 8;//到期时间
+}
+
+// 单独领取奖励返回信息
+message ItemAwardRes {
+  sint32                         ret               = 1;//响应码
+  ItemAwardPB                    award             = 2;//奖励信息
+}
+
+// 玩家实力返回信息
+message PlayerStrengthRes {
+  sint32            ret              = 1;//响应码
+  PlayerStrengthPB  player_strength  = 2; //实力排行
+}
+
+// 坐标信息
+message PositionPB {
+  float	x = 1; //x轴信息
+  float	y = 2; //y轴信息
+  float z = 3; //z轴信息
+}
+
+message CellPositionPB {
+  float	x = 1; //x轴信息
+  float	y = 2; //y轴信息
+}
+
+// ai生成头像信息
+message HeadFacePB {
+  CellPositionPB    l_eye_pos     = 1;//左眼位置 (x,y)
+  CellPositionPB    l_eye_size    = 2;//左眼尺寸 (width,height)
+  CellPositionPB    r_eye_pos     = 3;//右眼位置
+  CellPositionPB    r_eye_size    = 4;//右眼尺寸 (width,height)
+  string            face_img_url  = 5;//图片地址
+}
+//功能引导信息
+message PlayerGuidePB {
+  repeated sint32     guides            = 1;//引导过的功能内引导Id
+}
+
+// 奖励列表
+message IdAwardPB {
+  sint32                      id            = 1; //主键id
+  ItemAwardPB                 awards        = 2; //对应奖励
+  int32                       feed_id       = 3; //喂食奖励id
+}
+
+//场景鱼信息
+message SceneFishPB {
+  sint32                module_scene_id    =1;//模块场景id
+  repeated FishNumPB    fish_info          =2;//常驻鱼信息
+}
+
+message FishNumPB {
+  sint32   id                =1;//鱼id
+  sint32   num               =2;//鱼数据
+  sint32   location_id       =3;//钓点id
+}
+
