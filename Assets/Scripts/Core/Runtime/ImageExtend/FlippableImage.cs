@@ -22,7 +22,7 @@ namespace Core.Runtime
                 if (FlipHor != value)
                 {
                     FlipHor = value;
-                    UpdateGeometry();
+                    SetVerticesDirty();
                 }
             }
         }
@@ -38,7 +38,7 @@ namespace Core.Runtime
                 if (FlipVer != value)
                 {
                     FlipVer = value;
-                    UpdateGeometry();
+                    SetVerticesDirty();
                 }
             }
         }
@@ -47,23 +47,28 @@ namespace Core.Runtime
         {
             base.OnPopulateMesh(toFill);
 
-            if (FlipHor || FlipVer)
+            if (!FlipHor && !FlipVer)
             {
-                Vector2 rectCenter = rectTransform.rect.center;
-                int vertCount = toFill.currentVertCount;
-                for (int i = 0; i < vertCount; i++)
-                {
-                    UIVertex uiVertex = new UIVertex();
-                    toFill.PopulateUIVertex(ref uiVertex, i);
+                return;
+            }
 
-                    Vector3 pos = uiVertex.position;
-                    uiVertex.position = new Vector3(
-                        FlipHor ? (pos.x + (rectCenter.x - pos.x) * 2) : pos.x,
-                        FlipVer ? (pos.y + (rectCenter.y - pos.y) * 2) : pos.y,
-                        pos.z);
+            var rectCenter = rectTransform.rect.center;
+            var vertCount = toFill.currentVertCount;
+            var uiVertex = default(UIVertex);
 
-                    toFill.SetUIVertex(uiVertex, i);
-                }
+            for (var i = 0; i < vertCount; i++)
+            {
+                toFill.PopulateUIVertex(ref uiVertex, i);
+
+                var pos = uiVertex.position;
+                var newPos = new Vector3(
+                    FlipHor ? rectCenter.x * 2 - pos.x : pos.x,
+                    FlipVer ? rectCenter.y * 2 - pos.y : pos.y,
+                    pos.z
+                );
+                uiVertex.position = newPos;
+
+                toFill.SetUIVertex(uiVertex, i);
             }
         }
     }
