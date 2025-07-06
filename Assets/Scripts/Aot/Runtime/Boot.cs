@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Aot.Runtime.Log;
+using Aot.Runtime;
 using HybridCLR;
 using TMPro;
 using UnityEngine;
@@ -63,7 +63,7 @@ namespace Aot.Runtime
 
         void Start()
         {
-            Log.Log.Init(LOGLevel, MaxLogCount, ShowStackTrace, IsCleanLogCache);
+            Log.Init(LOGLevel, MaxLogCount, ShowStackTrace, IsCleanLogCache);
             StartCoroutine(InitYooAssets(StartGame));
         }
 
@@ -88,11 +88,11 @@ namespace Aot.Runtime
 
             if (initializationOperation.Status != EOperationStatus.Succeed)
             {
-                Log.Log.Error($"资源包初始化失败：{initializationOperation.Error}");
+                Log.Error($"资源包初始化失败：{initializationOperation.Error}");
                 yield break;
             }
 
-            Log.Log.Info("资源包初始化成功！");
+            Log.Info("资源包初始化成功！");
 
             // 更新资源版本
             var operation = package.RequestPackageVersionAsync();
@@ -100,8 +100,8 @@ namespace Aot.Runtime
 
             if (operation.Status != EOperationStatus.Succeed)
             {
-                Log.Log.Error(operation.Error);
-                Log.Log.Error("网络问题,切换至离线模式");
+                Log.Error(operation.Error);
+                Log.Error("网络问题,切换至离线模式");
                 // 先销毁资源包，再移除
                 var destroyOperation = package.DestroyAsync();
                 yield return destroyOperation;
@@ -112,7 +112,7 @@ namespace Aot.Runtime
             }
 
             string packageVersion = operation.PackageVersion;
-            Log.Log.Info($"更新后的资源包版本 : {packageVersion}");
+            Log.Info($"更新后的资源包版本 : {packageVersion}");
 
             // 更新补丁清单
             var operation2 = package.UpdatePackageManifestAsync(packageVersion);
@@ -120,7 +120,7 @@ namespace Aot.Runtime
 
             if (operation2.Status != EOperationStatus.Succeed)
             {
-                Log.Log.Error(operation2.Error);
+                Log.Error(operation2.Error);
                 yield break;
             }
 
@@ -138,7 +138,7 @@ namespace Aot.Runtime
                 yield return handle;
                 var assetObj = handle.AssetObject as TextAsset;
                 sAssetDatas[asset] = assetObj;
-                Log.Log.Info($"用YooAssets加载Dll:{asset}   {assetObj != null}");
+                Log.Info($"用YooAssets加载Dll:{asset}   {assetObj != null}");
             }
 
             YooAssetsPackage = package;
@@ -209,7 +209,7 @@ namespace Aot.Runtime
                 SpeedText.text = "无需下载更新";
                 ProgressSlider.value = 1f;
                 ProgressText.text = "100%";
-                Log.Log.Info("无需下载更新！");
+                Log.Info("无需下载更新！");
                 yield break;
             }
 
@@ -227,11 +227,11 @@ namespace Aot.Runtime
 
             if (downloader.Status == EOperationStatus.Succeed)
             {
-                Log.Log.Info("资源更新完成！");
+                Log.Info("资源更新完成！");
             }
             else
             {
-                Log.Log.Error("资源更新失败！");
+                Log.Error("资源更新失败！");
             }
         }
 
@@ -281,7 +281,7 @@ namespace Aot.Runtime
             {
                 byte[] dllBytes = ReadBytesFromStreamingAssets(aotDllName);
                 LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, mode);
-                Log.Log.Info($"加载AOT元数据:{aotDllName}. mode:{mode} 返回值:{err}, 大小:{FormatBytes(dllBytes.Length)}字节");
+                Log.Info($"加载AOT元数据:{aotDllName}. mode:{mode} 返回值:{err}, 大小:{FormatBytes(dllBytes.Length)}字节");
             }
         }
 
@@ -321,16 +321,16 @@ namespace Aot.Runtime
                 
             foreach (var assembly in hotUpdateAssemblies)
             {
-                Log.Log.Info($"已找到热更新程序集: {assembly.GetName().Name}");
+                Log.Info($"已找到热更新程序集: {assembly.GetName().Name}");
             }
 #endif
-            Log.Log.Info("热更新完成");
+            Log.Info("热更新完成");
             // 添加图集监听器
             SpriteAtlasManager.atlasRequested += OnAtlasRequested;
             StartCoroutine(LoadMainScene());
         }
 
-        private void OnAtlasRequested(string atlasName, System.Action<SpriteAtlas> callback)
+        private void OnAtlasRequested(string atlasName, Action<SpriteAtlas> callback)
         {
             // 使用YooAsset加载图集
             var handle = YooAssets.LoadAssetSync<SpriteAtlas>(atlasName);

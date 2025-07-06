@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Editor.UIBindTool
+namespace Core.Editor
 {
     public static class UIBindManager
     {

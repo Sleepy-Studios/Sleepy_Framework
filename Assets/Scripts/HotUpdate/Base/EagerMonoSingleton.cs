@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HotUpdate.Base
+namespace HotUpdate
 {
     /// <summary>
     /// 饿汉单例Mono脚本 初始即加载 需挂载到物体上

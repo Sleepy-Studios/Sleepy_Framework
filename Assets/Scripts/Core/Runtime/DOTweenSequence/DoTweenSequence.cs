@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Core.Runtime.DOTweenSequence
+namespace Core.Runtime
 {
     public class DoTweenSequence : MonoBehaviour
     {

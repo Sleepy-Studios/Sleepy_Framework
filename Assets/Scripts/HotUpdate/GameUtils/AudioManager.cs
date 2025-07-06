@@ -1,13 +1,13 @@
-﻿using HotUpdate.Base;
+﻿using HotUpdate;
 using System;
 using System.Collections.Generic;
-using Aot.Runtime.Log;
+using Aot.Runtime;
 using UnityEngine;
 using YooAsset;
 using UnityEngine.Events;
 using Cysharp.Threading.Tasks;
 
-namespace HotUpdate.GameUtils
+namespace HotUpdate
 {
     /// <summary>
     /// 全局音频管理器，负责管理音乐和音效的播放

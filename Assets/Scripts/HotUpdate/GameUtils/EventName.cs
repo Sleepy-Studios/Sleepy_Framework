@@ -1,4 +1,4 @@
-﻿namespace HotUpdate.GameUtils
+﻿namespace HotUpdate
 {
     /// <summary>
     /// 事件枚举

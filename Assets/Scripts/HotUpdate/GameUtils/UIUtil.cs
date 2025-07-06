@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace HotUpdate.GameUtils
+namespace HotUpdate
 {
     /// <summary>
     /// 公用的UI工具类

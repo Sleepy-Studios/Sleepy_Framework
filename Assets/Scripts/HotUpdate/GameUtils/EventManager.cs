@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using HotUpdate.Base;
+using HotUpdate;
 
-namespace HotUpdate.GameUtils
+namespace HotUpdate
 {
     /// <summary>
     /// 事件管理器

@@ -3,7 +3,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Core.Editor.GameViewResolutionWindow
+namespace Core.Editor
 {
     public class GameViewResolutionWindow : EditorWindow
     {

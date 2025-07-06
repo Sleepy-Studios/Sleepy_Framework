@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
-namespace Core.Runtime.UIBindTool
+namespace Core.Runtime
 {
     [Serializable]
     public class SourceAttribute : Attribute

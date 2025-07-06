@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Core.Runtime;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Core.Editor.UIBindTool
+namespace Core.Editor
 {
     public static class UIBindCodeGenerator
     {
@@ -50,9 +51,18 @@ namespace Core.Editor.UIBindTool
             sb.AppendLine("//------------------------------------------------------------------------------");
             sb.AppendLine();
 
-            // 只添加必要命名空间引用
-            sb.AppendLine("using UnityEngine;");
-            sb.AppendLine("using Core;");
+            // 记录已添加的命名空间
+            HashSet<string> usings = new HashSet<string>();
+
+            // 添加必要命名空间引用
+            if (usings.Add("UnityEngine"))
+                sb.AppendLine("using UnityEngine;");
+            var sourceAttrType = typeof(SourceAttribute);
+            if (!string.IsNullOrEmpty(sourceAttrType.Namespace) && usings.Add(sourceAttrType.Namespace))
+                sb.AppendLine($"using {sourceAttrType.Namespace};");
+            var componentItemKey = typeof(ComponentItemKey);
+            if (!string.IsNullOrEmpty(componentItemKey.Namespace) && usings.Add(componentItemKey.Namespace))
+                sb.AppendLine($"using {componentItemKey.Namespace};");
             sb.AppendLine();
 
             // 获取预制体的资源路径作为SourceAttribute

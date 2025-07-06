@@ -3,7 +3,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
-namespace HotUpdate.GameUtils
+namespace HotUpdate
 {
     /// <summary>
     /// Unity拓展方法

@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace Core.Editor.HotUpdateRefSearchTool
+namespace Core.Editor
 {
   public class HotUpdateRefSearchTool : EditorWindow
   {

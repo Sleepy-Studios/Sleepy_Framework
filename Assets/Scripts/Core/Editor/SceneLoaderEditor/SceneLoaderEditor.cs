@@ -7,7 +7,7 @@ using UnityEditor.Toolbars;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Core.Editor.SceneLoaderEditor
+namespace Core.Editor
 {
     /// <summary>
     /// 场景加载器工具栏按钮，用于在Unity编辑器工具栏上显示场景加载按钮

@@ -5,7 +5,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace Core.Editor.DebugReplaceTool
+namespace Core.Editor
 {
     public class DebugReplaceTool : EditorWindow
     {

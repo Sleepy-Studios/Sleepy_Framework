@@ -7,7 +7,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Core.Editor.RectTransformEditorWindow
+namespace Core.Editor
 {
     [CustomEditor(typeof(RectTransform))]
     public class RectTransformEditorWindow : UnityEditor.Editor

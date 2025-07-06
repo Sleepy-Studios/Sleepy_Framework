@@ -1,10 +1,10 @@
-﻿using Core.Runtime.Extension;
+﻿using Core.Runtime;
 using TMPro;
 using TMPro.EditorUtilities;
 using UnityEditor;
 using UnityEngine;
 
-namespace Core.Editor.TmpExtend
+namespace Core.Editor
 {
     [CustomEditor(typeof(TMP_UGUI_Extend))]
     public class TMP_UGUI_ExtendEditor : UnityEditor.Editor

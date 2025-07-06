@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Core.Editor.SceneLoaderEditor
+namespace Core.Editor
 {
     /// <summary>
     /// Unity编辑器工具栏扩展工具

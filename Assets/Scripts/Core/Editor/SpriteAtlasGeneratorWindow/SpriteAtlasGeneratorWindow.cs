@@ -5,7 +5,7 @@ using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.U2D;
 
-namespace Core.Editor.SpriteAtlasGeneratorWindow
+namespace Core.Editor
 {
     /// <summary>
     /// 自动生成SpriteAtlas图集的编辑器工具（支持参数中文解释）

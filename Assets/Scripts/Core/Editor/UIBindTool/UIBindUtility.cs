@@ -8,9 +8,9 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEditor.Compilation; // 添加编译相关命名空间
 using System.Threading.Tasks;
-using Core.Runtime.UIBindTool;
+using Core.Runtime;
 
-namespace Core.Editor.UIBindTool
+namespace Core.Editor
 {
     /// <summary>
     /// UI绑定工具的辅助方法类，提供各种实用功能方法

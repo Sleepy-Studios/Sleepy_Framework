@@ -1,4 +1,4 @@
-using Core.Runtime.DOTweenSequence;
+using Core.Runtime;
 using DG.DOTweenEditor;
 using DG.Tweening;
 using UnityEditor;
@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Core.Editor.DOTweenSequence
+namespace Core.Editor
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(DoTweenSequence))]

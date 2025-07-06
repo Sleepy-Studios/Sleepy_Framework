@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Core.Runtime.DOTweenSequence
+namespace Core.Runtime
 {
     public static class SequenceExtension
     {

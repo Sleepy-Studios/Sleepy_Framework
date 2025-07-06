@@ -1,4 +1,4 @@
-﻿namespace HotUpdate.GameUtils
+﻿namespace HotUpdate
 {
     public static class GlobalConst
     {

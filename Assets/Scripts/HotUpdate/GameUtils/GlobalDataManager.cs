@@ -1,9 +1,9 @@
-﻿using Aot.Runtime.Log;
-using HotUpdate.Base;
+﻿using Aot.Runtime;
+using HotUpdate;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace HotUpdate.GameUtils
+namespace HotUpdate
 {
     public class GlobalDataManager : LazyMonoSingleton<GlobalDataManager>
     {

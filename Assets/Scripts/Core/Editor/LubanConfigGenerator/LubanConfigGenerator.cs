@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Core.Editor.LubanConfigGenerator
+namespace Core.Editor
 {
     public class LubanConfigGenerator : EditorWindow
     {

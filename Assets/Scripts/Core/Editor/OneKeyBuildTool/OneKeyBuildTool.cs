@@ -1,19 +1,19 @@
 ﻿using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Aot.Runtime;
 using HybridCLR.Editor.Commands;
 using Renci.SshNet;
+using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
 using YooAsset.Editor;
-using Unity.EditorCoroutines.Editor;
 using Debug = UnityEngine.Debug;
 
-namespace ScriptEditor
+namespace Core.Editor
 {
     /// <summary>
     /// 一键打包工具窗口，用于配置热更新、编译打包、服务器设置及资源上传

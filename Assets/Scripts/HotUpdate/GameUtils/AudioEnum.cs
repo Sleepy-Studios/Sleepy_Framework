@@ -1,6 +1,6 @@
 using System;
 
-namespace HotUpdate.GameUtils
+namespace HotUpdate
 {
     /// <summary>
     /// 音效类型枚举

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HotUpdate.GameUtils
+namespace HotUpdate
 {
     public static class SortUtils
     {

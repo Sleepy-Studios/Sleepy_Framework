@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Runtime.Extension
+namespace Core.Runtime
 {
     /// <summary>
     /// 对 Unity 的扩展方法。

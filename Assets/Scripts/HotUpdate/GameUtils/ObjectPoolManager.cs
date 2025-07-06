@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Aot.Runtime.Log;
+using Aot.Runtime;
 using Cysharp.Threading.Tasks;
-using HotUpdate.Base;
+using HotUpdate;
 using UnityEngine;
 using YooAsset;
 
-namespace HotUpdate.GameUtils
+namespace HotUpdate
 {
     public class ObjectPoolManager : LazyMonoSingleton<ObjectPoolManager>
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using HotUpdate.Base;
+using HotUpdate;
 using UnityEngine;
 
-namespace HotUpdate.GameUtils
+namespace HotUpdate
 {
     /// <summary>
     /// 时间管理器

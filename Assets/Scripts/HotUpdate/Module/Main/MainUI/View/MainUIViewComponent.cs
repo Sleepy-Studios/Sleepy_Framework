@@ -5,18 +5,18 @@
 //------------------------------------------------------------------------------
 
 using UnityEngine;
-using Core;
-using Core.Runtime.UIBindTool;
+using Core.Runtime;
 
 namespace HotUpdate
 {
-    [Source("Assets/GameRes/Prefabs/UI/Main/MainUI")]
+    [SourceAttribute("Assets/GameRes/Prefabs/UI/Main/MainUI")]
     public partial class MainUIView
     {
         ComponentItemKey _componentItemKey;
 
         private UnityEngine.UI.Button _Button_settingBtn;
         private UnityEngine.UI.Button _Button_quitBtn;
+        private Core.Runtime.FlippableImage _FlippableImage_gameObject;
 
         protected ComponentItemKey componentItemKey
         {
@@ -48,10 +48,21 @@ namespace HotUpdate
             }
         }
 
+        public Core.Runtime.FlippableImage FlippableImage_gameObject
+        {
+            get
+            {
+                if(_FlippableImage_gameObject == null)
+                    _FlippableImage_gameObject = componentItemKey.GetObject<Core.Runtime.FlippableImage>("FlippableImage_gameObject");
+                return _FlippableImage_gameObject;
+            }
+        }
+
         protected virtual void ReleaseComponent()
         {
             _Button_settingBtn = null;
             _Button_quitBtn = null;
+            _FlippableImage_gameObject = null;
             _componentItemKey = null;
         }
     }

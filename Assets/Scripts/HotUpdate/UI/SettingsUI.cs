@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using HotUpdate.GameUtils;
+using HotUpdate;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 #if UNITY_EDITOR
-using Core.Editor.GameViewResolutionWindow;
+using Core.Editor;
 using UnityEditor;
 #endif
 
-namespace HotUpdate.UI
+namespace HotUpdate
 {
     /// <summary>
     /// 窗口模式枚举

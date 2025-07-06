@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HotUpdate.TestLoadConfig
+namespace HotUpdate
 {
     public class TestLoadConfig : MonoBehaviour
     {

@@ -6,9 +6,9 @@ using UnityEditor.SceneManagement;
 using System.Text;
 using UnityEngine.UI;
 using System.IO;
-using Core.Runtime.UIBindTool;
+using Core.Runtime;
 
-namespace Core.Editor.UIBindTool
+namespace Core.Editor
 {
     /// <summary>
     /// Unity层级窗口扩展，用于在Hierarchy视图中提供UI组件绑定功能

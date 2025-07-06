@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HotUpdate.Base
+namespace HotUpdate
 {
     /// <summary>
     /// 懒汉单例Mono脚本 即用即加载

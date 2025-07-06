@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HotUpdate.Base;
+using HotUpdate;
 using UnityEngine;
 using YooAsset;
 

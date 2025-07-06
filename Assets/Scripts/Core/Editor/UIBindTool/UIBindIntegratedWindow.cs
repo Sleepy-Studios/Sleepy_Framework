@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Core.Editor.UIBindTool
+namespace Core.Editor
 {
     /// <summary>
     /// UI绑定集成工具窗口

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Editor.UIBindTool
+namespace Core.Editor
 {
     /// <summary>
     /// UI绑定工具的数据结构，用于存储UI模块和视图的相关数据

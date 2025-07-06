@@ -3,7 +3,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 
-namespace Core.Editor.TmpExtend
+namespace Core.Editor
 {
     public class TMP_Alpha8_ASTC_Window : EditorWindow
     {
