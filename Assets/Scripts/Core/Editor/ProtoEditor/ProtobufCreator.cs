@@ -1,10 +1,8 @@
 using Platform.Editor;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
@@ -27,27 +25,27 @@ public class ProtobufCreator : VisualElementExtension.TreeView
                 {
                     if (path.Contains(itor.Current.Key))
                     {
-                        nameSpace = itor.Current.Value;
+                        NameSpace = itor.Current.Value;
                         break;
                     }
                 }
             }
         }
         private string path;
-        public string nameSpace;
+        public string NameSpace;
 
         public CsOutPath() { }
 
         public CsOutPath(string path)
         {
             this.Path = path;
-            nameSpace = "";
+            NameSpace = "";
             var itor = PathWithNamespace.GetEnumerator();
             while (itor.MoveNext())
             {
                 if (path.Contains(itor.Current.Key))
                 {
-                    nameSpace = itor.Current.Value;
+                    NameSpace = itor.Current.Value;
                     break;
                 }
             }
@@ -61,7 +59,8 @@ public class ProtobufCreator : VisualElementExtension.TreeView
     };
 
     static string protoSavaPath = Environment.CurrentDirectory + "\\Proto";
-    readonly static string CsOutPathKey = "Proto-CsOutPath";
+    static readonly string CsOutPathKey = "Proto-CsOutPath";
+    static readonly string NamespaceKey = "Proto-Namespace"; // 新增命名空间保存键
 
     string nameSpace;
     bool isNormal;
@@ -75,19 +74,16 @@ public class ProtobufCreator : VisualElementExtension.TreeView
     List<CsOutPath> csOutPaths = new List<CsOutPath>();
     int SelectIndex
     {
-        get
-        {
-            return selectIndex;
-        }
+        get => selectIndex;
         set
         {
             selectIndex = value;
-            OnSelectIndexChange?.Invoke(selectIndex);
+            onSelectIndexChange?.Invoke(selectIndex);
         }
     }
-    Action<int> OnSelectIndexChange;
+    Action<int> onSelectIndexChange;
     int selectIndex = -1;
-    Action<int> OnSelectorClicked;
+    Action<int> onSelectorClicked;
 
     [MenuItem("Tools/Protobuf生成", false, 1)]
     public static void ShowWindow()
@@ -106,10 +102,7 @@ public class ProtobufCreator : VisualElementExtension.TreeView
 
     void InitCsOutPaths()
     {
-        if (csOutPaths == null)
-        {
-            csOutPaths = new List<CsOutPath>();
-        }
+        csOutPaths ??= new List<CsOutPath>();
         csOutPaths.Clear();
 
         int count = EditorPrefs.GetInt(CsOutPathKey);
@@ -118,16 +111,30 @@ public class ProtobufCreator : VisualElementExtension.TreeView
             var path = EditorPrefs.GetString(CsOutPathKey + i);
             if (!string.IsNullOrEmpty(path) && !csOutPaths.Exists((x) => x.Path == path))
             {
-                csOutPaths.Add(new CsOutPath(path));
+                var csOutPath = new CsOutPath(path);
+                // 加载保存的命名空间
+                var savedNamespace = EditorPrefs.GetString(NamespaceKey + i, "");
+                if (!string.IsNullOrEmpty(savedNamespace))
+                {
+                    csOutPath.NameSpace = savedNamespace;
+                }
+                csOutPaths.Add(csOutPath);
             }
             else
             {
-                EditorPrefs.DeleteKey(CsOutPathKey);
+                EditorPrefs.DeleteKey(CsOutPathKey + i);
+                EditorPrefs.DeleteKey(NamespaceKey + i);
             }
         }
         if (csOutPaths.Count != count)
         {
             EditorPrefs.SetInt(CsOutPathKey, csOutPaths.Count);
+        }
+        
+        // 加载全局命名空间设置
+        if (string.IsNullOrEmpty(nameSpace))
+        {
+            nameSpace = EditorPrefs.GetString(NamespaceKey + "_current", "");
         }
     }
 
@@ -216,11 +223,7 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         TreeNode node;
         foreach (var d in directories)
         {
-            node = result.Find(x => x.PathWithParent == d.Name);
-            if (node == null)
-            {
-                node = new TreeNode() { title = d.Name, isTitle = true, level = level, opened = true };
-            }
+            node = result.Find(x => x.PathWithParent == d.Name) ?? new TreeNode() { title = d.Name, isTitle = true, level = level, opened = true };
             int parentIndex = result.Count;
             result.Add(node);
             if (node.opened && !SearchDirectoryFiles(d.FullName, level + 1, node, result))
@@ -234,19 +237,11 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         {
             if (!file.Name.EndsWith(".proto"))
                 continue;
-            node = result.Find(x => x.PathWithParent == file.Name);
-            if (node == null)
-            {
-                node = new TreeNode() { title = file.Name, isTitle = false, level = level, opened = false, fullName = directoryPath + "/" + file.Name, parent = parent };
-            }
+            node = result.Find(x => x.PathWithParent == file.Name) ?? new TreeNode() { title = file.Name, isTitle = false, level = level, opened = false, fullName = directoryPath + "/" + file.Name, parent = parent };
             result.Add(node);
             exist = true;
         }
         return exist;
-    }
-    public override void BindItem(VisualElement e, int i)
-    {
-        base.BindItem(e, i);
     }
 
     protected override IManipulator AddManipulator(int i)
@@ -308,15 +303,28 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         ColorUtility.TryParseHtmlString("#646464", out color);
         normal.style.borderLeftColor = color;
         normalNamesapce.style.width = 200;
-        normalNamesapce.RegisterCallback<ChangeEvent<string>>((evt) => nameSpace = evt.newValue);
-        if (selectIndex >= 0)
+        normalNamesapce.RegisterCallback<ChangeEvent<string>>((evt) => {
+            nameSpace = evt.newValue;
+            // 更新当前选择路径的命名空间
+            if (selectIndex >= 0 && selectIndex < csOutPaths.Count)
+            {
+                csOutPaths[selectIndex].NameSpace = nameSpace;
+                SaveCsOutPath();
+            }
+        });
+        // 初始化时显示已保存的命名空间
+        if (selectIndex >= 0 && selectIndex < csOutPaths.Count)
         {
-            normalNamesapce.value = csOutPaths[selectIndex].nameSpace;
-        }
-        OnSelectIndexChange += (index) =>
-        {
-            nameSpace = csOutPaths[index].nameSpace;
+            nameSpace = csOutPaths[selectIndex].NameSpace;
             normalNamesapce.value = nameSpace;
+        }
+        onSelectIndexChange += (index) =>
+        {
+            if (index >= 0 && index < csOutPaths.Count)
+            {
+                nameSpace = csOutPaths[index].NameSpace;
+                normalNamesapce.value = nameSpace;
+            }
         };
 
         //var createBar = new VisualElement();
@@ -327,14 +335,7 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         createBtn.style.position = Position.Absolute;
         var pbBar = CreateDirectoryBar("PB保存路径", protoSavaPath, true, false, (newPath) =>
         {
-            if (!IsValidPath(newPath))
-            {
-                Error = "不能包含中文路径";
-            }
-            else
-            {
-                Error = null;
-            }
+            Error = !IsValidPath(newPath) ? "不能包含中文路径" : null;
             EditorPrefs.SetString("ProtoKitSavePath", newPath);
             allFiles.Clear();
             InitData();
@@ -342,7 +343,7 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         });
         pbBar.SetEnabled(false);
 
-        var directoryBar = VisualElementExtension.UIElementsUtils.CreateListContainer("CS保存路径", csOutPaths, CreateDirectoryBar, BindDirectoryBar, SaveCSOutPath);
+        var directoryBar = VisualElementExtension.UIElementsUtils.CreateListContainer("CS保存路径", csOutPaths, CreateDirectoryBar, BindDirectoryBar, SaveCsOutPath);
         horizontal.Add(selectFirstLay);
         horizontal.Add(selectAll);
         horizontal.Add(normal);
@@ -419,7 +420,8 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         icon.style.height = 16;
         icon.style.maxWidth = 20;
         icon.style.backgroundImage = EditorGUIUtility.FindTexture("Folder Icon");
-        icon.style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
+        //icon.style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
+        icon.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Contain);
         icon.clicked += () =>
         {
             var tPath = EditorUtility.OpenFolderPanel("选择目录", Application.dataPath, "");
@@ -442,22 +444,18 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         return body;
     }
 
-    void SaveCSOutPath()
+    void SaveCsOutPath()
     {
         for (int i = 0; i < csOutPaths.Count; i++)
         {
             EditorPrefs.SetString(CsOutPathKey + i, csOutPaths[i].Path);
+            // 保存对应的命名空间
+            EditorPrefs.SetString(NamespaceKey + i, csOutPaths[i].NameSpace);
         }
         EditorPrefs.SetInt(CsOutPathKey, csOutPaths.Count);
-
-        // if(newPath != csOutPaths[index].path)
-        // {
-        //     csOutPaths[index].path = newPath;
-        //     EditorPrefs.SetString(CsOutPathKey + index, newPath);
-        //     EditorPrefs.SetInt(CsOutPathKey, csOutPaths.Count);
-        // }
-
-
+        
+        // 保存当前全局命名空间
+        EditorPrefs.SetString(NamespaceKey + "_current", nameSpace);
     }
     VisualElement CreateDirectoryBar()
     {
@@ -473,7 +471,8 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         icon.style.height = 16;
         icon.style.maxWidth = 20;
         icon.style.backgroundImage = EditorGUIUtility.FindTexture("Folder Icon");
-        icon.style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
+        //icon.style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
+        icon.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Contain);
 
         var toggle = new Toggle();
 
@@ -496,7 +495,7 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         path.RegisterCallback<BlurEvent>((evt) =>
         {
             csOutPaths[index].Path = path.value;
-            SaveCSOutPath();
+            SaveCsOutPath();
         });
 
         var icon = element.Query<Button>().First();
@@ -505,21 +504,14 @@ public class ProtobufCreator : VisualElementExtension.TreeView
             var tPath = EditorUtility.OpenFolderPanel("选择目录", Application.dataPath, "");
             if (!string.IsNullOrEmpty(tPath))
             {
-                if(tPath.StartsWith(Application.dataPath))
-                {
-                    path.value = tPath.Remove(0, Application.dataPath.Length);
-                }
-                else
-                {
-                    path.value = tPath;
-                }
+                path.value = tPath.StartsWith(Application.dataPath) ? tPath.Remove(0, Application.dataPath.Length) : tPath;
                 csOutPaths[index].Path = path.value;
-                SaveCSOutPath();
+                SaveCsOutPath();
             }
         };
 
         var toggle = element.Query<Toggle>().First();
-        OnSelectorClicked += (x) =>
+        onSelectorClicked += (x) =>
         {
             toggle.value = index == x;
             if (toggle.value)
@@ -535,7 +527,7 @@ public class ProtobufCreator : VisualElementExtension.TreeView
             }
             if (evt.newValue)
             {
-                OnSelectorClicked(index);
+                onSelectorClicked(index);
             }
         });
         if (csOutPaths.Count == 1 || selectIndex > csOutPaths.Count || SelectIndex == -1)
@@ -658,13 +650,13 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         p.Start();
 
         var tempPath = System.Environment.CurrentDirectory + "~";
-        var TextPath2 = $"{tempPath}{pb}";
+        var textPath2 = $"{tempPath}{pb}";
         var fullFilePath = csOutPaths[SelectIndex].Path;
         if(fullFilePath.StartsWith("\\") || fullFilePath.StartsWith("/"))
         {
             fullFilePath = Application.dataPath + fullFilePath;
         }
-        p.StandardInput.WriteLine($"\"{exe}\" \"{TextPath2}\" --csharp_out=\"{fullFilePath}\" --proto_path=\"{TextPath2.Substring(0, TextPath2.LastIndexOf('/'))}\"&exit");
+        p.StandardInput.WriteLine($"\"{exe}\" \"{textPath2}\" --csharp_out=\"{fullFilePath}\" --proto_path=\"{textPath2.Substring(0, textPath2.LastIndexOf('/'))}\"&exit");
         p.StandardInput.AutoFlush = true;
 
         p.WaitForExit();
@@ -707,3 +699,4 @@ public class ProtobufCreator : VisualElementExtension.TreeView
         p.Close();
     }
 }
+

@@ -167,12 +167,16 @@ namespace VisualElementExtension
             container.selectionType = SelectionType.Single;
 
             // Callback invoked when the user double clicks an item
-            container.onItemsChosen -= OnDoubleClick;
-            container.onItemsChosen += OnDoubleClick;
+            // container.onItemsChosen -= OnDoubleClick;
+            //container.onItemsChosen += OnDoubleClick;
+            container.itemsChosen -= OnDoubleClick;
+            container.itemsChosen += OnDoubleClick;
 
             // Callback invoked when the user changes the selection inside the ListView
-            container.onSelectionChange -= OnSelected;
-            container.onSelectionChange += OnSelected;
+            // container.onSelectionChange -= OnSelected;
+            // container.onSelectionChange += OnSelected;
+            container.selectionChanged -= OnSelected;
+            container.selectionChanged += OnSelected;
         }
 
         protected void Refresh()
