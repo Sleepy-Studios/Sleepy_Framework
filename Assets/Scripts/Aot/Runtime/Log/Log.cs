@@ -62,10 +62,10 @@ namespace Aot.Runtime.Log
             // 设置日志文件保存路径
 #if UNITY_ANDROID
             /// 安卓平台：使用 Application.persistentDataPath
-            string logDirectory = Path.Combine(Application.persistentDataPath, "Log");
+            string logDirectory = Path.Combine(Application.persistentDataPath, "GameLogs");
 #else
             // PC端及其他平台：使用 Application.dataPath 上层目录
-            string logDirectory = Path.Combine(Application.dataPath, "../Log");
+            string logDirectory = Path.Combine(Application.dataPath, "../GameLogs");
 #endif
             if (!Directory.Exists(logDirectory))
             {
