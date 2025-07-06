@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditorInternal;
@@ -13,7 +13,7 @@ namespace Core.Editor.RectTransformEditorWindow
     public class RectTransformEditorWindow : UnityEditor.Editor
     {
         #region 字段定义区域
-        private UnityEditor.Editor mTarget; // 新增
+        private UnityEditor.Editor mTarget;
         private RectTransform targetTransform;
         private Transform realRoot;
         private bool floatIncludeChildren;
@@ -24,23 +24,10 @@ namespace Core.Editor.RectTransformEditorWindow
         #region Unity 生命周期方法
         private void OnEnable()
         {
-            // 反射创建RectTransformEditor
-            var rectType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.RectTransformEditor");
-            if (rectType != null)
-            {
-                try
-                {
-                    mTarget = CreateEditor(target, rectType);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogWarning($"RectTransformEditor反射创建失败: {e.Message}");
-                    mTarget = null;
-                }
-            }
+            mTarget = UnityEditor.Editor.CreateEditor(target, Assembly.GetAssembly(typeof(UnityEditor.Editor)).GetType("UnityEditor.RectTransformEditor", true));
             targetTransform = target as RectTransform;
             beautifyPrefabRoot = false;
-            if (targetTransform != null && targetTransform.root != null)
+            if (targetTransform.root != null)
             {
                 if (!targetTransform.root.name.Contains("Canvas ("))
                 {
@@ -74,10 +61,7 @@ namespace Core.Editor.RectTransformEditorWindow
         #region Inspector面板绘制
         public override void OnInspectorGUI()
         {
-            if (mTarget != null)
-            {
-                mTarget.OnInspectorGUI();
-            }
+            mTarget.OnInspectorGUI();
             GUI.color = Color.green;
             if (!beautifyPrefabRoot) return;
 

@@ -13,6 +13,9 @@ using SimpleJSON;
 
 namespace cfg
 {
+/// <summary>
+/// 奖励类型2
+/// </summary>
 public sealed partial class Award2 : Luban.BeanBase
 {
     public Award2(JSONNode _buf) 
