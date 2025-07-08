@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HotUpdate;
+using cfg;
 using UnityEngine;
 using YooAsset;
 
@@ -35,6 +35,11 @@ namespace HotUpdate
             }
             tables = new cfg.Tables(file => SimpleJSON.JSON.Parse(fileDict[file]));
         }
+    }
+
+    public static class ConfigExtension
+    {
+        public static Tables Tables => GlobalLubanConfig.Tables;
     }
 
  
