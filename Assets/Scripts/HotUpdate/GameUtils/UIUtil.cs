@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using cfg.Loading;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -481,6 +482,12 @@ namespace HotUpdate
                 trigger.triggers.Add(entry);
             }
         }
+
+        #endregion
+
+        #region Loading加载
+
+        public static LoadingType LoadingType = LoadingType.Default;
 
         #endregion
     }

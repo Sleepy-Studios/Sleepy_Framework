@@ -12,15 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: BebasNeue_EN
   m_EditorClassIdentifier: 
-  hashCode: 2002828216
-  material: {fileID: 1658018695939584439}
-  materialHashCode: -1462184296
   m_Version: 1.1.0
-  m_SourceFontFileGUID: 451b6a490156f3b448416e4af3405bed
-  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 451b6a490156f3b448416e4af3405bed,
-    type: 3}
-  m_SourceFontFile: {fileID: 0}
-  m_AtlasPopulationMode: 0
   m_FaceInfo:
     m_FaceIndex: 0
     m_FamilyName: Bebas Neue Pro
@@ -43,6 +35,31 @@ MonoBehaviour:
     m_StrikethroughOffset: 10.8
     m_StrikethroughThickness: 4
     m_TabWidth: 14
+  m_Material: {fileID: 1658018695939584439}
+  m_SourceFontFileGUID: 451b6a490156f3b448416e4af3405bed
+  m_CreationSettings:
+    sourceFontFileName: 
+    sourceFontFileGUID: 451b6a490156f3b448416e4af3405bed
+    faceIndex: 0
+    pointSizeSamplingMode: 0
+    pointSize: 50
+    padding: 6
+    paddingMode: 0
+    packingMode: 4
+    atlasWidth: 1024
+    atlasHeight: 1024
+    characterSetSelectionMode: 6
+    characterSequence: 20-7E,A0-17E,192,1FC-1FF,218-21B,237,2BC,2C6-2C7,2C9,2D8-2DD,300-304,306-308,30A-30C,312,326-328,335-338,394,3A9,3BC,3C0,401,404,406-407,410-44F,451,454,456-457,490-491,1E02-1E03,1E0A-1E0B,1E1E-1E1F,1E40-1E41,1E56-1E57,1E60-1E61,1E6A-1E6B,1E80-1E85,1E9E,1EF2-1EF3,2002-2003,2007-2008,200B,2012-2014,2018-201A,201C-201E,2020-2022,2026,2030,2039-203A,2044,2070,2074-2079,2080-2089,20AC,20B9,20BD,20BF,2113,2116-2117,2120,2122,2126,212E,2153-2154,215B-215E,2202,2205-2206,220F,2211-2212,2215,2219-221A,221E,222B,2248,2260,2264-2265,25CA,E0FF,EFFD,F000,F8FF,FB01-FB02
+    referencedFontAssetGUID: 22d5e8bfe6960214b9d453248e500e29
+    referencedTextAssetGUID: 387806703ffe9814d8073cdb0bfa074b
+    fontStyle: 0
+    fontStyleModifier: 0
+    renderMode: 4165
+    includeFontFeatures: 0
+  m_SourceFontFile: {fileID: 0}
+  m_SourceFontFilePath: 
+  m_AtlasPopulationMode: 0
+  InternalDynamicOS: 0
   m_GlyphTable:
   - m_Index: 1
     m_Metrics:
@@ -10233,7 +10250,12 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 1f3b0e9d2ef8c864b961ffc9b8eb5cc8, type: 3}
   m_AtlasTextureIndex: 0
   m_IsMultiAtlasTexturesEnabled: 0
+  m_GetFontFeatures: 1
   m_ClearDynamicDataOnBuild: 0
+  m_AtlasWidth: 1024
+  m_AtlasHeight: 1024
+  m_AtlasPadding: 6
+  m_AtlasRenderMode: 4165
   m_UsedGlyphRects:
   - m_X: 0
     m_Y: 0
@@ -13316,58 +13338,14 @@ MonoBehaviour:
     m_Y: 267
     m_Width: 30
     m_Height: 120
-  m_fontInfo:
-    Name: 
-    PointSize: 0
-    Scale: 0
-    CharacterCount: 0
-    LineHeight: 0
-    Baseline: 0
-    Ascender: 0
-    CapHeight: 0
-    Descender: 0
-    CenterLine: 0
-    SuperscriptOffset: 0
-    SubscriptOffset: 0
-    SubSize: 0
-    Underline: 0
-    UnderlineThickness: 0
-    strikethrough: 0
-    strikethroughThickness: 0
-    TabWidth: 0
-    Padding: 0
-    AtlasWidth: 0
-    AtlasHeight: 0
-  atlas: {fileID: 0}
-  m_AtlasWidth: 1024
-  m_AtlasHeight: 1024
-  m_AtlasPadding: 6
-  m_AtlasRenderMode: 4165
-  m_glyphInfoList: []
-  m_KerningTable:
-    kerningPairs: []
   m_FontFeatureTable:
+    m_MultipleSubstitutionRecords: []
+    m_LigatureSubstitutionRecords: []
     m_GlyphPairAdjustmentRecords: []
-  fallbackFontAssets: []
-  m_FallbackFontAssetTable:
-  - {fileID: 11400000, guid: 037ea6f6f16c8cf4dbd103ffef3c4f68, type: 2}
-  m_CreationSettings:
-    sourceFontFileName: 
-    sourceFontFileGUID: 451b6a490156f3b448416e4af3405bed
-    pointSizeSamplingMode: 0
-    pointSize: 50
-    padding: 6
-    packingMode: 4
-    atlasWidth: 1024
-    atlasHeight: 1024
-    characterSetSelectionMode: 6
-    characterSequence: 20-7E,A0-17E,192,1FC-1FF,218-21B,237,2BC,2C6-2C7,2C9,2D8-2DD,300-304,306-308,30A-30C,312,326-328,335-338,394,3A9,3BC,3C0,401,404,406-407,410-44F,451,454,456-457,490-491,1E02-1E03,1E0A-1E0B,1E1E-1E1F,1E40-1E41,1E56-1E57,1E60-1E61,1E6A-1E6B,1E80-1E85,1E9E,1EF2-1EF3,2002-2003,2007-2008,200B,2012-2014,2018-201A,201C-201E,2020-2022,2026,2030,2039-203A,2044,2070,2074-2079,2080-2089,20AC,20B9,20BD,20BF,2113,2116-2117,2120,2122,2126,212E,2153-2154,215B-215E,2202,2205-2206,220F,2211-2212,2215,2219-221A,221E,222B,2248,2260,2264-2265,25CA,E0FF,EFFD,F000,F8FF,FB01-FB02
-    referencedFontAssetGUID: 22d5e8bfe6960214b9d453248e500e29
-    referencedTextAssetGUID: 387806703ffe9814d8073cdb0bfa074b
-    fontStyle: 0
-    fontStyleModifier: 0
-    renderMode: 4165
-    includeFontFeatures: 0
+    m_MarkToBaseAdjustmentRecords: []
+    m_MarkToMarkAdjustmentRecords: []
+  m_ShouldReimportFontFeatures: 0
+  m_FallbackFontAssetTable: []
   m_FontWeightTable:
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
@@ -13396,6 +13374,33 @@ MonoBehaviour:
   boldSpacing: 0
   italicStyle: 35
   tabSize: 10
+  m_fontInfo:
+    Name: 
+    PointSize: 0
+    Scale: 0
+    CharacterCount: 0
+    LineHeight: 0
+    Baseline: 0
+    Ascender: 0
+    CapHeight: 0
+    Descender: 0
+    CenterLine: 0
+    SuperscriptOffset: 0
+    SubscriptOffset: 0
+    SubSize: 0
+    Underline: 0
+    UnderlineThickness: 0
+    strikethrough: 0
+    strikethroughThickness: 0
+    TabWidth: 0
+    Padding: 0
+    AtlasWidth: 0
+    AtlasHeight: 0
+  m_glyphInfoList: []
+  m_KerningTable:
+    kerningPairs: []
+  fallbackFontAssets: []
+  atlas: {fileID: 0}
 --- !u!21 &1658018695939584439
 Material:
   serializedVersion: 8
@@ -13405,6 +13410,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: BebasNeue_EN Material
   m_Shader: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -13413,6 +13420,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -13501,3 +13509,4 @@ Material:
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

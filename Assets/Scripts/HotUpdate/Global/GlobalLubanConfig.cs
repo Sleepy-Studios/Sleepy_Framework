@@ -35,6 +35,7 @@ namespace HotUpdate
             }
             tables = new cfg.Tables(file => SimpleJSON.JSON.Parse(fileDict[file]));
         }
-    }    
-}
+    }
 
+ 
+}

@@ -16,11 +16,13 @@ public partial class Tables
 {
     public Fight.TbRank TbRank {get; }
     public Fight.TbTest1 TbTest1 {get; }
+    public Loading.TbNewLoadingRule TbNewLoadingRule {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
         TbRank = new Fight.TbRank(loader("fight_tbrank"));
         TbTest1 = new Fight.TbTest1(loader("fight_tbtest1"));
+        TbNewLoadingRule = new Loading.TbNewLoadingRule(loader("loading_tbnewloadingrule"));
         ResolveRef();
     }
     
@@ -28,6 +30,7 @@ public partial class Tables
     {
         TbRank.ResolveRef(this);
         TbTest1.ResolveRef(this);
+        TbNewLoadingRule.ResolveRef(this);
     }
 }
 

@@ -1,0 +1,387 @@
+[
+  {
+    "Id": 1,
+    "Type": 0,
+    "Title": "水族馆",
+    "SubTitle": "收集珍稀大鱼与装饰品，打造专属水族馆",
+    "TipDesc": "可环游全球各地钓场钓大鱼，在秘境探险中寻得珍稀装饰品",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_aquarium"
+    ]
+  },
+  {
+    "Id": 2,
+    "Type": 0,
+    "Title": "竞技",
+    "SubTitle": "与世界各地的钓友竞技，赢得至高荣耀",
+    "TipDesc": "根据不同胜负规则，合理选择钓具和鱼饵，能提高获胜概率",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_match"
+    ]
+  },
+  {
+    "Id": 3,
+    "Type": 0,
+    "Title": "冰钓",
+    "SubTitle": "拿上冰钓装备甩一竿，感受别样钓鱼体验",
+    "TipDesc": "大鱼一般躲在下层水域，避开上面的鱼更容易钓中大鱼",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_ice"
+    ]
+  },
+  {
+    "Id": 4,
+    "Type": 0,
+    "Title": "默认loading",
+    "SubTitle": "默认4",
+    "TipDesc": "默认4",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_02"
+    ]
+  },
+  {
+    "Id": 5,
+    "Type": 1,
+    "Title": "水族馆",
+    "SubTitle": "收集珍稀大鱼与装饰品，打造专属水族馆",
+    "TipDesc": "可环游全球各地钓场钓大鱼，在秘境探险中寻得珍稀装饰品",
+    "IsOpen": 1,
+    "OpenLevel": 5,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_aquarium"
+    ]
+  },
+  {
+    "Id": 6,
+    "Type": 2,
+    "Title": "竞技",
+    "SubTitle": "与世界各地的钓友竞技，赢得至高荣耀",
+    "TipDesc": "根据不同胜负规则，合理选择钓具和鱼饵，能提高获胜概率",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_match"
+    ]
+  },
+  {
+    "Id": 7,
+    "Type": 3,
+    "Title": "冰钓",
+    "SubTitle": "拿上冰钓装备甩一竿，感受别样钓鱼体验",
+    "TipDesc": "大鱼一般躲在下层水域，避开上面的鱼更容易钓中大鱼",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_ice"
+    ]
+  },
+  {
+    "Id": 8,
+    "Type": 4,
+    "Title": "路亚钓",
+    "SubTitle": "在复杂环境中操控拟饵吸引巨物咬钩",
+    "TipDesc": "合理的操作可以使鱼更快咬钩",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_02"
+    ]
+  },
+  {
+    "Id": 9,
+    "Type": 5,
+    "Title": "巨物钓",
+    "SubTitle": "拿起巨物竿，与深海巨物来一场酣畅搏斗",
+    "TipDesc": "对付巨物需要保持耐心，用合适的渔具能够事半功倍",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_giant"
+    ]
+  },
+  {
+    "Id": 10,
+    "Type": 6,
+    "Title": "潜水渔猎",
+    "SubTitle": "大鱼逃跑了？快潜入水中追捕它吧",
+    "TipDesc": "潜水时记得时刻注意剩余氧气",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_02"
+    ]
+  },
+  {
+    "Id": 11,
+    "Type": 7,
+    "Title": "切换账号",
+    "SubTitle": "正在切换账号",
+    "TipDesc": "......",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_02"
+    ]
+  },
+  {
+    "Id": 12,
+    "Type": 8,
+    "Title": "退出场景",
+    "SubTitle": "正在返回主页面",
+    "TipDesc": "......",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_02"
+    ]
+  },
+  {
+    "Id": 13,
+    "Type": 50,
+    "Title": "新手第1个loading图",
+    "SubTitle": "暂无",
+    "TipDesc": "暂无",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_newbie_01"
+    ]
+  },
+  {
+    "Id": 14,
+    "Type": 51,
+    "Title": "新手第2个loading图",
+    "SubTitle": "暂无",
+    "TipDesc": "暂无",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_newbie_02"
+    ]
+  },
+  {
+    "Id": 15,
+    "Type": 52,
+    "Title": "新手第3个loading图",
+    "SubTitle": "暂无",
+    "TipDesc": "暂无",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_newbie_03"
+    ]
+  },
+  {
+    "Id": 16,
+    "Type": 8,
+    "Title": "其他权重占位",
+    "SubTitle": "",
+    "TipDesc": "",
+    "IsOpen": 0,
+    "OpenLevel": 100,
+    "WeightType": 1,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      },
+      {
+        "Condition": 2,
+        "Weight": 30
+      },
+      {
+        "Condition": 5,
+        "Weight": 20
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "图一",
+      "图二",
+      "图二"
+    ]
+  },
+  {
+    "Id": 17,
+    "Type": 8,
+    "Title": "其他权重占位",
+    "SubTitle": "",
+    "TipDesc": "",
+    "IsOpen": 0,
+    "OpenLevel": 100,
+    "WeightType": 2,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      },
+      {
+        "Condition": 2,
+        "Weight": 30
+      },
+      {
+        "Condition": 5,
+        "Weight": 20
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "图一",
+      "图二"
+    ]
+  },
+  {
+    "Id": 18,
+    "Type": 99,
+    "Title": "全局loading",
+    "SubTitle": "全局loading",
+    "TipDesc": "全局loading",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "ImagePaths": [
+      "loading_02"
+    ]
+  }
+]
