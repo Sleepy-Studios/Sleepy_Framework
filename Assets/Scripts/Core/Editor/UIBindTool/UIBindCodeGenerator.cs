@@ -369,7 +369,6 @@ namespace Core.Editor
                     sb.AppendLine();
                     sb.AppendLine($"        private void {methodName}()");
                     sb.AppendLine("        {");
-                    sb.AppendLine("            // TODO: 实现按钮点击逻辑");
                     sb.AppendLine("        }");
                 }
                 
@@ -430,7 +429,6 @@ namespace Core.Editor
                         methodsBuilder.AppendLine();
                         methodsBuilder.AppendLine($"        private void {methodName}()");
                         methodsBuilder.AppendLine("        {");
-                        methodsBuilder.AppendLine("            // TODO: 实现按钮点击逻辑");
                         methodsBuilder.AppendLine("        }");
                     }
                     

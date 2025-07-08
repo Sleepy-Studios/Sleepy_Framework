@@ -14,18 +14,6 @@ namespace Core.Editor
     {
         #region 窗口变量与数据结构
 
-        /// <summary>
-        /// 标签页类型枚举
-        /// </summary>
-        private enum TabType
-        {
-            BindTool, // 绑定工具页签
-            Manager   // 管理页签
-        }
-
-        // 当前激活的标签页
-        private TabType currentTab = TabType.BindTool;
-        
         // 搜索相关
         private string searchString = "";
 
@@ -82,7 +70,6 @@ namespace Core.Editor
             if (prefabChanged)
             {
                 // 自动切换到绑定工具页签
-                currentTab = TabType.BindTool;
                 Repaint();
             }
         }
@@ -98,23 +85,72 @@ namespace Core.Editor
         {
             DrawToolbar();
 
-            // 绘制标签页
             EditorGUILayout.Space();
-            DrawTabs();
 
-            // 分隔线
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            // 计算可用高度
+            float totalHeight = position.height - 40; // 减去工具栏和边距的高度
+            float bindToolHeight = totalHeight * 0.3f; // 绑定工具区域占630%
+            float managerHeight = totalHeight * 0.7f;  // 管理区域占70%
 
-            // 根据当前标签页绘制相应内容
-            switch (currentTab)
+            // 绑定工具区域
+            EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("组件绑定", EditorStyles.boldLabel);
+            GUILayout.FlexibleSpace();
+            
+            // 生成绑定代码按钮
+            if (GUILayout.Button("生成绑定代码", EditorStyles.miniButton, GUILayout.Width(100)))
             {
-                case TabType.BindTool:
-                    DrawBindToolTab();
-                    break;
-                case TabType.Manager:
-                    DrawManagerTab();
-                    break;
+                UIBindUtility.GenerateBindingCode();
             }
+
+            // 清除所有选择按钮
+            if (GUILayout.Button("清除所有选择", EditorStyles.miniButton, GUILayout.Width(100)))
+            {
+                UIBindManager.ClearAllSelections();
+                EditorApplication.RepaintHierarchyWindow();
+            }
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            
+            bindToolScrollPosition = EditorGUILayout.BeginScrollView(bindToolScrollPosition, 
+                GUILayout.Height(bindToolHeight));
+            DrawBindToolContent();
+            EditorGUILayout.EndScrollView();
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.Space(5);
+
+            // UI管理区域
+            EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("UI 管理", EditorStyles.boldLabel);
+            GUILayout.FlexibleSpace();
+            
+            // 搜索框
+            GUI.SetNextControlName("SearchField");
+            string newSearch = EditorGUILayout.TextField(searchString, EditorStyles.toolbarSearchField,
+                GUILayout.Width(200));
+            if (newSearch != searchString)
+            {
+                searchString = newSearch;
+            }
+
+            if (GUILayout.Button("清除", EditorStyles.miniButton, GUILayout.Width(50)))
+            {
+                searchString = "";
+                GUI.FocusControl(null);
+            }
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            
+            managerScrollPosition = EditorGUILayout.BeginScrollView(managerScrollPosition, 
+                GUILayout.Height(managerHeight));
+            DrawManagerContent();
+            EditorGUILayout.EndScrollView();
+            EditorGUILayout.EndVertical();
         }
 
         /// <summary>
@@ -129,57 +165,12 @@ namespace Core.Editor
 
             GUILayout.FlexibleSpace();
 
-            // 根据当前标签页显示不同工具栏选项
-            if (currentTab == TabType.Manager)
-            {
-                // 搜索框
-                GUI.SetNextControlName("SearchField");
-                string newSearch = EditorGUILayout.TextField(searchString, EditorStyles.toolbarSearchField,
-                    GUILayout.Width(200));
-                if (newSearch != searchString)
-                {
-                    searchString = newSearch;
-                }
-
-                if (GUILayout.Button("清除", EditorStyles.toolbarButton, GUILayout.Width(50)))
-                {
-                    searchString = "";
-                    GUI.FocusControl(null);
-                }
-            }
-
             // 刷新按钮
             if (GUILayout.Button("刷新", EditorStyles.toolbarButton, GUILayout.Width(50)))
             {
-                if (currentTab == TabType.Manager)
-                    UIBindUtility.ScanUIViews();
-                else
-                    UIBindUtility.CheckCurrentPrefab();
+                UIBindUtility.ScanUIViews();
+                UIBindUtility.CheckCurrentPrefab();
             }
-
-            EditorGUILayout.EndHorizontal();
-        }
-
-        /// <summary>
-        /// 绘制标签页切换按钮
-        /// </summary>
-        private void DrawTabs()
-        {
-            EditorGUILayout.BeginHorizontal();
-            
-            // 创建标签页样式
-            GUIStyle tabStyle = new GUIStyle(EditorStyles.toolbarButton);
-            tabStyle.fontSize = 12;
-            tabStyle.fontStyle = FontStyle.Bold;
-            tabStyle.fixedHeight = 30;
-
-            // 组件绑定标签
-            if (GUILayout.Toggle(currentTab == TabType.BindTool, "组件绑定", tabStyle))
-                currentTab = TabType.BindTool;
-
-            // UI管理标签
-            if (GUILayout.Toggle(currentTab == TabType.Manager, "UI 管理", tabStyle))
-                currentTab = TabType.Manager;
 
             EditorGUILayout.EndHorizontal();
         }
@@ -189,9 +180,9 @@ namespace Core.Editor
         #region 绑定工具标签页
 
         /// <summary>
-        /// 绘制绑定工具标签页内容
+        /// 绘制绑定工具内容
         /// </summary>
-        private void DrawBindToolTab()
+        private void DrawBindToolContent()
         {
             // 如果没有选择预制体，显示选择预制体的界面
             if (UIBindData.CurrentPrefab == null)
@@ -223,9 +214,6 @@ namespace Core.Editor
                 return;
             }
 
-            // 开始滚动视图
-            bindToolScrollPosition = EditorGUILayout.BeginScrollView(bindToolScrollPosition);
-
             // 绘制预制体信息区域
             DrawPrefabInfo();
             
@@ -234,11 +222,6 @@ namespace Core.Editor
             
             // 绘制已选组件列表
             DrawSelectedComponents();
-            
-            // 绘制操作按钮区域
-            DrawBindToolButtons();
-
-            EditorGUILayout.EndScrollView();
         }
 
         /// <summary>
@@ -325,40 +308,18 @@ namespace Core.Editor
                 }
             }
 
-            EditorGUILayout.EndVertical();
-        }
-
-        /// <summary>
-        /// 绘制操作按钮区域
-        /// </summary>
-        private void DrawBindToolButtons()
-        {
-            EditorGUILayout.BeginVertical();
-
-            // 生成绑定代码按钮
-            if (GUILayout.Button("生成绑定代码", GUILayout.Height(30)))
-            {
-                UIBindUtility.GenerateBindingCode();
-            }
-
-            // 清除所有选择按钮
-            if (GUILayout.Button("清除所有选择", GUILayout.Height(30)))
-            {
-                UIBindManager.ClearAllSelections();
-                EditorApplication.RepaintHierarchyWindow();
-            }
 
             EditorGUILayout.EndVertical();
         }
 
         #endregion
 
-        #region UI管理标签页
+        #region UI管理内容
 
         /// <summary>
-        /// 绘制UI管理标签页内容
+        /// 绘制UI管理内容
         /// </summary>
-        private void DrawManagerTab()
+        private void DrawManagerContent()
         {
             // 顶部控制区域
             EditorGUILayout.BeginHorizontal();
@@ -398,9 +359,6 @@ namespace Core.Editor
             }
 
             EditorGUILayout.EndHorizontal();
-
-            // 开始滚动视图
-            managerScrollPosition = EditorGUILayout.BeginScrollView(managerScrollPosition);
 
             // 过滤搜索结果和自动生成的UI
             var filteredModules = UIBindData.UIModules
@@ -576,8 +534,6 @@ namespace Core.Editor
 
                 EditorGUILayout.EndVertical();
             }
-
-            EditorGUILayout.EndScrollView();
         }
 
         #endregion

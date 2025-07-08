@@ -121,6 +121,9 @@ MonoBehaviour:
   - Key: CanvasRenderer_image
     Type: UnityEngine.CanvasRenderer
     Value: {fileID: 2888431216680654417}
+  - Key: RectTransform_testBtn
+    Type: UnityEngine.RectTransform
+    Value: {fileID: 895578519948939688}
   - Key: Button_testBtn
     Type: UnityEngine.UI.Button
     Value: {fileID: 2470104369564284911}

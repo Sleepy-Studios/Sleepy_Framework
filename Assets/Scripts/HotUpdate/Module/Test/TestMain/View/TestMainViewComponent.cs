@@ -16,6 +16,7 @@ namespace HotUpdate
         ComponentItemKey _componentItemKey;
 
         private UnityEngine.CanvasRenderer _CanvasRenderer_image;
+        private UnityEngine.RectTransform _RectTransform_testBtn;
         private UnityEngine.UI.Button _Button_testBtn;
 
         protected ComponentItemKey componentItemKey
@@ -35,6 +36,16 @@ namespace HotUpdate
                 if(_CanvasRenderer_image == null)
                     _CanvasRenderer_image = componentItemKey.GetObject<UnityEngine.CanvasRenderer>("CanvasRenderer_image");
                 return _CanvasRenderer_image;
+            }
+        }
+
+        public UnityEngine.RectTransform RectTransform_testBtn
+        {
+            get
+            {
+                if(_RectTransform_testBtn == null)
+                    _RectTransform_testBtn = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_testBtn");
+                return _RectTransform_testBtn;
             }
         }
 
@@ -69,6 +80,7 @@ namespace HotUpdate
             UnbindButtonEvents();
 
             _CanvasRenderer_image = null;
+            _RectTransform_testBtn = null;
             _Button_testBtn = null;
             _componentItemKey = null;
         }
