@@ -5,16 +5,18 @@
 //------------------------------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.UI;
 using Core.Runtime;
 
 namespace HotUpdate
 {
-    [SourceAttribute("Assets/GameRes/Prefabs/TestMain")]
+    [SourceAttribute("Assets/GameRes/Prefabs/UI/TestMain")]
     public partial class TestMainView
     {
         ComponentItemKey _componentItemKey;
 
         private UnityEngine.CanvasRenderer _CanvasRenderer_image;
+        private UnityEngine.UI.Button _Button_testBtn;
 
         protected ComponentItemKey componentItemKey
         {
@@ -36,9 +38,38 @@ namespace HotUpdate
             }
         }
 
+        public UnityEngine.UI.Button Button_testBtn
+        {
+            get
+            {
+                if(_Button_testBtn == null)
+                    _Button_testBtn = componentItemKey.GetObject<UnityEngine.UI.Button>("Button_testBtn");
+                return _Button_testBtn;
+            }
+        }
+
+        /// <summary>
+        /// 绑定按钮点击事件
+        /// </summary>
+        protected virtual void BindButtonEvents()
+        {
+            Button_testBtn?.onClick.AddListener(OnTestBtnClick);
+        }
+
+        /// <summary>
+        /// 解绑按钮点击事件
+        /// </summary>
+        protected virtual void UnbindButtonEvents()
+        {
+            Button_testBtn?.onClick.RemoveListener(OnTestBtnClick);
+        }
+
         protected virtual void ReleaseComponent()
         {
+            UnbindButtonEvents();
+
             _CanvasRenderer_image = null;
+            _Button_testBtn = null;
             _componentItemKey = null;
         }
     }

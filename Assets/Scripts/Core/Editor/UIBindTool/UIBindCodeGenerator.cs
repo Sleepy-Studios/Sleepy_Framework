@@ -5,6 +5,8 @@ using Core.Runtime;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using System.Linq;
+using UnityEngine.UI;
 
 namespace Core.Editor
 {
@@ -28,16 +30,62 @@ namespace Core.Editor
             // 确保输出目录存在
             Directory.CreateDirectory(fullOutputPath);
 
-            // 生成ViewComponent文件
-            GenerateViewComponentFile(prefab, namespaceName, viewName, fullOutputPath, selectedComponents);
+            // 获取按钮点击方法配置
+            var buttonClickMethods = GetButtonClickMethodsFromSelectedComponents(selectedComponents);
 
-            // 生成View文件（如果不存在）
-            GenerateViewFile(namespaceName, moduleName, viewName, fullOutputPath);
+            // 生成ViewComponent文件
+            GenerateViewComponentFile(prefab, namespaceName, viewName, fullOutputPath, selectedComponents, buttonClickMethods);
+
+            // 生成或更新View文件
+            GenerateOrUpdateViewFile(namespaceName, moduleName, viewName, fullOutputPath, buttonClickMethods);
 
             AssetDatabase.Refresh();
         }
 
-        private static void GenerateViewComponentFile(GameObject prefab, string namespaceName, string viewName, string outputPath, Dictionary<GameObject, List<Component>> selectedComponents)
+        /// <summary>
+        /// 从选中的组件中获取按钮点击方法配置
+        /// </summary>
+        private static Dictionary<GameObject, string> GetButtonClickMethodsFromSelectedComponents(Dictionary<GameObject, List<Component>> selectedComponents)
+        {
+            var buttonClickMethods = new Dictionary<GameObject, string>();
+            var hierarchyButtonMethods = HierarchyExtension.GetButtonClickMethodNames();
+
+            foreach (var entry in selectedComponents)
+            {
+                GameObject go = entry.Key;
+                List<Component> components = entry.Value;
+
+                // 检查是否包含Button组件
+                bool hasButton = components.Any(comp => comp is Button);
+                if (hasButton)
+                {
+                    int goID = go.GetInstanceID();
+                    // 只有当前激活了按钮点击方法生成才添加
+                    if (HierarchyExtension.IsButtonClickEnabledForGameObject(goID))
+                    {
+                        // 重新生成方法名，确保使用最新的GameObject名称
+                        string methodName = GenerateButtonClickMethodName(go);
+                        buttonClickMethods[go] = methodName;
+                        
+                        // 同步更新HierarchyExtension中的方法名缓存
+                        HierarchyExtension.UpdateButtonClickMethodName(goID, methodName);
+                    }
+                }
+            }
+
+            return buttonClickMethods;
+        }
+
+        /// <summary>
+        /// 生成按钮点击方法名（与HierarchyExtension保持一致）
+        /// </summary>
+        private static string GenerateButtonClickMethodName(GameObject go)
+        {
+            string objectName = go.name;
+            return $"On{objectName}Click";
+        }
+
+        private static void GenerateViewComponentFile(GameObject prefab, string namespaceName, string viewName, string outputPath, Dictionary<GameObject, List<Component>> selectedComponents, Dictionary<GameObject, string> buttonClickMethods)
         {
             string filePath = Path.Combine(outputPath, viewName + "Component.cs");
 
@@ -57,6 +105,8 @@ namespace Core.Editor
             // 添加必要命名空间引用
             if (usings.Add("UnityEngine"))
                 sb.AppendLine("using UnityEngine;");
+            if (buttonClickMethods.Count > 0 && usings.Add("UnityEngine.UI"))
+                sb.AppendLine("using UnityEngine.UI;");
             var sourceAttrType = typeof(SourceAttribute);
             if (!string.IsNullOrEmpty(sourceAttrType.Namespace) && usings.Add(sourceAttrType.Namespace))
                 sb.AppendLine($"using {sourceAttrType.Namespace};");
@@ -102,6 +152,9 @@ namespace Core.Editor
 
             // 添加组件属性访问器
             GenerateComponentProperties(sb, selectedComponents);
+
+            // 总是添加按钮绑定方法（即使没有按钮也生成空方法，避免编译错误）
+            GenerateButtonBindingMethod(sb, selectedComponents, buttonClickMethods);
 
             // 添加ReleaseComponent方法
             GenerateReleaseMethod(sb, selectedComponents);
@@ -169,11 +222,75 @@ namespace Core.Editor
             }
         }
 
+        /// <summary>
+        /// 生成按钮绑定方法
+        /// </summary>
+        private static void GenerateButtonBindingMethod(StringBuilder sb, Dictionary<GameObject, List<Component>> selectedComponents, Dictionary<GameObject, string> buttonClickMethods)
+        {
+            sb.AppendLine("        /// <summary>");
+            sb.AppendLine("        /// 绑定按钮点击事件");
+            sb.AppendLine("        /// </summary>");
+            sb.AppendLine("        protected virtual void BindButtonEvents()");
+            sb.AppendLine("        {");
+
+            foreach (var buttonEntry in buttonClickMethods)
+            {
+                GameObject go = buttonEntry.Key;
+                string methodName = buttonEntry.Value;
+
+                if (selectedComponents.ContainsKey(go))
+                {
+                    var buttonComponent = selectedComponents[go].FirstOrDefault(comp => comp is Button);
+                    if (buttonComponent != null)
+                    {
+                        string gameObjectName = SanitizeVariableName(go.name);
+                        string propertyName = $"Button_{gameObjectName}";
+                        
+                        sb.AppendLine($"            {propertyName}?.onClick.AddListener({methodName});");
+                    }
+                }
+            }
+
+            sb.AppendLine("        }");
+            sb.AppendLine();
+
+            sb.AppendLine("        /// <summary>");
+            sb.AppendLine("        /// 解绑按钮点击事件");
+            sb.AppendLine("        /// </summary>");
+            sb.AppendLine("        protected virtual void UnbindButtonEvents()");
+            sb.AppendLine("        {");
+
+            foreach (var buttonEntry in buttonClickMethods)
+            {
+                GameObject go = buttonEntry.Key;
+                string methodName = buttonEntry.Value;
+
+                if (selectedComponents.ContainsKey(go))
+                {
+                    var buttonComponent = selectedComponents[go].FirstOrDefault(comp => comp is Button);
+                    if (buttonComponent != null)
+                    {
+                        string gameObjectName = SanitizeVariableName(go.name);
+                        string propertyName = $"Button_{gameObjectName}";
+                        
+                        sb.AppendLine($"            {propertyName}?.onClick.RemoveListener({methodName});");
+                    }
+                }
+            }
+
+            sb.AppendLine("        }");
+            sb.AppendLine();
+        }
+
         // 生成释放组件方法
         private static void GenerateReleaseMethod(StringBuilder sb, Dictionary<GameObject, List<Component>> selectedComponents)
         {
             sb.AppendLine("        protected virtual void ReleaseComponent()");
             sb.AppendLine("        {");
+            
+            // 只有在有按钮事件时才调用解绑方法
+            sb.AppendLine("            UnbindButtonEvents();");
+            sb.AppendLine();
             
             // 添加释放组件代码
             foreach (var entry in selectedComponents)
@@ -197,17 +314,26 @@ namespace Core.Editor
             sb.AppendLine("        }");
         }
 
-        private static void GenerateViewFile(string namespaceName, string moduleName, string viewName, string outputPath)
+        private static void GenerateOrUpdateViewFile(string namespaceName, string moduleName, string viewName, string outputPath, Dictionary<GameObject, string> buttonClickMethods)
         {
             string filePath = Path.Combine(outputPath, viewName + ".cs");
 
-            // 如果文件已存在，则跳过生成
+            // 如果文件已存在，尝试更新它
             if (File.Exists(filePath))
             {
-                Debug.Log($"View文件已存在，跳过生成: {filePath}");
-                return;
+                UpdateExistingViewFile(filePath, buttonClickMethods);
             }
+            else
+            {
+                GenerateNewViewFile(namespaceName, moduleName, viewName, filePath, buttonClickMethods);
+            }
+        }
 
+        /// <summary>
+        /// 生成新的View文件
+        /// </summary>
+        private static void GenerateNewViewFile(string namespaceName, string moduleName, string viewName, string filePath, Dictionary<GameObject, string> buttonClickMethods)
+        {
             StringBuilder sb = new StringBuilder();
 
             // 添加命名空间引用
@@ -223,14 +349,106 @@ namespace Core.Editor
             sb.AppendLine("        private void Awake()");
             sb.AppendLine("        {");
             sb.AppendLine("            // 初始化组件");
+            sb.AppendLine("            BindButtonEvents();");
             sb.AppendLine("        }");
-            sb.AppendLine("        ");
+            sb.AppendLine();
+
+            sb.AppendLine("        private void OnDestroy()");
+            sb.AppendLine("        {");
+            sb.AppendLine("            ReleaseComponent();");
+            sb.AppendLine("        }");
+
+            // 添加按钮点击方法
+            if (buttonClickMethods.Count > 0)
+            {
+                sb.AppendLine();
+                sb.AppendLine("        #region Button Events");
+                
+                foreach (var methodName in buttonClickMethods.Values.Distinct())
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"        private void {methodName}()");
+                    sb.AppendLine("        {");
+                    sb.AppendLine("            // TODO: 实现按钮点击逻辑");
+                    sb.AppendLine("        }");
+                }
+                
+                sb.AppendLine();
+                sb.AppendLine("        #endregion");
+            }
+
             sb.AppendLine("    }");
             sb.AppendLine("}");
 
             // 写入文件
             File.WriteAllText(filePath, sb.ToString());
             Debug.LogWarning($"【UI绑定工具】已生成View文件: {filePath}");
+        }
+
+        /// <summary>
+        /// 更新已存在的View文件
+        /// </summary>
+        private static void UpdateExistingViewFile(string filePath, Dictionary<GameObject, string> buttonClickMethods)
+        {
+            if (buttonClickMethods.Count == 0)
+            {
+                Debug.Log($"View文件已存在且无需添加按钮方法，跳过更新: {filePath}");
+                return;
+            }
+
+            string existingContent = File.ReadAllText(filePath);
+            StringBuilder newContent = new StringBuilder(existingContent);
+            
+            List<string> methodsToAdd = new List<string>();
+            
+            // 检查哪些方法需要添加
+            foreach (var methodName in buttonClickMethods.Values.Distinct())
+            {
+                if (!existingContent.Contains($"void {methodName}()"))
+                {
+                    methodsToAdd.Add(methodName);
+                }
+            }
+
+            if (methodsToAdd.Count > 0)
+            {
+                // 在类的结束括号前添加新方法
+                int lastBraceIndex = existingContent.LastIndexOf('}');
+                if (lastBraceIndex > 0)
+                {
+                    StringBuilder methodsBuilder = new StringBuilder();
+                    
+                    // 如果没有Button Events区域，添加它
+                    if (!existingContent.Contains("#region Button Events"))
+                    {
+                        methodsBuilder.AppendLine();
+                        methodsBuilder.AppendLine("        #region Button Events");
+                    }
+                    
+                    foreach (string methodName in methodsToAdd)
+                    {
+                        methodsBuilder.AppendLine();
+                        methodsBuilder.AppendLine($"        private void {methodName}()");
+                        methodsBuilder.AppendLine("        {");
+                        methodsBuilder.AppendLine("            // TODO: 实现按钮点击逻辑");
+                        methodsBuilder.AppendLine("        }");
+                    }
+                    
+                    if (!existingContent.Contains("#endregion") || !existingContent.Contains("#region Button Events"))
+                    {
+                        methodsBuilder.AppendLine();
+                        methodsBuilder.AppendLine("        #endregion");
+                    }
+
+                    newContent.Insert(lastBraceIndex, methodsBuilder.ToString());
+                    File.WriteAllText(filePath, newContent.ToString());
+                    Debug.LogWarning($"【UI绑定工具】已更新View文件，添加了{methodsToAdd.Count}个按钮方法: {filePath}");
+                }
+            }
+            else
+            {
+                Debug.Log($"View文件已存在且所有按钮方法都已存在，无需更新: {filePath}");
+            }
         }
 
         // 将变量名转换为合法的C#变量名

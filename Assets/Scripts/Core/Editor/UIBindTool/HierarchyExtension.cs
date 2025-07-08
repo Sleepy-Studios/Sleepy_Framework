@@ -6,6 +6,7 @@ using UnityEditor.SceneManagement;
 using System.Text;
 using UnityEngine.UI;
 using System.IO;
+using System.Linq;
 using Core.Runtime;
 
 namespace Core.Editor
@@ -19,10 +20,15 @@ namespace Core.Editor
         private static GUIStyle toggleStyle;
         private static bool isInPrefabMode = false;
         private static bool isBindingMode = false;
-        
+
         // 使用实例ID作为键，以避免GameObject引用问题
         private static readonly Dictionary<int, bool> IsMixedModeEnabled = new Dictionary<int, bool>();
-        
+
+        // 按钮点击方法生成开关
+        private static readonly Dictionary<int, bool> IsButtonClickEnabled = new Dictionary<int, bool>();
+        // 按钮点击方法名称自定义
+        private static readonly Dictionary<int, string> ButtonClickMethodNames = new Dictionary<int, string>();
+
         // 缓存常用GUIContent以提高性能
         private static readonly GUIContent MixedModeContent = new GUIContent("Mixed(多选模式)");
         private static readonly GUIContent SelectAllContent = new GUIContent("全选");
@@ -34,14 +40,14 @@ namespace Core.Editor
         private static List<string> closeBtnList = new List<string>();
         private static Vector2 closeBtnPosV2 = new Vector2(25f, 25f);
         private static int prefabSizeLimit = 300; // KB
-        
+
         // 规范检查缓存
         private static Dictionary<int, long> objectSizes = new Dictionary<int, long>();
         private static Dictionary<int, string> objectPaths = new Dictionary<int, string>();
-        
+
         // 浮点数比较容差
         private const float FloatComparisonEpsilon = 0.0001f;
-        
+
         /// <summary>
         /// 类构造函数，在Unity编辑器加载时调用
         /// </summary>
@@ -51,11 +57,11 @@ namespace Core.Editor
             EditorApplication.hierarchyChanged += CheckPrefabMode;
             // 注册编辑器事件，确保在场景变更时清理缓存
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-            
+
             // 初始化UI规范检查配置
             InitUIStandardizationConfig();
         }
-        
+
         /// <summary>
         /// 初始化UI规范检查配置
         /// </summary>
@@ -64,14 +70,14 @@ namespace Core.Editor
             string savedAtlasPath = PlayerPrefs.GetString("AtlasPathBase");
             if (!string.IsNullOrEmpty(savedAtlasPath))
                 atlasPathBase = savedAtlasPath;
-                
+
             string savedCloseBtnImage = PlayerPrefs.GetString("CloseBtnName");
             if (!string.IsNullOrEmpty(savedCloseBtnImage))
                 closeBtnImage = savedCloseBtnImage;
-            
+
             closeBtnList.Clear();
             closeBtnList.AddRange(closeBtnImage.Split('|'));
-            
+
             string savedCloseBtnPos = PlayerPrefs.GetString("CloseBtnPos");
             if (!string.IsNullOrEmpty(savedCloseBtnPos))
             {
@@ -95,6 +101,8 @@ namespace Core.Editor
             if (state == PlayModeStateChange.EnteredPlayMode || state == PlayModeStateChange.EnteredEditMode)
             {
                 IsMixedModeEnabled.Clear();
+                IsButtonClickEnabled.Clear();
+                ButtonClickMethodNames.Clear();
                 objectSizes.Clear();
                 objectPaths.Clear();
             }
@@ -107,7 +115,7 @@ namespace Core.Editor
         {
             var stage = PrefabStageUtility.GetCurrentPrefabStage();
             isInPrefabMode = (stage != null);
-            
+
             // 当进入预制体编辑模式时，自动激活绑定模式
             if (isInPrefabMode && stage != null && stage.prefabContentsRoot == UIBindManager.GetCurrentPrefab())
             {
@@ -118,7 +126,7 @@ namespace Core.Editor
                 UIBindUtility.isCompileAndAdd = false;
             }
         }
-        
+
         /// <summary>
         /// 设置绑定模式状态
         /// </summary>
@@ -142,26 +150,21 @@ namespace Core.Editor
             if (!ShouldShowUI(go)) return;
             InitStyles();
             bool hasSelectedComponents = UIBindManager.IsGameObjectSelected(go);
-            List<Component> selectedComps = hasSelectedComponents ? UIBindManager.GetSelectedComponents()[go] : new List<Component>();
+            List<Component> selectedComps =
+                hasSelectedComponents ? UIBindManager.GetSelectedComponents()[go] : new List<Component>();
             bool isSelected = selectedComps.Count > 0;
             int goID = go.GetInstanceID();
             if (!IsMixedModeEnabled.ContainsKey(goID))
                 IsMixedModeEnabled[goID] = selectedComps.Count > 1;
 
-            // 动态布局参数
-            //float padding = 0f; // 选择按钮紧贴最右
             float iconWidth = 20f;
             float toggleWidth = 20f;
-            float minButtonWidth = 60f;
-            float maxButtonWidth = 120f;
-            // 固定选择按钮宽度为8个字符宽度
-            float charWidth = EditorStyles.label.CalcSize(new GUIContent("W")).x;
-            float buttonWidth = charWidth * 8f;
-            if (isSelected)
-            {
-                string labelText = selectedComps.Count == 1 ? selectedComps[0].GetType().Name : "Mixed";
-                buttonWidth = Mathf.Clamp(EditorStyles.label.CalcSize(new GUIContent(labelText)).x + 20f, minButtonWidth, maxButtonWidth);
-            }
+            // 固定选择按钮宽度为80像素，确保所有按钮宽度一致
+            float buttonWidth = 80f;
+            float buttonClickToggleWidth = 80f; // 按钮点击方法显示区域宽度，与组件选择按钮一致
+
+            // 检查是否包含Button组件
+            bool hasButtonComponent = selectedComps.Any(comp => comp is Button);
 
             // 先计算警告/错误图标数量
             int warningCount = 0, errorCount = 0;
@@ -169,26 +172,23 @@ namespace Core.Editor
             StringBuilder errorsBuilder = new StringBuilder();
             CheckUIStandardization(go, warningsBuilder, errorsBuilder, ref warningCount, ref errorCount);
 
-            // 右对齐布局：选择按钮（最右）- 开关 - 警告/错误图标（自适应）
+            // 固定布局：警告/错误图标 - 开关 - 选择按钮 - 按钮点击开关（最右）
             float xRight = selectionRect.xMax;
-            Rect buttonRect = new Rect();
-            Rect toggleRect;
+            
+            // 按钮点击开关区域（最右，固定位置）
+            Rect buttonClickToggleRect = new Rect(xRight - buttonClickToggleWidth, selectionRect.y,
+                buttonClickToggleWidth, selectionRect.height);
+            
+            // 选择按钮区域（固定位置）
+            Rect buttonRect = new Rect(buttonClickToggleRect.x - buttonWidth, selectionRect.y, 
+                buttonWidth, selectionRect.height);
+            
+            // 开关区域（固定位置）
+            Rect toggleRect = new Rect(buttonRect.x - toggleWidth, selectionRect.y, 
+                toggleWidth, selectionRect.height);
+
+            // 计算图标区域（动态适应）
             List<Rect> iconRects = new List<Rect>();
-
-            if (isSelected)
-            {
-                // 选择按钮在最右
-                buttonRect = new Rect(xRight - buttonWidth, selectionRect.y, buttonWidth, selectionRect.height);
-                // 开关在按钮左侧
-                toggleRect = new Rect(buttonRect.x - toggleWidth, selectionRect.y, toggleWidth, selectionRect.height);
-            }
-            else
-            {
-                // 没有选择按钮，开关在最右
-                toggleRect = new Rect(xRight - toggleWidth, selectionRect.y, toggleWidth, selectionRect.height);
-            }
-
-            // 图标自适应，紧贴开关左侧
             float iconStartX = toggleRect.x - iconWidth;
             if (errorCount > 0)
             {
@@ -205,7 +205,7 @@ namespace Core.Editor
             if (warningCount > 0 && iconIdx >= 0)
             {
                 GUIContent warningContent = new GUIContent(
-                    EditorGUIUtility.FindTexture("d_console.warnicon"), 
+                    EditorGUIUtility.FindTexture("d_console.warnicon"),
                     warningsBuilder.ToString()
                 );
                 EditorGUI.LabelField(iconRects[iconIdx--], warningContent);
@@ -213,7 +213,7 @@ namespace Core.Editor
             if (errorCount > 0 && iconIdx >= 0)
             {
                 GUIContent errorContent = new GUIContent(
-                    EditorGUIUtility.FindTexture("console.erroricon"), 
+                    EditorGUIUtility.FindTexture("console.erroricon"),
                     errorsBuilder.ToString()
                 );
                 EditorGUI.LabelField(iconRects[iconIdx], errorContent);
@@ -223,9 +223,109 @@ namespace Core.Editor
             bool newState = EditorGUI.Toggle(toggleRect, isSelected, toggleStyle);
             if (newState != isSelected)
                 HandleToggleStateChange(newState, go, goID);
-            // 选择按钮（最右）
+
+            // 选择按钮（只有选中时才显示）
             if (isSelected)
                 DrawComponentLabel(buttonRect, selectedComps, go);
+
+            // 按钮点击方法区域（固定显示，只有选中且有Button组件时才有内容）
+            if (isSelected && hasButtonComponent)
+            {
+                DrawButtonClickMethodLabel(go, goID, buttonClickToggleRect);
+            }
+        }
+
+        /// <summary>
+        /// 绘制按钮点击方法标签（类似组件选择按钮的样式）
+        /// </summary>
+        private static void DrawButtonClickMethodLabel(GameObject go, int goID, Rect labelRect)
+        {
+            if (!IsButtonClickEnabled.ContainsKey(goID))
+            {
+                IsButtonClickEnabled[goID] = true; // 默认激活
+                // 激活时自动生成默认方法名
+                string defaultMethodName = GenerateDefaultButtonClickMethodName(go);
+                ButtonClickMethodNames[goID] = defaultMethodName;
+            }
+
+            bool buttonClickEnabled = IsButtonClickEnabled[goID];
+            
+            if (buttonClickEnabled)
+            {
+                // 如果开关已激活，显示方法名
+                string methodName = ButtonClickMethodNames.ContainsKey(goID) 
+                    ? ButtonClickMethodNames[goID] 
+                    : GenerateDefaultButtonClickMethodName(go);
+
+                // 创建一个支持文本截断的GUI样式，与组件选择按钮一致
+                GUIStyle buttonStyle = new GUIStyle(EditorStyles.label)
+                {
+                    clipping = TextClipping.Clip, // 启用文本裁剪
+                    alignment = TextAnchor.MiddleLeft, // 文本居中左对齐
+                    padding = new RectOffset(2, 2, 0, 0) // 添加一点内边距避免文字紧贴边缘
+                };
+
+                // 点击方法名关闭开关
+                if (GUI.Button(labelRect, methodName, buttonStyle))
+                {
+                    IsButtonClickEnabled[goID] = false;
+                    ButtonClickMethodNames.Remove(goID);
+                }
+            }
+            else
+            {
+                // 如果开关未激活，显示空白但可点击的区域
+                GUIStyle emptyStyle = new GUIStyle(EditorStyles.label)
+                {
+                    clipping = TextClipping.Clip,
+                    alignment = TextAnchor.MiddleLeft,
+                    padding = new RectOffset(2, 2, 0, 0)
+                };
+
+                if (GUI.Button(labelRect, "", emptyStyle))
+                {
+                    // 激活时自动生成默认方法名
+                    string defaultMethodName = GenerateDefaultButtonClickMethodName(go);
+                    IsButtonClickEnabled[goID] = true;
+                    ButtonClickMethodNames[goID] = defaultMethodName;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 生成默认的按钮点击方法名
+        /// </summary>
+        private static string GenerateDefaultButtonClickMethodName(GameObject go)
+        {
+            string objectName = go.name;
+            return $"On{objectName}Click";
+        }
+
+        /// <summary>
+        /// 获取指定游戏对象的按钮点击方法配置
+        /// </summary>
+        public static Dictionary<int, string> GetButtonClickMethodNames()
+        {
+            return new Dictionary<int, string>(ButtonClickMethodNames);
+        }
+
+        /// <summary>
+        /// 检查指定游戏对象是否启用了按钮点击方法生成
+        /// </summary>
+        public static bool IsButtonClickEnabledForGameObject(int instanceID)
+        {
+            return IsButtonClickEnabled.ContainsKey(instanceID) && IsButtonClickEnabled[instanceID];
+        }
+
+        /// <summary>
+        /// 更新指定游戏对象的按钮点击方法名
+        /// </summary>
+        public static void UpdateButtonClickMethodName(int instanceID, string methodName)
+        {
+            if (IsButtonClickEnabled.ContainsKey(instanceID) && IsButtonClickEnabled[instanceID])
+            {
+                ButtonClickMethodNames[instanceID] = methodName;
+            }
         }
 
         /// <summary>
@@ -251,12 +351,14 @@ namespace Core.Editor
                 {
                     // 仅在绑定模式下显示无ComponentItemKey组件的根节点
                     bool hasComponentItemKey = current.gameObject.GetComponent<ComponentItemKey>() != null;
-                    if ( !hasComponentItemKey && !isBindingMode)
+                    if (!hasComponentItemKey && !isBindingMode)
                         return false;
                     return true;
                 }
+
                 current = current.parent;
             }
+
             return false;
         }
 
@@ -270,23 +372,29 @@ namespace Core.Editor
                 margin = new RectOffset(0, 0, 0, 0)
             };
         }
-        
+
         /// <summary>
         /// 绘制组件标签
         /// </summary>
         private static void DrawComponentLabel(Rect buttonRect, List<Component> selectedComps, GameObject go)
         {
-            string labelText = selectedComps.Count == 1 
-                ? selectedComps[0].GetType().Name 
+            string labelText = selectedComps.Count == 1
+                ? selectedComps[0].GetType().Name
                 : "Mixed";
 
-            // 固定宽度为8个字符宽
-            float charWidth = EditorStyles.label.CalcSize(new GUIContent("W")).x;
-            float labelWidth = charWidth * 8f;
-            Rect labelRect = new Rect(buttonRect.x, buttonRect.y, labelWidth, buttonRect.height);
+            // 使用整个按钮矩形区域来显示标签
+            Rect labelRect = new Rect(buttonRect.x, buttonRect.y, buttonRect.width, buttonRect.height);
+
+            // 创建一个支持文本截断的GUI样式
+            GUIStyle buttonStyle = new GUIStyle(EditorStyles.label)
+            {
+                clipping = TextClipping.Clip, // 启用文本裁剪
+                alignment = TextAnchor.MiddleLeft, // 文本居中左对齐
+                padding = new RectOffset(2, 2, 0, 0) // 添加一点内边距避免文字紧贴边缘
+            };
 
             // 点击组件名称弹出下拉菜单
-            if (GUI.Button(labelRect, labelText, EditorStyles.label))
+            if (GUI.Button(labelRect, labelText, buttonStyle))
             {
                 ShowComponentSelectionMenu(go, labelRect);
             }
@@ -308,6 +416,7 @@ namespace Core.Editor
                 UIBindManager.UnselectGameObject(go);
                 IsMixedModeEnabled.Remove(goID);
             }
+
             EditorApplication.RepaintHierarchyWindow();
         }
 
@@ -319,17 +428,17 @@ namespace Core.Editor
             // 获取游戏对象上的所有组件
             Component[] components = go.GetComponents<Component>();
             if (components.Length == 0) return;
-            
+
             // 优先选择除Transform以外的第一个组件
             Component firstComponent = components.Length > 1 ? components[1] : components[0];
-            
+
             // 清除之前的选择，然后选择第一个组件
             UIBindManager.ClearComponentSelection(go);
             UIBindManager.SelectComponent(go, firstComponent);
-            
+
             // 新选择时默认不启用Mixed模式
             IsMixedModeEnabled[go.GetInstanceID()] = false;
-            
+
             EditorApplication.RepaintHierarchyWindow();
         }
 
@@ -344,47 +453,49 @@ namespace Core.Editor
 
             // 创建菜单
             GenericMenu menu = new GenericMenu();
-            
+
             // 获取当前已选择的组件
-            List<Component> selectedComps = UIBindManager.IsGameObjectSelected(go) 
-                ? UIBindManager.GetSelectedComponents()[go] 
+            List<Component> selectedComps = UIBindManager.IsGameObjectSelected(go)
+                ? UIBindManager.GetSelectedComponents()[go]
                 : new List<Component>();
-            
+
             int goID = go.GetInstanceID();
             if (!IsMixedModeEnabled.ContainsKey(goID))
             {
                 IsMixedModeEnabled[goID] = selectedComps.Count > 1;
             }
-            
+
             bool isMixedMode = IsMixedModeEnabled[goID];
-            
+
             // 添加Mixed模式选项（多选模式开关）
             AddMixedModeMenuItem(menu, go, goID, selectedComps, isMixedMode);
-            
+
             menu.AddSeparator("");
-            
+
             // 如果启用了Mixed模式，添加全选和取消全选选项
             if (isMixedMode)
             {
                 AddBatchSelectionMenuItems(menu, go, components);
             }
-            
+
             // 添加所有组件选项
             AddComponentMenuItems(menu, go, components, selectedComps, goID);
 
             // 在点击位置显示菜单
             menu.DropDown(position);
         }
-        
+
         /// <summary>
         /// 添加混合模式菜单项
         /// </summary>
-        private static void AddMixedModeMenuItem(GenericMenu menu, GameObject go, int goID, List<Component> selectedComps, bool isMixedMode)
+        private static void AddMixedModeMenuItem(GenericMenu menu, GameObject go, int goID,
+            List<Component> selectedComps, bool isMixedMode)
         {
-            menu.AddItem(MixedModeContent, isMixedMode, () => {
+            menu.AddItem(MixedModeContent, isMixedMode, () =>
+            {
                 // 切换Mixed模式
                 IsMixedModeEnabled[goID] = !isMixedMode;
-                
+
                 // 如果取消Mixed模式，但有多个选择，则仅保留第一个
                 if (!IsMixedModeEnabled[goID] && selectedComps.Count > 1)
                 {
@@ -392,17 +503,18 @@ namespace Core.Editor
                     UIBindManager.ClearComponentSelection(go);
                     UIBindManager.SelectComponent(go, firstSelected);
                 }
-                
+
                 EditorApplication.RepaintHierarchyWindow();
             });
         }
-        
+
         /// <summary>
         /// 添加批量选择菜单项
         /// </summary>
         private static void AddBatchSelectionMenuItems(GenericMenu menu, GameObject go, Component[] components)
         {
-            menu.AddItem(SelectAllContent, false, () => {
+            menu.AddItem(SelectAllContent, false, () =>
+            {
                 // 选择所有组件
                 UIBindManager.ClearComponentSelection(go);
                 foreach (Component comp in components)
@@ -410,22 +522,24 @@ namespace Core.Editor
                     if (comp != null)
                         UIBindManager.SelectComponent(go, comp);
                 }
+
                 EditorApplication.RepaintHierarchyWindow();
             });
-            
-            menu.AddItem(DeselectAllContent, false, () => {
+
+            menu.AddItem(DeselectAllContent, false, () =>
+            {
                 // 清除所有选择
                 UIBindManager.ClearComponentSelection(go);
                 EditorApplication.RepaintHierarchyWindow();
             });
-            
+
             menu.AddSeparator("");
         }
-        
+
         /// <summary>
         /// 添加组件菜单项
         /// </summary>
-        private static void AddComponentMenuItems(GenericMenu menu, GameObject go, Component[] components, 
+        private static void AddComponentMenuItems(GenericMenu menu, GameObject go, Component[] components,
             List<Component> selectedComps, int goID)
         {
             foreach (Component component in components)
@@ -434,15 +548,16 @@ namespace Core.Editor
 
                 // 获取组件名称
                 string componentName = component.GetType().Name;
-                
+
                 // 检查当前组件是否已被选择
                 bool isSelected = selectedComps.Contains(component);
-                
+
                 // 使用局部变量捕获以避免闭包问题
                 Component capturedComponent = component;
                 bool capturedIsSelected = isSelected;
-                
-                menu.AddItem(new GUIContent(componentName), isSelected, () => {
+
+                menu.AddItem(new GUIContent(componentName), isSelected, () =>
+                {
                     bool isMixedMode = IsMixedModeEnabled[goID];
                     // 根据当前是否为Mixed模式决定行为
                     if (isMixedMode)
@@ -463,18 +578,20 @@ namespace Core.Editor
                         UIBindManager.ClearComponentSelection(go);
                         UIBindManager.SelectComponent(go, capturedComponent);
                     }
+
                     EditorApplication.RepaintHierarchyWindow();
                 });
             }
         }
+
         /// <summary>
         /// 检查游戏对象的UI规范
         /// </summary>
         private static void CheckUIStandardization(
-            GameObject go, 
-            StringBuilder warningsBuilder, 
-            StringBuilder errorsBuilder, 
-            ref int warningCount, 
+            GameObject go,
+            StringBuilder warningsBuilder,
+            StringBuilder errorsBuilder,
+            ref int warningCount,
             ref int errorCount)
         {
             // 检查对象名称规范
@@ -485,30 +602,35 @@ namespace Core.Editor
             {
                 CheckImageConvention(go, image, warningsBuilder, errorsBuilder, ref warningCount, ref errorCount);
             }
+
             // 检查文本组件规范
             Text text = go.GetComponent<Text>();
             if (text != null)
             {
                 CheckTextConvention(go, text, errorsBuilder, ref errorCount);
             }
+
             // 检查RectTransform规范
             RectTransform rectTransform = go.GetComponent<RectTransform>();
             if (rectTransform != null)
             {
                 CheckRectTransformConvention(rectTransform, errorsBuilder, ref errorCount);
             }
+
             // 检查按钮组件规范
             Button button = go.GetComponent<Button>();
             if (button != null)
             {
                 CheckButtonConvention(button, warningsBuilder, errorsBuilder, ref warningCount, ref errorCount);
             }
+
             // 检查遮罩组件规范
             if (go.GetComponent<Mask>() != null)
             {
                 warningsBuilder.AppendLine($"{warningCount + 1}.是否使用RectMask2D");
                 warningCount++;
             }
+
             // 检查预制体大小
             CheckPrefabSize(go, errorsBuilder, ref errorCount);
         }
@@ -517,10 +639,10 @@ namespace Core.Editor
         /// 检查对象名称规范
         /// </summary>
         private static void CheckNameConvention(
-            GameObject go, 
-            StringBuilder warningsBuilder, 
-            StringBuilder errorsBuilder, 
-            ref int warningCount, 
+            GameObject go,
+            StringBuilder warningsBuilder,
+            StringBuilder errorsBuilder,
+            ref int warningCount,
             ref int errorCount)
         {
             string name = go.name;
@@ -529,11 +651,13 @@ namespace Core.Editor
                 errorsBuilder.AppendLine($"{errorCount + 1}.命名含空格");
                 errorCount++;
             }
+
             if (IsLowerCase(name[0]))
             {
                 warningsBuilder.AppendLine($"{warningCount + 1}.命名首字母小写");
                 warningCount++;
             }
+
             if (IsDigit(name[0]))
             {
                 warningsBuilder.AppendLine($"{warningCount + 1}.命名首字符数字");
@@ -545,11 +669,11 @@ namespace Core.Editor
         /// 检查图像组件规范
         /// </summary>
         private static void CheckImageConvention(
-            GameObject go, 
-            Image image, 
-            StringBuilder warningsBuilder, 
-            StringBuilder errorsBuilder, 
-            ref int warningCount, 
+            GameObject go,
+            Image image,
+            StringBuilder warningsBuilder,
+            StringBuilder errorsBuilder,
+            ref int warningCount,
             ref int errorCount)
         {
             // 检查空图片
@@ -560,6 +684,7 @@ namespace Core.Editor
                     errorsBuilder.AppendLine($"{errorCount + 1}.image为空Alpha不设0会白屏");
                     errorCount++;
                 }
+
                 return;
             }
 
@@ -579,7 +704,7 @@ namespace Core.Editor
             {
                 errorsBuilder.AppendLine($"{++errorCount}.image 包含默认UIMask");
             }
-            
+
             // 检查关闭按钮规范
             if (closeBtnList.Contains(spriteName))
             {
@@ -590,13 +715,14 @@ namespace Core.Editor
                     {
                         errorsBuilder.AppendLine($"{++errorCount}.close btn锚点不是右上");
                     }
-                    else if (!Mathf.Approximately(rt.anchoredPosition3D.x, closeBtnPosV2.x) || !Mathf.Approximately(rt.anchoredPosition3D.y, closeBtnPosV2.y))
+                    else if (!Mathf.Approximately(rt.anchoredPosition3D.x, closeBtnPosV2.x) ||
+                             !Mathf.Approximately(rt.anchoredPosition3D.y, closeBtnPosV2.y))
                     {
                         errorsBuilder.AppendLine($"{++errorCount}.close btn位置不是右上{closeBtnPosV2}");
                     }
                 }
             }
-            
+
             // 检查图集引用
             string assetPath = AssetDatabase.GetAssetPath(image.sprite);
             if (!string.IsNullOrEmpty(assetPath))
@@ -610,11 +736,11 @@ namespace Core.Editor
                         string atlasName = relativePath.Substring(0, slashIndex);
                         string rootName = GetRootGameObjectName(go);
                         string rootNameFirstWordLower = GetRootNameFirstWordLower(rootName);
-                        
+
                         string atlasLower = atlasName.ToLower();
-                        if (!atlasLower.Contains("common") && 
-                            atlasLower != rootNameFirstWordLower && 
-                            !rootNameFirstWordLower.Contains(atlasLower) && 
+                        if (!atlasLower.Contains("common") &&
+                            atlasLower != rootNameFirstWordLower &&
+                            !rootNameFirstWordLower.Contains(atlasLower) &&
                             !atlasLower.Contains(rootNameFirstWordLower))
                         {
                             errorsBuilder.AppendLine($"{errorCount + 1}.图片引用了{atlasName}图集资源");
@@ -634,9 +760,9 @@ namespace Core.Editor
         /// 检查文本组件规范
         /// </summary>
         private static void CheckTextConvention(
-            GameObject go, 
-            Text text, 
-            StringBuilder errorsBuilder, 
+            GameObject go,
+            Text text,
+            StringBuilder errorsBuilder,
             ref int errorCount)
         {
             // 检查字体
@@ -651,7 +777,7 @@ namespace Core.Editor
                 errorsBuilder.AppendLine($"{errorCount + 1}.字体使用了Arial");
                 errorCount++;
             }
-            
+
             // 检查非空文本是否使用了语言组件
             if (!string.IsNullOrEmpty(text.text) && go.GetComponent("LanguageComponent") == null)
             {
@@ -663,8 +789,8 @@ namespace Core.Editor
         /// <summary>
         /// 检查RectTransform组件规范
         /// </summary>
-        private static void CheckRectTransformConvention(RectTransform rectTransform, 
-            StringBuilder errorsBuilder, 
+        private static void CheckRectTransformConvention(RectTransform rectTransform,
+            StringBuilder errorsBuilder,
             ref int errorCount)
         {
             // 检查坐标是否包含小数点
@@ -674,12 +800,14 @@ namespace Core.Editor
                 errorsBuilder.AppendLine($"{errorCount + 1}.Position含小数点");
                 errorCount++;
             }
+
             // 检查z值是否为0（使用容差）
             if (!FloatEquals(position.z, 0f))
             {
                 errorsBuilder.AppendLine($"{errorCount + 1}.Pos z值不为零");
                 errorCount++;
             }
+
             // 检查缩放是否规范
             Vector3 scale = rectTransform.localScale;
             if (HasDecimalPoint(scale))
@@ -687,6 +815,7 @@ namespace Core.Editor
                 errorsBuilder.AppendLine($"{errorCount + 1}.localScale含小数点");
                 errorCount++;
             }
+
             if (!FloatEquals(scale.x, 1f) || !FloatEquals(scale.y, 1f) || !FloatEquals(scale.z, 1f))
             {
                 errorsBuilder.AppendLine($"{errorCount + 1}.Scale不全为1");
@@ -697,10 +826,10 @@ namespace Core.Editor
         /// <summary>
         /// 检查按钮组件规范
         /// </summary>
-        private static void CheckButtonConvention(Button button, 
-            StringBuilder warningsBuilder, 
-            StringBuilder errorsBuilder, 
-            ref int warningCount, 
+        private static void CheckButtonConvention(Button button,
+            StringBuilder warningsBuilder,
+            StringBuilder errorsBuilder,
+            ref int warningCount,
             ref int errorCount)
         {
             // 检查按钮是否有图像组件
@@ -710,7 +839,7 @@ namespace Core.Editor
                 warningCount++;
                 return;
             }
-            
+
             // 检查按钮响应区域是否足够大
             RectTransform rt = button.image.transform.GetComponent<RectTransform>();
             if (rt != null && (rt.rect.width < 40 || rt.rect.height < 40))
@@ -730,7 +859,7 @@ namespace Core.Editor
         {
             // 只对预制体根节点检查大小
             if (!IsPrefabRoot(go)) return;
-            
+
             int goID = go.GetInstanceID();
 
             // 缓存预制体大小和路径，避免频繁IO操作
@@ -744,13 +873,13 @@ namespace Core.Editor
                         var stage = PrefabStageUtility.GetCurrentPrefabStage();
                         if (stage != null) path = stage.assetPath;
                     }
-                    
+
                     if (!string.IsNullOrEmpty(path))
                     {
                         objectPaths[goID] = path;
                     }
                 }
-                
+
                 if (!string.IsNullOrEmpty(path) && File.Exists(path))
                 {
                     fileSize = new FileInfo(path).Length;
@@ -761,7 +890,7 @@ namespace Core.Editor
                     return; // 无法获取文件大小
                 }
             }
-            
+
             // 检查预制体大小是否超过限制
             if (fileSize >= prefabSizeLimit * 1024)
             {
@@ -780,6 +909,7 @@ namespace Core.Editor
             {
                 root = root.parent;
             }
+
             return root.name;
         }
 
@@ -789,14 +919,14 @@ namespace Core.Editor
         private static string GetRootNameFirstWordLower(string rootName)
         {
             if (string.IsNullOrEmpty(rootName)) return string.Empty;
-            
+
             StringBuilder result = new StringBuilder();
-            
+
             for (int i = 1; i < rootName.Length && !char.IsUpper(rootName[i]); i++)
             {
                 result.Append(rootName[i]);
             }
-            
+
             return result.ToString().ToLower();
         }
 
@@ -818,12 +948,12 @@ namespace Core.Editor
             {
                 return ((float)size / 1048576f).ToString("F2") + "m";
             }
-            
+
             if (size > 1024L) // 1KB = 1024B
             {
                 return ((float)size / 1024f).ToString("F2") + "k";
             }
-            
+
             return size.ToString();
         }
 
