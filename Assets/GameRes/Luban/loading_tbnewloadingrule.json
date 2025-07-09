@@ -61,32 +61,12 @@
   },
   {
     "Id": 4,
-    "Type": 0,
-    "Title": "默认loading",
-    "SubTitle": "默认4",
-    "TipDesc": "默认4",
-    "IsOpen": 1,
-    "OpenLevel": 0,
-    "WeightType": 0,
-    "Weight": [
-      {
-        "Condition": 1,
-        "Weight": 10
-      }
-    ],
-    "GlobalLoadingSwitch": [],
-    "ImagePaths": [
-      "loading_02"
-    ]
-  },
-  {
-    "Id": 5,
     "Type": 1,
     "Title": "水族馆",
     "SubTitle": "收集珍稀大鱼与装饰品，打造专属水族馆",
     "TipDesc": "可环游全球各地钓场钓大鱼，在秘境探险中寻得珍稀装饰品",
     "IsOpen": 1,
-    "OpenLevel": 5,
+    "OpenLevel": 0,
     "WeightType": 0,
     "Weight": [
       {
@@ -100,7 +80,7 @@
     ]
   },
   {
-    "Id": 6,
+    "Id": 5,
     "Type": 2,
     "Title": "竞技",
     "SubTitle": "与世界各地的钓友竞技，赢得至高荣耀",
@@ -120,7 +100,7 @@
     ]
   },
   {
-    "Id": 7,
+    "Id": 6,
     "Type": 3,
     "Title": "冰钓",
     "SubTitle": "拿上冰钓装备甩一竿，感受别样钓鱼体验",
@@ -140,7 +120,7 @@
     ]
   },
   {
-    "Id": 8,
+    "Id": 7,
     "Type": 4,
     "Title": "路亚钓",
     "SubTitle": "在复杂环境中操控拟饵吸引巨物咬钩",
@@ -160,10 +140,10 @@
     ]
   },
   {
-    "Id": 9,
+    "Id": 8,
     "Type": 5,
     "Title": "巨物钓",
-    "SubTitle": "拿起巨物竿，与深海巨物来一场酣畅搏斗",
+    "SubTitle": "与深海巨物来一场酣畅搏斗",
     "TipDesc": "对付巨物需要保持耐心，用合适的渔具能够事半功倍",
     "IsOpen": 1,
     "OpenLevel": 0,
@@ -180,7 +160,7 @@
     ]
   },
   {
-    "Id": 10,
+    "Id": 9,
     "Type": 6,
     "Title": "潜水渔猎",
     "SubTitle": "大鱼逃跑了？快潜入水中追捕它吧",
@@ -200,11 +180,11 @@
     ]
   },
   {
-    "Id": 11,
+    "Id": 10,
     "Type": 7,
-    "Title": "切换账号",
-    "SubTitle": "正在切换账号",
-    "TipDesc": "......",
+    "Title": "巨物猎手",
+    "SubTitle": "您专属的钓鱼世界",
+    "TipDesc": "每日登录可以领取惊喜奖励",
     "IsOpen": 1,
     "OpenLevel": 0,
     "WeightType": 0,
@@ -217,14 +197,34 @@
     "GlobalLoadingSwitch": [],
     "ImagePaths": [
       "loading_02"
+    ]
+  },
+  {
+    "Id": 11,
+    "Type": 8,
+    "Title": "水族馆",
+    "SubTitle": "收集珍稀大鱼与装饰品，打造专属水族馆",
+    "TipDesc": "可环游全球各地钓场钓大鱼，在秘境探险中寻得珍稀装饰品",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_aquarium"
     ]
   },
   {
     "Id": 12,
     "Type": 8,
-    "Title": "退出场景",
-    "SubTitle": "正在返回主页面",
-    "TipDesc": "......",
+    "Title": "竞技",
+    "SubTitle": "与世界各地的钓友竞技，赢得至高荣耀",
+    "TipDesc": "根据不同胜负规则，合理选择钓具和鱼饵，能提高获胜概率",
     "IsOpen": 1,
     "OpenLevel": 0,
     "WeightType": 0,
@@ -236,15 +236,55 @@
     ],
     "GlobalLoadingSwitch": [],
     "ImagePaths": [
-      "loading_02"
+      "loading_match"
     ]
   },
   {
     "Id": 13,
+    "Type": 8,
+    "Title": "冰钓",
+    "SubTitle": "拿上冰钓装备甩一竿，感受别样钓鱼体验",
+    "TipDesc": "大鱼一般躲在下层水域，避开上面的鱼更容易钓中大鱼",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_ice"
+    ]
+  },
+  {
+    "Id": 14,
+    "Type": 0,
+    "Title": "钓鱼技巧",
+    "SubTitle": "连击评价提升时可以进行连竿操作",
+    "TipDesc": "完成连竿可以额外消耗鱼体力",
+    "IsOpen": 1,
+    "OpenLevel": 0,
+    "WeightType": 0,
+    "Weight": [
+      {
+        "Condition": 1,
+        "Weight": 10
+      }
+    ],
+    "GlobalLoadingSwitch": [],
+    "ImagePaths": [
+      "loading_giant"
+    ]
+  },
+  {
+    "Id": 15,
     "Type": 50,
-    "Title": "新手第1个loading图",
-    "SubTitle": "暂无",
-    "TipDesc": "暂无",
+    "Title": "",
+    "SubTitle": "",
+    "TipDesc": "体验多种钓鱼方式",
     "IsOpen": 1,
     "OpenLevel": 0,
     "WeightType": 0,
@@ -260,11 +300,11 @@
     ]
   },
   {
-    "Id": 14,
+    "Id": 16,
     "Type": 51,
-    "Title": "新手第2个loading图",
-    "SubTitle": "暂无",
-    "TipDesc": "暂无",
+    "Title": "",
+    "SubTitle": "",
+    "TipDesc": "布置您专属的海底世界",
     "IsOpen": 1,
     "OpenLevel": 0,
     "WeightType": 0,
@@ -280,11 +320,11 @@
     ]
   },
   {
-    "Id": 15,
+    "Id": 17,
     "Type": 52,
-    "Title": "新手第3个loading图",
-    "SubTitle": "暂无",
-    "TipDesc": "暂无",
+    "Title": "",
+    "SubTitle": "",
+    "TipDesc": "来钓鱼之旅，赢海量奖励",
     "IsOpen": 1,
     "OpenLevel": 0,
     "WeightType": 0,
@@ -300,7 +340,7 @@
     ]
   },
   {
-    "Id": 16,
+    "Id": 18,
     "Type": 8,
     "Title": "其他权重占位",
     "SubTitle": "",
@@ -330,7 +370,7 @@
     ]
   },
   {
-    "Id": 17,
+    "Id": 19,
     "Type": 8,
     "Title": "其他权重占位",
     "SubTitle": "",
@@ -359,12 +399,12 @@
     ]
   },
   {
-    "Id": 18,
+    "Id": 20,
     "Type": 99,
     "Title": "全局loading",
     "SubTitle": "全局loading",
     "TipDesc": "全局loading",
-    "IsOpen": 1,
+    "IsOpen": 0,
     "OpenLevel": 0,
     "WeightType": 0,
     "Weight": [
