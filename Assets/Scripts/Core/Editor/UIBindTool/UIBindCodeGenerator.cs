@@ -89,6 +89,13 @@ namespace Core.Editor
         {
             string filePath = Path.Combine(outputPath, viewName + "Component.cs");
 
+            // 如果文件已存在，先删除以确保完全重新生成（解决重命名问题）
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+                Debug.Log($"【UI绑定工具】删除旧的ViewComponent文件以重新生成: {filePath}");
+            }
+
             StringBuilder sb = new StringBuilder();
 
             // 添加文件头
@@ -397,7 +404,7 @@ namespace Core.Editor
 
             string existingContent = File.ReadAllText(filePath);
             StringBuilder newContent = new StringBuilder(existingContent);
-            
+
             List<string> methodsToAdd = new List<string>();
             
             // 检查哪些方法需要添加
@@ -452,25 +459,20 @@ namespace Core.Editor
         // 将变量名转换为合法的C#变量名
         public static string SanitizeVariableName(string name) // Changed to public
         {
-            // 替换空格和特殊字符，包括括号
+            // 替换空格和特殊字符，包括括号，但保持原始大小写
             string sanitized = name.Replace(" ", "_")
                 .Replace("-", "_")
                 .Replace(".", "_")
                 .Replace("(", "_")
                 .Replace(")", "_");
-            
-            // 确保首字母小写
-            if (sanitized.Length > 0 && char.IsUpper(sanitized[0]))
-            {
-                sanitized = char.ToLower(sanitized[0]) + sanitized.Substring(1);
-            }
-            
-            // 确保变量名不以数字开头
+
+            // 移除首字母小写的逻辑，保持原始大小写
+            // 只确保变量名不以数字开头
             if (sanitized.Length > 0 && char.IsDigit(sanitized[0]))
             {
                 sanitized = "_" + sanitized;
             }
-            
+
             return sanitized;
         }
 

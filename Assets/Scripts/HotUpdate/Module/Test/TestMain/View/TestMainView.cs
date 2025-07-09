@@ -1,3 +1,4 @@
+using Aot.Runtime;
 using UnityEngine;
 using Core;
 
@@ -9,6 +10,7 @@ namespace HotUpdate
         {
             // 初始化组件
             BindButtonEvents();
+            Log.Error(CanvasRenderer_BigBg123.name);
         }
 
         private void OnDestroy()

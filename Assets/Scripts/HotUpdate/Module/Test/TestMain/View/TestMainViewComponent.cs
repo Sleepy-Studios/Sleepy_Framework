@@ -15,9 +15,9 @@ namespace HotUpdate
     {
         ComponentItemKey _componentItemKey;
 
-        private UnityEngine.CanvasRenderer _CanvasRenderer_image;
-        private UnityEngine.RectTransform _RectTransform_testBtn;
-        private UnityEngine.UI.Button _Button_testBtn;
+        private UnityEngine.CanvasRenderer _CanvasRenderer_BigBg123;
+        private UnityEngine.RectTransform _RectTransform_TestBtn;
+        private UnityEngine.UI.Button _Button_TestBtn;
 
         protected ComponentItemKey componentItemKey
         {
@@ -29,33 +29,33 @@ namespace HotUpdate
             }
         }
 
-        public UnityEngine.CanvasRenderer CanvasRenderer_image
+        public UnityEngine.CanvasRenderer CanvasRenderer_BigBg123
         {
             get
             {
-                if(_CanvasRenderer_image == null)
-                    _CanvasRenderer_image = componentItemKey.GetObject<UnityEngine.CanvasRenderer>("CanvasRenderer_image");
-                return _CanvasRenderer_image;
+                if(_CanvasRenderer_BigBg123 == null)
+                    _CanvasRenderer_BigBg123 = componentItemKey.GetObject<UnityEngine.CanvasRenderer>("CanvasRenderer_BigBg123");
+                return _CanvasRenderer_BigBg123;
             }
         }
 
-        public UnityEngine.RectTransform RectTransform_testBtn
+        public UnityEngine.RectTransform RectTransform_TestBtn
         {
             get
             {
-                if(_RectTransform_testBtn == null)
-                    _RectTransform_testBtn = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_testBtn");
-                return _RectTransform_testBtn;
+                if(_RectTransform_TestBtn == null)
+                    _RectTransform_TestBtn = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_TestBtn");
+                return _RectTransform_TestBtn;
             }
         }
 
-        public UnityEngine.UI.Button Button_testBtn
+        public UnityEngine.UI.Button Button_TestBtn
         {
             get
             {
-                if(_Button_testBtn == null)
-                    _Button_testBtn = componentItemKey.GetObject<UnityEngine.UI.Button>("Button_testBtn");
-                return _Button_testBtn;
+                if(_Button_TestBtn == null)
+                    _Button_TestBtn = componentItemKey.GetObject<UnityEngine.UI.Button>("Button_TestBtn");
+                return _Button_TestBtn;
             }
         }
 
@@ -64,7 +64,7 @@ namespace HotUpdate
         /// </summary>
         protected virtual void BindButtonEvents()
         {
-            Button_testBtn?.onClick.AddListener(OnTestBtnClick);
+            Button_TestBtn?.onClick.AddListener(OnTestBtnClick);
         }
 
         /// <summary>
@@ -72,16 +72,16 @@ namespace HotUpdate
         /// </summary>
         protected virtual void UnbindButtonEvents()
         {
-            Button_testBtn?.onClick.RemoveListener(OnTestBtnClick);
+            Button_TestBtn?.onClick.RemoveListener(OnTestBtnClick);
         }
 
         protected virtual void ReleaseComponent()
         {
             UnbindButtonEvents();
 
-            _CanvasRenderer_image = null;
-            _RectTransform_testBtn = null;
-            _Button_testBtn = null;
+            _CanvasRenderer_BigBg123 = null;
+            _RectTransform_TestBtn = null;
+            _Button_TestBtn = null;
             _componentItemKey = null;
         }
     }

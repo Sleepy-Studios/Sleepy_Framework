@@ -118,17 +118,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ComponentDatas:
-  - Key: CanvasRenderer_image
+  - Key: CanvasRenderer_BigBg123
     Type: UnityEngine.CanvasRenderer
     Value: {fileID: 2888431216680654417}
-  - Key: RectTransform_testBtn
+  - Key: RectTransform_TestBtn
     Type: UnityEngine.RectTransform
     Value: {fileID: 895578519948939688}
-  - Key: Button_testBtn
+  - Key: Button_TestBtn
     Type: UnityEngine.UI.Button
     Value: {fileID: 2470104369564284911}
   SelectedOfGameObject:
-  - Image
+  - BigBg123
   - TestBtn
 --- !u!114 &8177441721613965193
 MonoBehaviour:
@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 2888431216680654417}
   - component: {fileID: 2059301871816452038}
   m_Layer: 5
-  m_Name: Image
+  m_Name: BigBg123
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
