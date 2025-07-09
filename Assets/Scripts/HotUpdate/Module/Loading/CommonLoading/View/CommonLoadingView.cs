@@ -30,16 +30,17 @@ namespace HotUpdate
         {
             // 获取当前指定的Loading类型
             LoadingType currentLoadingType = UIUtil.LoadingType;
-            Log.Info("指定Loading类型"+currentLoadingType);
+            Log.Info("指定Loading类型" + currentLoadingType);
             //重置类型
             UIUtil.LoadingType = LoadingType.Default;
             NewLoadingRule selectedInfo = SelectLoadingInfo(currentLoadingType);
             //添加容错
             if (selectedInfo == null)
             {
-                var specialConfigs = openConfigs.Where(info => (info.Type == LoadingType.Default )).ToList();
+                var specialConfigs = openConfigs.Where(info => (info.Type == LoadingType.Default)).ToList();
                 selectedInfo = SelectLoadingFromConfigs(specialConfigs);
             }
+
             SetupLoadingUI(selectedInfo);
         }
 
@@ -49,9 +50,12 @@ namespace HotUpdate
         private void InitData()
         {
             playerLevel = 20;
-            openConfigs = GlobalLubanConfig.Tables.TbNewLoadingRule.DataList.Where(info => info.IsOpen == 1 && playerLevel >= info.OpenLevel).ToList();
-            globalConfig = GlobalLubanConfig.Tables.TbNewLoadingRule.DataList.FirstOrDefault(info => info.Type == LoadingType.Global);
-            globalLoadingEnums =  globalConfig.IsOpen==1 ?  globalConfig.GlobalLoadingSwitch : null;
+            openConfigs = GlobalLubanConfig.Tables.TbNewLoadingRule.DataList
+                .Where(info => info.IsOpen == 1 && playerLevel >= info.OpenLevel).ToList();
+            globalConfig =
+                GlobalLubanConfig.Tables.TbNewLoadingRule.DataList.FirstOrDefault(info =>
+                    info.Type == LoadingType.Global);
+            globalLoadingEnums = globalConfig.IsOpen == 1 ? globalConfig.GlobalLoadingSwitch : null;
         }
 
         /// <summary>
@@ -59,7 +63,7 @@ namespace HotUpdate
         /// </summary>
         private NewLoadingRule SelectLoadingInfo(LoadingType loadingType)
         {
-            if (globalLoadingEnums.Contains(loadingType))
+            if (globalLoadingEnums != null && globalLoadingEnums.Contains(loadingType))
             {
                 // 计算全局Loading的权重作为百分比概率
                 int globalWeight = CalculateWeight(globalConfig);
@@ -70,15 +74,15 @@ namespace HotUpdate
                 }
                 else
                 {
-                    Log.Info("未命中全局Loading，走当前类型随机"+ loadingType);
-                    var specialConfigs = openConfigs.Where(info => (info.Type == loadingType )).ToList();
+                    Log.Info("未命中全局Loading，走当前类型随机" + loadingType);
+                    var specialConfigs = openConfigs.Where(info => (info.Type == loadingType)).ToList();
                     return SelectLoadingFromConfigs(specialConfigs);
                 }
             }
             else
             {
-                Log.Info("走当前类型随机"+ loadingType);
-                var specialConfigs = openConfigs.Where(info => (info.Type == loadingType )).ToList();
+                Log.Info("走当前类型随机" + loadingType);
+                var specialConfigs = openConfigs.Where(info => (info.Type == loadingType)).ToList();
                 return SelectLoadingFromConfigs(specialConfigs);
             }
         }
@@ -90,7 +94,7 @@ namespace HotUpdate
         {
             var weightedConfigs = new List<(NewLoadingRule config, int weight)>();
             int totalWeight = 0;
-            
+
             foreach (var config in configs)
             {
                 int weight = CalculateWeight(config);
@@ -195,7 +199,7 @@ namespace HotUpdate
 
         private void SetupLoadingUI(NewLoadingRule loadingInfo)
         {
-            Log.Info("最终命中Loading "+loadingInfo.Type+loadingInfo.Id);
+            Log.Info("最终命中Loading " + loadingInfo.Type + loadingInfo.Id);
             // 随机选择一张图片
             string imagePath = SelectRandomImage(loadingInfo.ImagePaths);
             if (!string.IsNullOrEmpty(imagePath))
@@ -211,6 +215,8 @@ namespace HotUpdate
 
             // 设置小贴士文案
             TextMeshProUGUI_content.text = loadingInfo.TipDesc;
+            RectTransform_gameTips.gameObject.SetActive(!string.IsNullOrEmpty(loadingInfo.TipDesc));
+            RectTransform_loadingtitlebg.gameObject.SetActive(!string.IsNullOrEmpty(loadingInfo.Title));
 
             UpdateTitleDescBgSize();
         }
@@ -224,10 +230,12 @@ namespace HotUpdate
             {
                 return imagePaths[0];
             }
+
             return imagePaths[UnityEngine.Random.Range(0, imagePaths.Count)];
         }
 
         private Vector2 titleDescSize = new Vector2(0, 0);
+
         private void UpdateTitleDescBgSize()
         {
             if (TextMeshProUGUI_titleDesc == null || RectTransform_titleDescBg == null)
@@ -238,11 +246,11 @@ namespace HotUpdate
 
             // 获取文本的RectTransform
             RectTransform textRectTransform = TextMeshProUGUI_titleDesc.rectTransform;
-    
+
             // 计算背景尺寸：文本尺寸 + 左右各8像素，上下各3像素的边距
             titleDescSize.x = textRectTransform.sizeDelta.x + 13f;
             titleDescSize.y = textRectTransform.sizeDelta.y + 5f;
-    
+
             // 设置背景RectTransform的尺寸
             RectTransform_titleDescBg.sizeDelta = titleDescSize;
             LayoutRebuilder.ForceRebuildLayoutImmediate(RectTransform_titleDescBg);
@@ -268,4 +276,3 @@ namespace HotUpdate
         }
     }
 }
-

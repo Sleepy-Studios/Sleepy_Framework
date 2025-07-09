@@ -546,6 +546,12 @@ MonoBehaviour:
   - Key: Slider_slider
     Type: UnityEngine.UI.Slider
     Value: {fileID: 5262506876438616970}
+  - Key: RectTransform_loadingtitlebg
+    Type: UnityEngine.RectTransform
+    Value: {fileID: 1915918387954379724}
+  - Key: RectTransform_gameTips
+    Type: UnityEngine.RectTransform
+    Value: {fileID: 6111483465068361361}
   SelectedOfGameObject:
   - Bg
   - Title
@@ -554,6 +560,8 @@ MonoBehaviour:
   - Content
   - Process
   - Slider
+  - Loadingtitlebg
+  - GameTips
 --- !u!114 &4194123362034592370
 MonoBehaviour:
   m_ObjectHideFlags: 0

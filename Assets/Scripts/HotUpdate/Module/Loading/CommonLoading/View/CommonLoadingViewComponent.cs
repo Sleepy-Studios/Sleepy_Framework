@@ -21,6 +21,8 @@ namespace HotUpdate
         private TMPro.TextMeshProUGUI _TextMeshProUGUI_content;
         private TMPro.TextMeshProUGUI _TextMeshProUGUI_process;
         private UnityEngine.UI.Slider _Slider_slider;
+        private UnityEngine.RectTransform _RectTransform_loadingtitlebg;
+        private UnityEngine.RectTransform _RectTransform_gameTips;
 
         protected ComponentItemKey componentItemKey
         {
@@ -102,8 +104,44 @@ namespace HotUpdate
             }
         }
 
+        public UnityEngine.RectTransform RectTransform_loadingtitlebg
+        {
+            get
+            {
+                if(_RectTransform_loadingtitlebg == null)
+                    _RectTransform_loadingtitlebg = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_loadingtitlebg");
+                return _RectTransform_loadingtitlebg;
+            }
+        }
+
+        public UnityEngine.RectTransform RectTransform_gameTips
+        {
+            get
+            {
+                if(_RectTransform_gameTips == null)
+                    _RectTransform_gameTips = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_gameTips");
+                return _RectTransform_gameTips;
+            }
+        }
+
+        /// <summary>
+        /// 绑定按钮点击事件
+        /// </summary>
+        protected virtual void BindButtonEvents()
+        {
+        }
+
+        /// <summary>
+        /// 解绑按钮点击事件
+        /// </summary>
+        protected virtual void UnbindButtonEvents()
+        {
+        }
+
         protected virtual void ReleaseComponent()
         {
+            UnbindButtonEvents();
+
             _Image_bg = null;
             _TextMeshProUGUI_title = null;
             _RectTransform_titleDescBg = null;
@@ -111,6 +149,8 @@ namespace HotUpdate
             _TextMeshProUGUI_content = null;
             _TextMeshProUGUI_process = null;
             _Slider_slider = null;
+            _RectTransform_loadingtitlebg = null;
+            _RectTransform_gameTips = null;
             _componentItemKey = null;
         }
     }
