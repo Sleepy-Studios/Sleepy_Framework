@@ -1,9 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Cysharp.Threading.Tasks;
 using HybridCLR;
 using TMPro;
 using UnityEngine;
@@ -26,7 +26,7 @@ namespace Aot.Runtime
         public bool IsCleanLogCache = true;
         /// 进度条
         [Header("UI组件")]
-        public Slider ProgressSlider;
+        public Image ProgressSlider;
         /// 下载速度
         public TextMeshProUGUI SpeedText;
         /// 总体进度
@@ -63,7 +63,7 @@ namespace Aot.Runtime
         void Start()
         {
             Log.Init(LOGLevel, MaxLogCount, ShowStackTrace, IsCleanLogCache);
-            StartCoroutine(InitYooAssets(StartGame));
+            InitYooAssets();
         }
 
         #region YooAsset初始化
@@ -71,7 +71,7 @@ namespace Aot.Runtime
         /// <summary>
         /// 初始化YooAsset资源系统并加载资源包
         /// </summary>
-        IEnumerator InitYooAssets(Action onDownloadComplete)
+        async void InitYooAssets()
         {
             if (!YooAssets.Initialized)
             {
@@ -83,19 +83,19 @@ namespace Aot.Runtime
             YooAssets.SetDefaultPackage(package);
 
             InitializationOperation initializationOperation = InitializePackage(package);
-            yield return initializationOperation;
+            await initializationOperation.ToUniTask();
 
             if (initializationOperation.Status != EOperationStatus.Succeed)
             {
                 Log.Error($"资源包初始化失败：{initializationOperation.Error}");
-                yield break;
+                return;
             }
 
             Log.Info("资源包初始化成功！");
 
             // 更新资源版本
             var operation = package.RequestPackageVersionAsync();
-            yield return operation;
+            await operation.ToUniTask();
 
             if (operation.Status != EOperationStatus.Succeed)
             {
@@ -103,11 +103,11 @@ namespace Aot.Runtime
                 Log.Error("网络问题,切换至离线模式");
                 // 先销毁资源包，再移除
                 var destroyOperation = package.DestroyAsync();
-                yield return destroyOperation;
+                await destroyOperation.ToUniTask();
                 YooAssets.RemovePackage(package);
                 PlayMode = EPlayMode.OfflinePlayMode;
-                StartCoroutine(InitYooAssets(StartGame));
-                yield break;
+                InitYooAssets();
+                return;
             }
 
             string packageVersion = operation.PackageVersion;
@@ -115,78 +115,99 @@ namespace Aot.Runtime
 
             // 更新补丁清单
             var operation2 = package.UpdatePackageManifestAsync(packageVersion);
-            yield return operation2;
+            await operation2.ToUniTask();
 
             if (operation2.Status != EOperationStatus.Succeed)
             {
                 Log.Error(operation2.Error);
-                yield break;
+                return;
             }
 
             // 下载补丁包并更新 UI
-            yield return DownloadAndUpdateUI();
+            await DownloadAndUpdateUI();
 
             var configHandle = package.LoadAssetAsync<HotUpdateConfig>("Assets/GameRes/Config/HotUpdateConfig");
-            yield return configHandle;
+            await configHandle.ToUniTask();
             HotUpdateConfig = configHandle.AssetObject as HotUpdateConfig;
+            
+            if (HotUpdateConfig == null)
+            {
+                Log.Error("加载热更新配置失败！");
+                return;
+            }
+            
             //加载必要的资源
-            var assets = new List<string>(HotUpdateConfig.hotUpdateFiles).Concat(HotUpdateConfig.aotFiles);
+            var assets = new List<string>();
+            if (HotUpdateConfig.hotUpdateFiles != null)
+            {
+                assets.AddRange(HotUpdateConfig.hotUpdateFiles);
+            }
+            if (HotUpdateConfig.aotFiles != null)
+            {
+                assets.AddRange(HotUpdateConfig.aotFiles);
+            }
+            
             foreach (var asset in assets)
             {
                 var handle = package.LoadAssetAsync<TextAsset>(asset);
-                yield return handle;
+                await handle.ToUniTask();
                 var assetObj = handle.AssetObject as TextAsset;
                 sAssetDatas[asset] = assetObj;
                 Log.Info($"用YooAssets加载Dll:{asset}   {assetObj != null}");
             }
 
             YooAssetsPackage = package;
-            onDownloadComplete();
+            await StartGame();
         }
 
         /// <summary>
         /// 初始化资源包
         /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
         private InitializationOperation InitializePackage(ResourcePackage package)
         {
-            if (PlayMode == EPlayMode.EditorSimulateMode)
+            switch (PlayMode)
             {
-                var simulateBuildResult = EditorSimulateModeHelper.SimulateBuild(package.PackageName);
-                var packageRoot = simulateBuildResult.PackageRootDirectory;
+                case EPlayMode.EditorSimulateMode:
+                    Log.Info("资源系统运行在编辑器模拟模式");
+                    var simulateBuildResult = EditorSimulateModeHelper.SimulateBuild(package.PackageName);
+                    var packageRoot = simulateBuildResult.PackageRootDirectory;
 
-                var initParameters = new EditorSimulateModeParameters
-                {
-                    EditorFileSystemParameters = FileSystemParameters.CreateDefaultEditorFileSystemParameters(packageRoot)
-                };
+                    var editorSimulateModeParameters = new EditorSimulateModeParameters
+                    {
+                        EditorFileSystemParameters =
+                            FileSystemParameters.CreateDefaultEditorFileSystemParameters(packageRoot)
+                    };
 
-                return package.InitializeAsync(initParameters);
+                    return package.InitializeAsync(editorSimulateModeParameters);
+                case EPlayMode.OfflinePlayMode:
+                    Log.Info("资源系统运行在离线模式");
+                    var offlinePlayModeParameters = new OfflinePlayModeParameters
+                    {
+                        BuildinFileSystemParameters = FileSystemParameters.CreateDefaultBuildinFileSystemParameters()
+                    };
+
+                    return package.InitializeAsync(offlinePlayModeParameters);
+                case EPlayMode.HostPlayMode:
+                    Log.Info("资源系统运行在热更模式");
+                    string packagePath = Application.streamingAssetsPath + "/DefaultPackage";
+                    bool useLocalCache = Directory.Exists(packagePath) &&
+                                         new DirectoryInfo(packagePath).GetFiles().Length > 0;
+                    var remoteServices = new RemoteServices(hostServerURL, hostServerURL);
+                    var initParameters = new HostPlayModeParameters
+                    {
+                        BuildinFileSystemParameters = useLocalCache
+                            ? FileSystemParameters.CreateDefaultBuildinFileSystemParameters()
+                            : null,
+                        CacheFileSystemParameters =
+                            FileSystemParameters.CreateDefaultCacheFileSystemParameters(remoteServices)
+                    };
+                    return package.InitializeAsync(initParameters);
+                default:
+                    Log.Info("资源系统参数错误");
+                    return null;
             }
-            else if (PlayMode == EPlayMode.OfflinePlayMode)
-            {
-                var initParameters = new OfflinePlayModeParameters
-                {
-                    BuildinFileSystemParameters = FileSystemParameters.CreateDefaultBuildinFileSystemParameters()
-                };
-
-                return package.InitializeAsync(initParameters);
-            }
-            else if (PlayMode == EPlayMode.HostPlayMode)
-            {
-                string packagePath = Application.streamingAssetsPath + "/DefaultPackage";
-                bool useLocalCache = Directory.Exists(packagePath) && new DirectoryInfo(packagePath).GetFiles().Length > 0;
-                var remoteServices = new RemoteServices(hostServerURL, hostServerURL);
-                var initParameters = new HostPlayModeParameters
-                {
-                    BuildinFileSystemParameters = useLocalCache
-                        ? FileSystemParameters.CreateDefaultBuildinFileSystemParameters()
-                        : null,
-                    CacheFileSystemParameters =
-                        FileSystemParameters.CreateDefaultCacheFileSystemParameters(remoteServices)
-                };
-                return package.InitializeAsync(initParameters);
-            }
-
-            return null;
         }
 
         #endregion
@@ -196,7 +217,7 @@ namespace Aot.Runtime
         /// <summary>
         /// 下载并更新资源包
         /// </summary>
-        IEnumerator DownloadAndUpdateUI()
+        async UniTask DownloadAndUpdateUI()
         {
             int downloadingMaxNum = 10;
             int failedTryAgain = 3;
@@ -206,10 +227,10 @@ namespace Aot.Runtime
             if (downloader.TotalDownloadCount == 0)
             {
                 SpeedText.text = "无需下载更新";
-                ProgressSlider.value = 1f;
+                ProgressSlider.fillAmount = 1;
                 ProgressText.text = "100%";
                 Log.Info("无需下载更新！");
-                yield break;
+                return;
             }
 
             totalDownloadBytes = downloader.TotalDownloadBytes;
@@ -221,7 +242,7 @@ namespace Aot.Runtime
             while (!downloader.IsDone)
             {
                 UpdateUI();
-                yield return null;
+                await UniTask.Yield();
             }
 
             if (downloader.Status == EOperationStatus.Succeed)
@@ -249,7 +270,7 @@ namespace Aot.Runtime
         private void UpdateUI()
         {
             float progress = currentDownloadBytes / (float)totalDownloadBytes;
-            ProgressSlider.value = progress;
+            ProgressSlider.fillAmount = progress;
 
             SpeedText.text = $"{FormatBytes(currentDownloadBytes)}/{FormatBytes(totalDownloadBytes)}";
             ProgressText.text = $"{progress * 100:F2}%";
@@ -286,9 +307,9 @@ namespace Aot.Runtime
 
         static byte[] ReadBytesFromStreamingAssets(string dllName)
         {
-            if (sAssetDatas.ContainsKey(dllName))
+            if (sAssetDatas.TryGetValue(dllName, out var data))
             {
-                return sAssetDatas[dllName].bytes;
+                return data.bytes;
             }
 
             return Array.Empty<byte>();
@@ -301,7 +322,7 @@ namespace Aot.Runtime
         /// <summary>
         /// 游戏启动时执行
         /// </summary>
-        void StartGame()
+        async UniTask StartGame()
         {
             LoadMetadataForAOTAssemblies();
 #if !UNITY_EDITOR
@@ -326,7 +347,7 @@ namespace Aot.Runtime
             Log.Info("热更新完成");
             // 添加图集监听器
             SpriteAtlasManager.atlasRequested += OnAtlasRequested;
-            StartCoroutine(LoadMainScene());
+            await LoadMainScene();
         }
 
         private void OnAtlasRequested(string atlasName, Action<SpriteAtlas> callback)
@@ -342,10 +363,10 @@ namespace Aot.Runtime
         /// <summary>
         /// 实例化资源
         /// </summary>
-        IEnumerator LoadMainScene()
+        async UniTask LoadMainScene()
         {
             var handle = YooAssets.LoadSceneAsync("Main");
-            yield return handle;
+            await handle.ToUniTask();
         }
 
         #endregion

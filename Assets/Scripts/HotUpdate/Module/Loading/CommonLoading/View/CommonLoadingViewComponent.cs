@@ -14,15 +14,15 @@ namespace HotUpdate
     {
         ComponentItemKey _componentItemKey;
 
-        private UnityEngine.UI.Image _Image_bg;
-        private TMPro.TextMeshProUGUI _TextMeshProUGUI_title;
-        private UnityEngine.RectTransform _RectTransform_titleDescBg;
-        private TMPro.TextMeshProUGUI _TextMeshProUGUI_titleDesc;
-        private TMPro.TextMeshProUGUI _TextMeshProUGUI_content;
-        private TMPro.TextMeshProUGUI _TextMeshProUGUI_process;
-        private UnityEngine.UI.Slider _Slider_slider;
-        private UnityEngine.RectTransform _RectTransform_loadingtitlebg;
-        private UnityEngine.RectTransform _RectTransform_gameTips;
+        private UnityEngine.UI.Image _Image_Bg;
+        private TMPro.TextMeshProUGUI _TextMeshProUGUI_Title;
+        private UnityEngine.RectTransform _RectTransform_TitleDescBg;
+        private TMPro.TextMeshProUGUI _TextMeshProUGUI_TitleDesc;
+        private TMPro.TextMeshProUGUI _TextMeshProUGUI_Content;
+        private TMPro.TextMeshProUGUI _TextMeshProUGUI_Process;
+        private UnityEngine.RectTransform _RectTransform_LoadingTitlebg;
+        private UnityEngine.RectTransform _RectTransform_GameTips;
+        private UnityEngine.UI.Image _Image_Slider;
 
         protected ComponentItemKey componentItemKey
         {
@@ -34,93 +34,93 @@ namespace HotUpdate
             }
         }
 
-        public UnityEngine.UI.Image Image_bg
+        public UnityEngine.UI.Image Image_Bg
         {
             get
             {
-                if(_Image_bg == null)
-                    _Image_bg = componentItemKey.GetObject<UnityEngine.UI.Image>("Image_bg");
-                return _Image_bg;
+                if(_Image_Bg == null)
+                    _Image_Bg = componentItemKey.GetObject<UnityEngine.UI.Image>("Image_Bg");
+                return _Image_Bg;
             }
         }
 
-        public TMPro.TextMeshProUGUI TextMeshProUGUI_title
+        public TMPro.TextMeshProUGUI TextMeshProUGUI_Title
         {
             get
             {
-                if(_TextMeshProUGUI_title == null)
-                    _TextMeshProUGUI_title = componentItemKey.GetObject<TMPro.TextMeshProUGUI>("TextMeshProUGUI_title");
-                return _TextMeshProUGUI_title;
+                if(_TextMeshProUGUI_Title == null)
+                    _TextMeshProUGUI_Title = componentItemKey.GetObject<TMPro.TextMeshProUGUI>("TextMeshProUGUI_Title");
+                return _TextMeshProUGUI_Title;
             }
         }
 
-        public UnityEngine.RectTransform RectTransform_titleDescBg
+        public UnityEngine.RectTransform RectTransform_TitleDescBg
         {
             get
             {
-                if(_RectTransform_titleDescBg == null)
-                    _RectTransform_titleDescBg = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_titleDescBg");
-                return _RectTransform_titleDescBg;
+                if(_RectTransform_TitleDescBg == null)
+                    _RectTransform_TitleDescBg = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_TitleDescBg");
+                return _RectTransform_TitleDescBg;
             }
         }
 
-        public TMPro.TextMeshProUGUI TextMeshProUGUI_titleDesc
+        public TMPro.TextMeshProUGUI TextMeshProUGUI_TitleDesc
         {
             get
             {
-                if(_TextMeshProUGUI_titleDesc == null)
-                    _TextMeshProUGUI_titleDesc = componentItemKey.GetObject<TMPro.TextMeshProUGUI>("TextMeshProUGUI_titleDesc");
-                return _TextMeshProUGUI_titleDesc;
+                if(_TextMeshProUGUI_TitleDesc == null)
+                    _TextMeshProUGUI_TitleDesc = componentItemKey.GetObject<TMPro.TextMeshProUGUI>("TextMeshProUGUI_TitleDesc");
+                return _TextMeshProUGUI_TitleDesc;
             }
         }
 
-        public TMPro.TextMeshProUGUI TextMeshProUGUI_content
+        public TMPro.TextMeshProUGUI TextMeshProUGUI_Content
         {
             get
             {
-                if(_TextMeshProUGUI_content == null)
-                    _TextMeshProUGUI_content = componentItemKey.GetObject<TMPro.TextMeshProUGUI>("TextMeshProUGUI_content");
-                return _TextMeshProUGUI_content;
+                if(_TextMeshProUGUI_Content == null)
+                    _TextMeshProUGUI_Content = componentItemKey.GetObject<TMPro.TextMeshProUGUI>("TextMeshProUGUI_Content");
+                return _TextMeshProUGUI_Content;
             }
         }
 
-        public TMPro.TextMeshProUGUI TextMeshProUGUI_process
+        public TMPro.TextMeshProUGUI TextMeshProUGUI_Process
         {
             get
             {
-                if(_TextMeshProUGUI_process == null)
-                    _TextMeshProUGUI_process = componentItemKey.GetObject<TMPro.TextMeshProUGUI>("TextMeshProUGUI_process");
-                return _TextMeshProUGUI_process;
+                if(_TextMeshProUGUI_Process == null)
+                    _TextMeshProUGUI_Process = componentItemKey.GetObject<TMPro.TextMeshProUGUI>("TextMeshProUGUI_Process");
+                return _TextMeshProUGUI_Process;
             }
         }
 
-        public UnityEngine.UI.Slider Slider_slider
+        public UnityEngine.RectTransform RectTransform_LoadingTitlebg
         {
             get
             {
-                if(_Slider_slider == null)
-                    _Slider_slider = componentItemKey.GetObject<UnityEngine.UI.Slider>("Slider_slider");
-                return _Slider_slider;
+                if(_RectTransform_LoadingTitlebg == null)
+                    _RectTransform_LoadingTitlebg = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_LoadingTitlebg");
+                return _RectTransform_LoadingTitlebg;
             }
         }
 
-        public UnityEngine.RectTransform RectTransform_loadingtitlebg
+        public UnityEngine.RectTransform RectTransform_GameTips
         {
             get
             {
-                if(_RectTransform_loadingtitlebg == null)
-                    _RectTransform_loadingtitlebg = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_loadingtitlebg");
-                return _RectTransform_loadingtitlebg;
+                if(_RectTransform_GameTips == null)
+                    _RectTransform_GameTips = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_GameTips");
+                return _RectTransform_GameTips;
             }
         }
 
-        public UnityEngine.RectTransform RectTransform_gameTips
+        public UnityEngine.UI.Image Image_Slider
         {
             get
             {
-                if(_RectTransform_gameTips == null)
-                    _RectTransform_gameTips = componentItemKey.GetObject<UnityEngine.RectTransform>("RectTransform_gameTips");
-                return _RectTransform_gameTips;
+                if(_Image_Slider == null)
+                    _Image_Slider = componentItemKey.GetObject<UnityEngine.UI.Image>("Image_Slider");
+                return _Image_Slider;
             }
         }
 
@@ -142,15 +142,15 @@ namespace HotUpdate
         {
             UnbindButtonEvents();
 
-            _Image_bg = null;
-            _TextMeshProUGUI_title = null;
-            _RectTransform_titleDescBg = null;
-            _TextMeshProUGUI_titleDesc = null;
-            _TextMeshProUGUI_content = null;
-            _TextMeshProUGUI_process = null;
-            _Slider_slider = null;
-            _RectTransform_loadingtitlebg = null;
-            _RectTransform_gameTips = null;
+            _Image_Bg = null;
+            _TextMeshProUGUI_Title = null;
+            _RectTransform_TitleDescBg = null;
+            _TextMeshProUGUI_TitleDesc = null;
+            _TextMeshProUGUI_Content = null;
+            _TextMeshProUGUI_Process = null;
+            _RectTransform_LoadingTitlebg = null;
+            _RectTransform_GameTips = null;
+            _Image_Slider = null;
             _componentItemKey = null;
         }
     }

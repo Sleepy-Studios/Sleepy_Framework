@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Aot.Runtime;
-using cfg;
 using cfg.Loading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,10 +51,9 @@ namespace HotUpdate
             playerLevel = 20;
             openConfigs = GlobalLubanConfig.Tables.TbNewLoadingRule.DataList
                 .Where(info => info.IsOpen == 1 && playerLevel >= info.OpenLevel).ToList();
-            globalConfig =
-                GlobalLubanConfig.Tables.TbNewLoadingRule.DataList.FirstOrDefault(info =>
+            globalConfig = Tables.TbNewLoadingRule.DataList.FirstOrDefault(info =>
                     info.Type == LoadingType.Global);
-            globalLoadingEnums = globalConfig.IsOpen == 1 ? globalConfig.GlobalLoadingSwitch : null;
+            globalLoadingEnums = globalConfig?.IsOpen == 1 ? globalConfig.GlobalLoadingSwitch : null;
         }
 
         /// <summary>
@@ -67,7 +65,7 @@ namespace HotUpdate
             {
                 // 计算全局Loading的权重作为百分比概率
                 int globalWeight = CalculateWeight(globalConfig);
-                if (globalWeight > 0 && UnityEngine.Random.Range(0, 100) < globalWeight)
+                if (globalWeight > 0 && Random.Range(0, 100) < globalWeight)
                 {
                     Log.Info("命中全局Loading");
                     return globalConfig;
@@ -107,7 +105,7 @@ namespace HotUpdate
 
             if (totalWeight > 0)
             {
-                int randomValue = UnityEngine.Random.Range(0, totalWeight);
+                int randomValue = Random.Range(0, totalWeight);
                 return SelectFromWeightedList(weightedConfigs, randomValue);
             }
 
@@ -206,17 +204,17 @@ namespace HotUpdate
             {
                 string fullPath = $"{imagePath}";
                 var handle = YooAssets.LoadAssetSync<Sprite>(fullPath);
-                Image_bg.sprite = handle.AssetObject as Sprite;
+                Image_Bg.sprite = handle.AssetObject as Sprite;
             }
 
             // 设置标题和副标题
-            TextMeshProUGUI_title.text = loadingInfo.Title;
-            TextMeshProUGUI_titleDesc.text = loadingInfo.SubTitle;
+            TextMeshProUGUI_Title.text = loadingInfo.Title;
+            TextMeshProUGUI_TitleDesc.text = loadingInfo.SubTitle;
 
             // 设置小贴士文案
-            TextMeshProUGUI_content.text = loadingInfo.TipDesc;
-            RectTransform_gameTips.gameObject.SetActive(!string.IsNullOrEmpty(loadingInfo.TipDesc));
-            RectTransform_loadingtitlebg.gameObject.SetActive(!string.IsNullOrEmpty(loadingInfo.Title));
+            TextMeshProUGUI_Content.text = loadingInfo.TipDesc;
+            RectTransform_GameTips.gameObject.SetActive(!string.IsNullOrEmpty(loadingInfo.TipDesc));
+            RectTransform_LoadingTitlebg.gameObject.SetActive(!string.IsNullOrEmpty(loadingInfo.Title));
 
             UpdateTitleDescBgSize();
         }
@@ -231,29 +229,29 @@ namespace HotUpdate
                 return imagePaths[0];
             }
 
-            return imagePaths[UnityEngine.Random.Range(0, imagePaths.Count)];
+            return imagePaths[Random.Range(0, imagePaths.Count)];
         }
 
         private Vector2 titleDescSize = new Vector2(0, 0);
 
         private void UpdateTitleDescBgSize()
         {
-            if (TextMeshProUGUI_titleDesc == null || RectTransform_titleDescBg == null)
+            if (TextMeshProUGUI_TitleDesc == null || RectTransform_TitleDescBg == null)
                 return;
 
             // 强制立即重新构建文本的布局
-            LayoutRebuilder.ForceRebuildLayoutImmediate(TextMeshProUGUI_titleDesc.rectTransform);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(TextMeshProUGUI_TitleDesc.rectTransform);
 
             // 获取文本的RectTransform
-            RectTransform textRectTransform = TextMeshProUGUI_titleDesc.rectTransform;
+            RectTransform textRectTransform = TextMeshProUGUI_TitleDesc.rectTransform;
 
             // 计算背景尺寸：文本尺寸 + 左右各8像素，上下各3像素的边距
             titleDescSize.x = textRectTransform.sizeDelta.x + 13f;
             titleDescSize.y = textRectTransform.sizeDelta.y + 5f;
 
             // 设置背景RectTransform的尺寸
-            RectTransform_titleDescBg.sizeDelta = titleDescSize;
-            LayoutRebuilder.ForceRebuildLayoutImmediate(RectTransform_titleDescBg);
+            RectTransform_TitleDescBg.sizeDelta = titleDescSize;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(RectTransform_TitleDescBg);
         }
 
         public void SetProgress(float f, string text)
@@ -264,15 +262,15 @@ namespace HotUpdate
             }
 
             f = Mathf.Min(1f, f);
-            Slider_slider.value = f;
-            TextMeshProUGUI_process.text = text;
+            Image_Slider.fillAmount = f;
+            TextMeshProUGUI_Process.text = text;
             // 设置文本
-            TextMeshProUGUI_process.text = string.Concat(((int)(f * 100)).ToString(), "%");
+            TextMeshProUGUI_Process.text = string.Concat(((int)(f * 100)).ToString(), "%");
         }
 
         protected void OnDisable()
         {
-            Slider_slider.value = 0;
+            Image_Slider.fillAmount = 0;
         }
     }
 }
