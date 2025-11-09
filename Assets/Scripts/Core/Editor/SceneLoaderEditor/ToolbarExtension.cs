@@ -14,7 +14,7 @@ namespace Core.Editor
     {
         // 通过反射获取Unity编辑器工具栏类型
         static Type mToolbarType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
-        static Type mGUIViewType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.GUIView");
+        //static Type mGUIViewType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.GUIView");
 
         // 当前工具栏实例
         static ScriptableObject mCurrentToolbar;
@@ -45,9 +45,9 @@ namespace Core.Editor
                 if (mCurrentToolbar != null)
                 {
                     // 通过反射获取工具栏的根视图
-                    var root = mCurrentToolbar.GetType()
+                    var fieldInfo = mCurrentToolbar.GetType()
                         .GetField("m_Root", BindingFlags.NonPublic | BindingFlags.Instance);
-                    var rawRoot = root.GetValue(mCurrentToolbar);
+                    var rawRoot = fieldInfo?.GetValue(mCurrentToolbar);
                     var mRoot = rawRoot as VisualElement;
 
                     // 注册左侧和右侧区域的回调

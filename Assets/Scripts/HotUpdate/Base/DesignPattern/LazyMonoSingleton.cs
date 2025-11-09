@@ -9,7 +9,7 @@ namespace HotUpdate
     public class LazyMonoSingleton<T> : MonoBehaviour where T : LazyMonoSingleton<T>
     {
         private static T instance;
-        private static readonly object Lock = new object();
+        private static readonly object Lock = new ();
 
         protected static T Instance
         {

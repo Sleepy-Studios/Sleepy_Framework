@@ -22,6 +22,6 @@ namespace HotUpdate
             DontDestroyOnLoad(gameObject); // 跨场景存活
         }
 
-        public static T Instance => instance;
+        protected static T Instance => instance;
     }
 }

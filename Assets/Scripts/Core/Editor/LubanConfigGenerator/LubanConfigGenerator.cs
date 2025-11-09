@@ -14,27 +14,31 @@ namespace Core.Editor
         private static void RunLubanGenScript()
         {
             string projectPath = Application.dataPath;
-            string lubanDir = System.IO.Path.Combine(System.IO.Directory.GetParent(projectPath).FullName, "Luban");
-            string scriptFile;
-            string platform;
-
-#if UNITY_EDITOR_WIN
-            platform = "Windows";
-            scriptFile = System.IO.Path.Combine(lubanDir, "gen.bat");
-#elif UNITY_EDITOR_OSX
+            var parentDir = System.IO.Directory.GetParent(projectPath);
+            if (parentDir == null)
+            {
+                Debug.LogError("未能获取项目的父目录，无法生成Luban配置。");
+                return;
+            }
+            string lubanDir = System.IO.Path.Combine(parentDir.FullName, "Luban");
+        
+        #if UNITY_EDITOR_WIN
+            var platform = "Windows";
+            var scriptFile = System.IO.Path.Combine(lubanDir, "gen.bat");
+        #elif UNITY_EDITOR_OSX
             platform = "macOS";
             scriptFile = System.IO.Path.Combine(lubanDir, "gen.sh");
-#else
+        #else
             Debug.LogError("当前平台暂不支持Luban配置生成");
             return;
-#endif
-
+        #endif
+        
             if (!System.IO.File.Exists(scriptFile))
             {
                 Debug.LogError($"未找到Luban生成脚本: {scriptFile}");
                 return;
             }
-
+        
             var process = new System.Diagnostics.Process();
             process.StartInfo.FileName = scriptFile;
             process.StartInfo.WorkingDirectory = lubanDir;
@@ -42,10 +46,10 @@ namespace Core.Editor
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.CreateNoWindow = true;
-
+        
             process.OutputDataReceived += (_, args) => { if (!string.IsNullOrEmpty(args.Data)) Debug.Log($"[Luban] {args.Data}"); };
             process.ErrorDataReceived += (_, args) => { if (!string.IsNullOrEmpty(args.Data)) Debug.LogError($"[Luban] {args.Data}"); };
-
+        
             try
             {
                 process.Start();
