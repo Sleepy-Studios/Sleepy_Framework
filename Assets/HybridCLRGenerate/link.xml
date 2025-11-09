@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <linker>
   <assembly fullname="Aot.Runtime">
-    <type fullname="Aot.Runtime.Log.Log" preserve="all" />
+    <type fullname="Aot.Runtime.Log" preserve="all" />
   </assembly>
   <assembly fullname="DOTween">
     <type fullname="DG.Tweening.Core.DOGetter`1" preserve="all" />
@@ -26,9 +26,22 @@
   <assembly fullname="DOTween.Modules">
     <type fullname="DG.Tweening.DOTweenModuleUI" preserve="all" />
   </assembly>
+  <assembly fullname="Google.Protobuf">
+    <type fullname="Google.Protobuf.CodedInputStream" preserve="all" />
+    <type fullname="Google.Protobuf.CodedOutputStream" preserve="all" />
+    <type fullname="Google.Protobuf.Collections.MapField`2" preserve="all" />
+    <type fullname="Google.Protobuf.Collections.MapField`2/Codec" preserve="all" />
+    <type fullname="Google.Protobuf.Collections.RepeatedField`1" preserve="all" />
+    <type fullname="Google.Protobuf.FieldCodec" preserve="all" />
+    <type fullname="Google.Protobuf.FieldCodec`1" preserve="all" />
+    <type fullname="Google.Protobuf.IMessage" preserve="all" />
+    <type fullname="Google.Protobuf.MessageParser`1" preserve="all" />
+    <type fullname="Google.Protobuf.ProtoPreconditions" preserve="all" />
+  </assembly>
   <assembly fullname="Luban.Runtime">
     <type fullname="Luban.BeanBase" preserve="all" />
     <type fullname="Luban.SerializationException" preserve="all" />
+    <type fullname="Luban.StringUtil" preserve="all" />
     <type fullname="SimpleJSON.JSON" preserve="all" />
     <type fullname="SimpleJSON.JSONNode" preserve="all" />
   </assembly>
@@ -41,6 +54,7 @@
   </assembly>
   <assembly fullname="System.Core">
     <type fullname="System.Collections.Generic.HashSet`1" preserve="all" />
+    <type fullname="System.Linq.Enumerable" preserve="all" />
   </assembly>
   <assembly fullname="UniTask">
     <type fullname="Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder" preserve="all" />
@@ -77,6 +91,7 @@
     <type fullname="UnityEngine.AudioSource" preserve="all" />
   </assembly>
   <assembly fullname="UnityEngine.CoreModule">
+    <type fullname="UnityEngine.AddComponentMenu" preserve="all" />
     <type fullname="UnityEngine.AnimationCurve" preserve="all" />
     <type fullname="UnityEngine.Application" preserve="all" />
     <type fullname="UnityEngine.Application/LogCallback" preserve="all" />
@@ -107,6 +122,7 @@
     <type fullname="UnityEngine.PlayerPrefs" preserve="all" />
     <type fullname="UnityEngine.QualitySettings" preserve="all" />
     <type fullname="UnityEngine.Quaternion" preserve="all" />
+    <type fullname="UnityEngine.Random" preserve="all" />
     <type fullname="UnityEngine.RangeAttribute" preserve="all" />
     <type fullname="UnityEngine.Rect" preserve="all" />
     <type fullname="UnityEngine.RectOffset" preserve="all" />
@@ -142,6 +158,9 @@
   <assembly fullname="UnityEngine.InputLegacyModule">
     <type fullname="UnityEngine.Input" preserve="all" />
   </assembly>
+  <assembly fullname="UnityEngine.TextRenderingModule">
+    <type fullname="UnityEngine.UIVertex" preserve="all" />
+  </assembly>
   <assembly fullname="UnityEngine.UI">
     <type fullname="UnityEngine.EventSystems.BaseEventData" preserve="all" />
     <type fullname="UnityEngine.EventSystems.EventSystem" preserve="all" />
@@ -172,6 +191,7 @@
     <type fullname="UnityEngine.UI.Image/FillMethod" preserve="all" />
     <type fullname="UnityEngine.UI.Image/Type" preserve="all" />
     <type fullname="UnityEngine.UI.LayoutElement" preserve="all" />
+    <type fullname="UnityEngine.UI.LayoutRebuilder" preserve="all" />
     <type fullname="UnityEngine.UI.RawImage" preserve="all" />
     <type fullname="UnityEngine.UI.ScrollRect" preserve="all" />
     <type fullname="UnityEngine.UI.ScrollRect/ScrollbarVisibility" preserve="all" />
@@ -182,6 +202,7 @@
     <type fullname="UnityEngine.UI.Text" preserve="all" />
     <type fullname="UnityEngine.UI.Toggle" preserve="all" />
     <type fullname="UnityEngine.UI.Toggle/ToggleEvent" preserve="all" />
+    <type fullname="UnityEngine.UI.VertexHelper" preserve="all" />
     <type fullname="UnityEngine.UI.VerticalLayoutGroup" preserve="all" />
   </assembly>
   <assembly fullname="UnityEngine.UIModule">
@@ -198,12 +219,23 @@
     <type fullname="YooAsset.UnloadUnusedAssetsOperation" preserve="all" />
     <type fullname="YooAsset.YooAssets" preserve="all" />
   </assembly>
+  <assembly fullname="ZLinq">
+    <type fullname="ZLinq.Linq.FromList`1" preserve="all" />
+    <type fullname="ZLinq.Linq.ListWhere`1" preserve="all" />
+    <type fullname="ZLinq.ValueEnumerable" preserve="all" />
+    <type fullname="ZLinq.ValueEnumerableExtensions" preserve="all" />
+    <type fullname="ZLinq.ValueEnumerable`2" preserve="all" />
+  </assembly>
+  <assembly fullname="ZString">
+    <type fullname="Cysharp.Text.ZString" preserve="all" />
+  </assembly>
   <assembly fullname="mscorlib">
     <type fullname="System.Action" preserve="all" />
     <type fullname="System.Action`1" preserve="all" />
     <type fullname="System.Action`2" preserve="all" />
     <type fullname="System.Action`3" preserve="all" />
     <type fullname="System.Action`4" preserve="all" />
+    <type fullname="System.Activator" preserve="all" />
     <type fullname="System.Array" preserve="all" />
     <type fullname="System.Attribute" preserve="all" />
     <type fullname="System.Byte" preserve="all" />
@@ -223,6 +255,7 @@
     <type fullname="System.Double" preserve="all" />
     <type fullname="System.Enum" preserve="all" />
     <type fullname="System.Exception" preserve="all" />
+    <type fullname="System.Func`1" preserve="all" />
     <type fullname="System.Func`2" preserve="all" />
     <type fullname="System.Func`3" preserve="all" />
     <type fullname="System.Func`5" preserve="all" />
@@ -244,6 +277,7 @@
     <type fullname="System.Runtime.CompilerServices.IteratorStateMachineAttribute" preserve="all" />
     <type fullname="System.Runtime.CompilerServices.RuntimeCompatibilityAttribute" preserve="all" />
     <type fullname="System.Runtime.CompilerServices.RuntimeHelpers" preserve="all" />
+    <type fullname="System.Runtime.CompilerServices.TupleElementNamesAttribute" preserve="all" />
     <type fullname="System.RuntimeFieldHandle" preserve="all" />
     <type fullname="System.RuntimeTypeHandle" preserve="all" />
     <type fullname="System.Single" preserve="all" />

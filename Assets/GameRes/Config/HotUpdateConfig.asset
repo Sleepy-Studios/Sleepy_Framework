@@ -17,11 +17,17 @@ MonoBehaviour:
   AotTargetPath: Assets/GameRes/Codes/Aot
   aotFiles:
   - DOTween.dll
+  - Google.Protobuf.dll
+  - Luban.Runtime.dll
   - System.Core.dll
+  - System.Runtime.CompilerServices.Unsafe.dll
+  - System.dll
+  - UniTask.dll
   - UnityEngine.CoreModule.dll
   - YooAsset.dll
+  - ZLinq.dll
+  - ZString.dll
   - mscorlib.dll
-  - UniTask.dll
   HotUpdateSourcePath: HybridCLRData\HotUpdateDlls\StandaloneWindows64
   HotUpdateTargetPath: Assets/GameRes/Codes/HotUpdate
   hotUpdateFiles:
@@ -32,4 +38,4 @@ MonoBehaviour:
   SshUser: root
   KeyFilePath: Assets/Scripts/Aot/Editor/key
   ServerBasePath: /www/wwwroot/13.75.121.163/Sleepy_Framework
-  LocalBundlePath: Bundles/StandaloneWindows64/DefaultPackage/2025-06-12-65
+  LocalBundlePath: Bundles\StandaloneWindows64\DefaultPackage\Simulate
