@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Aot.Runtime;
 using HybridCLR;
 using TMPro;
 using UnityEngine;
@@ -310,7 +309,7 @@ namespace Aot.Runtime
             foreach (var hotUpdateDll in HotUpdateConfig.hotUpdateFiles)
             {
                 Assembly hotUpdateAss = Assembly.Load(ReadBytesFromStreamingAssets(hotUpdateDll));
-                Log.Log.Info($"加载热更新程序集: {hotUpdateDll}");
+                Log.Info($"加载热更新程序集: {hotUpdateDll}");
             }
 #else
             // 在编辑器中，直接查找已加载的程序集

@@ -6,7 +6,7 @@ namespace HotUpdate
     /// 懒汉单例Mono脚本 即用即加载
     /// </summary>
     /// <typeparam name="T">单例脚本类</typeparam>
-    public class LazyMonoSingleton<T> : MonoBehaviour where T : LazyMonoSingleton<T>
+    public abstract class LazyMonoSingleton<T> : MonoBehaviour where T : LazyMonoSingleton<T>
     {
         private static T instance;
         private static readonly object Lock = new ();

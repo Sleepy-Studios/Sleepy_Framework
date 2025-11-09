@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Cysharp.Text;
+using UnityEngine;
+using ZLinq;
 
 namespace HotUpdate
 {
@@ -42,6 +44,28 @@ namespace HotUpdate
             int unknownId = 9999;
             var unknownItem = tables.TbTest1.GetOrDefault(unknownId);
             Debug.Log(unknownItem != null ? $"找到物品 {unknownId}: {unknownItem.Name}" : $"物品 ID {unknownId} 不存在");
+        }
+
+        public void TestZString()
+        {
+            //使用 ZString 拼接字符串
+            var id = 1;
+            var name = "测试物品";
+            var desc = "描述内容";
+            var result = ZString.Concat("物品: ID=", id, ", 名称=", name, ", 描述=", desc);
+            
+            // 输出到 Unity 日志
+            Debug.Log(result);
+            
+            // 使用 ZString.Format 格式化字符串
+            var formatted = ZString.Format("物品: ID={0}, 名称={1}, 描述={2}", id, name, desc);
+            Debug.Log(formatted);
+            
+            
+
+            //测试ZLinq的写法
+            var dic = Tables.TbNewLoadingRule.DataList.AsValueEnumerable().Where(cfg => cfg.Id == 1).ToList();
+
         }
     }
 }
