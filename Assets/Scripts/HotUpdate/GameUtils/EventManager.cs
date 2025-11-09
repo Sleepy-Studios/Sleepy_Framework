@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using HotUpdate;
 
 namespace HotUpdate
 {
@@ -14,7 +13,7 @@ namespace HotUpdate
         /// </summary>
         /// key 事件名称
         /// value 事件对应委托函数
-        Dictionary<EventName, List<Delegate>> eventDic = new Dictionary<EventName, List<Delegate>>();
+        private Dictionary<EventName, List<Delegate>> eventDic = new ();
 
         ///全局单例实例
         public new static EventManager Instance => LazyMonoSingleton<EventManager>.Instance;
