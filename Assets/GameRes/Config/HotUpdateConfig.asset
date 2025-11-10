@@ -38,4 +38,4 @@ MonoBehaviour:
   SshUser: root
   KeyFilePath: Assets/Scripts/Aot/Editor/key
   ServerBasePath: /www/wwwroot/13.75.121.163/Sleepy_Framework
-  LocalBundlePath: Bundles/StandaloneWindows64/DefaultPackage/Simulate
+  LocalBundlePath: Bundles/StandaloneWindows64/DefaultPackage/2025-11-10-121
