@@ -35,7 +35,7 @@ namespace Core.Editor
         /// </summary>
         static void OnUpdate()
         {
-            // 当工具栏为空时，尝试查找并初始化（布局改变时ToolBar会���删除重建）
+            // 当工具栏为空时，尝试查找并初始化（布局改变时ToolBar会自动删除重建）
             if (mCurrentToolbar == null)
             {
                 // 查找工具栏实例

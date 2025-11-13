@@ -15,7 +15,7 @@ namespace HotUpdate
         // 使用包装器方式：自动释放资源
         private void LoadConfigWithWrapper()
         {
-            ReadConfigData(GlobalLubanConfig.Tables);
+            ReadConfigData(Tables.Config);
             
         }
 

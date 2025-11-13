@@ -4,13 +4,14 @@ using YooAsset;
 
 namespace HotUpdate
 {
-    public class GlobalLubanConfig : LazyMonoSingleton<GlobalLubanConfig>
+    public partial class Tables : LazyMonoSingleton<Tables>
     {
-        private cfg.Tables tables;
+        private cfg.Tables loadTables;
         private Dictionary<string, string> fileDict;
+        public new static Tables Instance => LazyMonoSingleton<Tables>.Instance;
         
-        public new static GlobalLubanConfig Instance => LazyMonoSingleton<GlobalLubanConfig>.Instance;
-        public static cfg.Tables Tables => Instance.tables;
+        /// 静态转发属性，直接访问单例的 LoadTables
+        public static cfg.Tables Config => Instance.loadTables;
 
         protected override void Awake()
         {
@@ -32,7 +33,7 @@ namespace HotUpdate
                 }
                 handle.Release();
             }
-            tables = new cfg.Tables(file => SimpleJSON.JSON.Parse(fileDict[file]));
+            loadTables = new cfg.Tables(file => SimpleJSON.JSON.Parse(fileDict[file]));
         }
     }
 

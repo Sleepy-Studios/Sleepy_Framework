@@ -49,7 +49,7 @@ namespace HotUpdate
         private void InitData()
         {
             playerLevel = 20;
-            openConfigs = GlobalLubanConfig.Tables.TbNewLoadingRule.DataList
+            openConfigs = Tables.TbNewLoadingRule.DataList
                 .Where(info => info.IsOpen == 1 && playerLevel >= info.OpenLevel).ToList();
             globalConfig = Tables.TbNewLoadingRule.DataList.FirstOrDefault(info =>
                     info.Type == LoadingType.Global);
